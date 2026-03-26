@@ -497,7 +497,7 @@ async function loadJobsFromJobicy() {
 
   try {
     // Use allorigins proxy to bypass CORS restriction
-    const jobicyUrl = 'https://jobicy.com/api/v2/remote-jobs?count=50&tag=sales';
+    const jobicyUrl = 'https://jobicy.com/api/v2/remote-jobs?count=50&industry=seller&tag=sales';
     const url = `https://api.allorigins.win/get?url=${encodeURIComponent(jobicyUrl)}`;
     const resp = await fetch(url);
     const wrapper = await resp.json();
