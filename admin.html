@@ -317,7 +317,7 @@ async function sbFetch(path, options = {}) {
 async function loadJobs() {
   const wrap = document.getElementById('jobs-table-wrap');
   try {
-    const jobs = await sbFetch('jobs?order=created_at.desc&select=*');
+    const jobs = await sbFetch('Salesjobs?order=created_at.desc&select=*');
     document.getElementById('job-count').textContent = `(${jobs.length})`;
 
     if (!jobs.length) {
@@ -399,14 +399,14 @@ async function saveJob() {
 
   try {
     if (editingId) {
-      await sbFetch(`jobs?id=eq.${editingId}`, {
+      await sbFetch(`Salesjobs?id=eq.${editingId}`, {
         method: 'PATCH',
         body: JSON.stringify(data)
       });
       showAlert('success', 'Job updated successfully.');
       cancelEdit();
     } else {
-      await sbFetch('jobs', {
+      await sbFetch('Salesjobs', {
         method: 'POST',
         body: JSON.stringify(data)
       });
@@ -425,7 +425,7 @@ async function saveJob() {
 // ── EDIT JOB ──────────────────────────────────────────────────────────────────
 async function editJob(id) {
   try {
-    const jobs = await sbFetch(`jobs?id=eq.${id}&select=*`);
+    const jobs = await sbFetch(`Salesjobs?id=eq.${id}&select=*`);
     const j = jobs[0];
     editingId = id;
 
@@ -460,7 +460,7 @@ function cancelEdit() {
 // ── TOGGLE ACTIVE ─────────────────────────────────────────────────────────────
 async function toggleActive(id, current) {
   try {
-    await sbFetch(`jobs?id=eq.${id}`, {
+    await sbFetch(`Salesjobs?id=eq.${id}`, {
       method: 'PATCH',
       body: JSON.stringify({ active: !current })
     });
@@ -472,7 +472,7 @@ async function toggleActive(id, current) {
 async function deleteJob(id) {
   if (!confirm('Delete this job? This cannot be undone.')) return;
   try {
-    await sbFetch(`jobs?id=eq.${id}`, { method: 'DELETE' });
+    await sbFetch(`Salesjobs?id=eq.${id}`, { method: 'DELETE' });
     loadJobs();
   } catch(e) { alert('Error deleting: ' + e.message); }
 }
