@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Closed Won — Admin</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #F7F8FA; --white: #FFFFFF; --border: #E5E7EB; --border2: #D1D5DB;
+  --navy: #0F1A2E; --navy2: #1E2D4A; --gold: #D4891A; --gold-bg: #FDF3E3; --gold-bd: #F5D9A8;
+  --text: #111827; --text2: #374151; --muted: #6B7280; --muted2: #9CA3AF;
+  --green: #059669; --green-bg: #ECFDF5; --green-bd: #A7F3D0;
+  --red: #DC2626; --red-bg: #FEF2F2; --red-bd: #FECACA;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { background:var(--bg); color:var(--text); font-family:'Plus Jakarta Sans',sans-serif; font-size:14px; line-height:1.5; }
+
+/* ── NAV ── */
+nav {
+  background: var(--navy);
+  padding: 0 32px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.nav-logo { display:flex; align-items:center; gap:10px; }
+.logo-sq { width:32px; height:32px; background:var(--gold); border-radius:8px; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:13px; color:var(--navy); }
+.logo-name { font-weight:700; font-size:15px; color:#fff; }
+.logo-badge { font-size:9px; font-weight:700; background:rgba(255,255,255,0.15); color:rgba(255,255,255,0.7); border-radius:4px; padding:2px 6px; }
+.nav-right { display:flex; gap:10px; align-items:center; }
+.nav-link { color:rgba(255,255,255,0.6); font-size:13px; font-weight:500; text-decoration:none; }
+.nav-link:hover { color:#fff; }
+
+/* ── LAYOUT ── */
+.container { max-width:960px; margin:0 auto; padding:32px 24px; }
+
+.page-header { margin-bottom:28px; }
+.page-title { font-size:22px; font-weight:800; color:var(--navy); letter-spacing:-0.02em; margin-bottom:4px; }
+.page-sub { font-size:13px; color:var(--muted); }
+
+/* ── CARDS ── */
+.card { background:var(--white); border:1px solid var(--border); border-radius:12px; overflow:hidden; margin-bottom:20px; }
+.card-head { padding:16px 20px; border-bottom:1px solid var(--border); background:var(--bg); display:flex; align-items:center; justify-content:space-between; }
+.card-title { font-size:14px; font-weight:700; color:var(--navy); }
+.card-body { padding:22px; }
+
+/* ── FORM ── */
+.form-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+.form-group { display:flex; flex-direction:column; gap:5px; }
+.form-group.full { grid-column:1/-1; }
+label { font-size:12px; font-weight:600; color:var(--text2); }
+input, select, textarea {
+  background:var(--white);
+  border:1px solid var(--border2);
+  border-radius:8px;
+  padding:9px 12px;
+  font-family:'Plus Jakarta Sans',sans-serif;
+  font-size:13px;
+  color:var(--text);
+  outline:none;
+  transition:border-color .15s, box-shadow .15s;
+  width:100%;
+}
+input:focus, select:focus, textarea:focus {
+  border-color:var(--navy);
+  box-shadow:0 0 0 3px rgba(15,26,46,.06);
+}
+textarea { resize:vertical; }
+
+.btn {
+  padding:10px 20px;
+  border-radius:8px;
+  font-family:'Plus Jakarta Sans',sans-serif;
+  font-size:13px;
+  font-weight:600;
+  cursor:pointer;
+  border:1px solid transparent;
+  transition:all .15s;
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+}
+.btn-navy { background:var(--navy); color:#fff; }
+.btn-navy:hover { background:var(--navy2); }
+.btn-ghost { background:var(--white); color:var(--text2); border-color:var(--border2); }
+.btn-ghost:hover { background:var(--bg); }
+.btn-danger { background:var(--red-bg); color:var(--red); border-color:var(--red-bd); }
+.btn-danger:hover { filter:brightness(.97); }
+.btn-sm { padding:5px 10px; font-size:12px; }
+
+.form-actions { display:flex; gap:10px; margin-top:18px; }
+
+/* ── ALERT ── */
+.alert { padding:12px 16px; border-radius:8px; font-size:13px; font-weight:500; margin-bottom:16px; display:none; }
+.alert-success { background:var(--green-bg); color:var(--green); border:1px solid var(--green-bd); }
+.alert-error   { background:var(--red-bg);   color:var(--red);   border:1px solid var(--red-bd);   }
+
+/* ── JOBS TABLE ── */
+table { width:100%; border-collapse:collapse; }
+thead th { background:var(--bg); padding:10px 14px; text-align:left; font-size:10px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); font-weight:600; border-bottom:1px solid var(--border); }
+tbody tr { border-bottom:1px solid var(--border); transition:background .1s; }
+tbody tr:hover { background:var(--bg); }
+tbody tr:last-child { border-bottom:none; }
+td { padding:11px 14px; font-size:13px; vertical-align:middle; }
+.td-title { font-weight:600; color:var(--navy); }
+.td-co    { font-size:12px; color:var(--muted); margin-top:1px; }
+
+.pill { display:inline-flex; align-items:center; padding:2px 8px; border-radius:5px; font-size:11px; font-weight:500; }
+.pill-active   { background:var(--green-bg); color:var(--green);  border:1px solid var(--green-bd); }
+.pill-inactive { background:var(--red-bg);   color:var(--red);    border:1px solid var(--red-bd); }
+
+.empty { text-align:center; padding:48px; color:var(--muted); font-size:13px; }
+.empty-icon { font-size:32px; opacity:.3; margin-bottom:10px; }
+
+/* ── LOGIN ── */
+.login-wrap { max-width:380px; margin:80px auto; }
+.login-logo { text-align:center; margin-bottom:28px; }
+.login-logo .logo-sq { width:48px; height:48px; font-size:18px; margin:0 auto 10px; }
+.login-title { font-size:20px; font-weight:800; color:var(--navy); }
+.login-sub { font-size:13px; color:var(--muted); margin-top:4px; }
+
+::-webkit-scrollbar { width:4px; }
+::-webkit-scrollbar-thumb { background:var(--border2); border-radius:4px; }
+</style>
+</head>
+<body>
+
+<!-- ── LOGIN SCREEN ── -->
+<div id="login-screen">
+  <div class="login-wrap">
+    <div class="login-logo">
+      <div class="logo-sq">CW</div>
+      <div class="login-title">Closed Won Admin</div>
+      <div class="login-sub">Job management dashboard</div>
+    </div>
+    <div class="card">
+      <div class="card-body">
+        <div class="alert alert-error" id="login-error">Incorrect password. Try again.</div>
+        <div class="form-group">
+          <label>Admin Password</label>
+          <input type="password" id="admin-password" placeholder="Enter password" onkeydown="if(event.key==='Enter')login()" />
+        </div>
+        <div class="form-actions">
+          <button class="btn btn-navy" style="width:100%;justify-content:center" onclick="login()">Sign In →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── MAIN ADMIN ── -->
+<div id="admin-screen" style="display:none">
+
+  <nav>
+    <div class="nav-logo">
+      <div class="logo-sq">CW</div>
+      <span class="logo-name">Closed Won</span>
+      <span class="logo-badge">ADMIN</span>
+    </div>
+    <div class="nav-right">
+      <a href="/" class="nav-link">← View Site</a>
+      <a href="#" class="nav-link" onclick="logout()">Sign Out</a>
+    </div>
+  </nav>
+
+  <div class="container">
+
+    <div class="page-header">
+      <div class="page-title">Job Management</div>
+      <div class="page-sub">Add and manage manual job listings. These appear alongside Jobicy remote jobs on the site.</div>
+    </div>
+
+    <!-- ADD JOB FORM -->
+    <div class="card">
+      <div class="card-head">
+        <div class="card-title" id="form-title">Add New Job</div>
+        <button class="btn btn-ghost btn-sm" id="cancel-edit-btn" style="display:none" onclick="cancelEdit()">Cancel Edit</button>
+      </div>
+      <div class="card-body">
+        <div id="form-alert-success" class="alert alert-success">Job saved successfully.</div>
+        <div id="form-alert-error"   class="alert alert-error">Something went wrong. Please try again.</div>
+
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Job Title *</label>
+            <input type="text" id="f-title" placeholder="e.g. Sales Manager, Large Customer Sales" />
+          </div>
+          <div class="form-group">
+            <label>Company *</label>
+            <input type="text" id="f-company" placeholder="e.g. LinkedIn" />
+          </div>
+          <div class="form-group">
+            <label>Location *</label>
+            <input type="text" id="f-location" placeholder="e.g. Toronto, ON or Remote (Canada)" />
+          </div>
+          <div class="form-group">
+            <label>Level</label>
+            <select id="f-level">
+              <option>SDR / BDR</option>
+              <option>Account Executive</option>
+              <option selected>Sales Manager</option>
+              <option>Director</option>
+              <option>VP</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Type</label>
+            <select id="f-type">
+              <option>Hybrid</option>
+              <option>Remote</option>
+              <option>On-site</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Salary Range</label>
+            <select id="f-range">
+              <option>$50K–$100K</option>
+              <option>$100K–$200K</option>
+              <option>$200K–$300K</option>
+              <option>$300K+</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Posted</label>
+            <input type="text" id="f-posted" placeholder="e.g. 1d or 2w" value="1d" />
+          </div>
+          <div class="form-group">
+            <label>Apply URL</label>
+            <input type="text" id="f-url" placeholder="https://company.com/jobs/role" />
+          </div>
+          <div class="form-group full">
+            <label>Description *</label>
+            <textarea id="f-desc" rows="3" placeholder="Brief description of the role and company..."></textarea>
+          </div>
+          <div class="form-group full">
+            <label>Requirements</label>
+            <textarea id="f-req" rows="2" placeholder="Key requirements for this role..."></textarea>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button class="btn btn-navy" id="save-btn" onclick="saveJob()">Save Job</button>
+          <button class="btn btn-ghost" onclick="clearForm()">Clear</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- JOBS LIST -->
+    <div class="card">
+      <div class="card-head">
+        <div class="card-title">Manual Jobs <span id="job-count" style="color:var(--muted);font-weight:400;font-size:13px"></span></div>
+        <button class="btn btn-ghost btn-sm" onclick="loadJobs()">↻ Refresh</button>
+      </div>
+      <div id="jobs-table-wrap">
+        <div class="empty"><div class="empty-icon">⊡</div>Loading jobs...</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+// ── CONFIG ────────────────────────────────────────────────────────────────────
+const SUPABASE_URL = 'https://vhbcnhyddxfnlpjqmqxj.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZoYmNuaHlkZHhmbmxwanFtcXhqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ1NDg3NjUsImV4cCI6MjA5MDEyNDc2NX0.HYJW5MEwUsppGoqCDZVkBs_hxA1zsHN7g9k1pGYmbFk';
+
+// Change this to your own admin password
+const ADMIN_PASSWORD = 'closedwon2026';
+
+const HEADERS = {
+  'Content-Type': 'application/json',
+  'apikey': SUPABASE_KEY,
+  'Authorization': `Bearer ${SUPABASE_KEY}`,
+  'Prefer': 'return=representation'
+};
+
+let editingId = null;
+
+// ── AUTH ──────────────────────────────────────────────────────────────────────
+function login() {
+  const pw = document.getElementById('admin-password').value;
+  if (pw === ADMIN_PASSWORD) {
+    sessionStorage.setItem('cw_admin', '1');
+    document.getElementById('login-screen').style.display  = 'none';
+    document.getElementById('admin-screen').style.display = 'block';
+    loadJobs();
+  } else {
+    document.getElementById('login-error').style.display = 'block';
+  }
+}
+
+function logout() {
+  sessionStorage.removeItem('cw_admin');
+  document.getElementById('login-screen').style.display  = 'block';
+  document.getElementById('admin-screen').style.display = 'none';
+}
+
+// Check if already logged in
+if (sessionStorage.getItem('cw_admin') === '1') {
+  document.getElementById('login-screen').style.display  = 'none';
+  document.getElementById('admin-screen').style.display = 'block';
+}
+
+// ── SUPABASE HELPERS ──────────────────────────────────────────────────────────
+async function sbFetch(path, options = {}) {
+  const resp = await fetch(`${SUPABASE_URL}/rest/v1/${path}`, {
+    headers: HEADERS,
+    ...options
+  });
+  if (!resp.ok) throw new Error(await resp.text());
+  return resp.status === 204 ? null : resp.json();
+}
+
+// ── LOAD JOBS ─────────────────────────────────────────────────────────────────
+async function loadJobs() {
+  const wrap = document.getElementById('jobs-table-wrap');
+  try {
+    const jobs = await sbFetch('jobs?order=created_at.desc&select=*');
+    document.getElementById('job-count').textContent = `(${jobs.length})`;
+
+    if (!jobs.length) {
+      wrap.innerHTML = '<div class="empty"><div class="empty-icon">⊡</div>No manual jobs yet. Add one above.</div>';
+      return;
+    }
+
+    wrap.innerHTML = `
+      <table>
+        <thead>
+          <tr>
+            <th>Job</th>
+            <th>Level</th>
+            <th>Type</th>
+            <th>Location</th>
+            <th>Status</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          ${jobs.map(j => `
+            <tr>
+              <td>
+                <div class="td-title">${j.title}</div>
+                <div class="td-co">${j.company}</div>
+              </td>
+              <td style="font-size:12px;color:var(--text2)">${j.level || ''}</td>
+              <td style="font-size:12px;color:var(--text2)">${j.type || ''}</td>
+              <td style="font-size:12px;color:var(--muted)">${j.location || ''}</td>
+              <td>
+                <span class="pill ${j.active ? 'pill-active' : 'pill-inactive'}">
+                  ${j.active ? 'Active' : 'Hidden'}
+                </span>
+              </td>
+              <td>
+                <div style="display:flex;gap:6px;justify-content:flex-end">
+                  <button class="btn btn-ghost btn-sm" onclick="editJob(${j.id})">Edit</button>
+                  <button class="btn btn-ghost btn-sm" onclick="toggleActive(${j.id}, ${j.active})">${j.active ? 'Hide' : 'Show'}</button>
+                  <button class="btn btn-danger btn-sm" onclick="deleteJob(${j.id})">Delete</button>
+                </div>
+              </td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>`;
+  } catch(e) {
+    wrap.innerHTML = `<div class="empty"><div class="empty-icon">⚠</div>Failed to load jobs: ${e.message}</div>`;
+  }
+}
+
+// ── SAVE JOB ──────────────────────────────────────────────────────────────────
+async function saveJob() {
+  const title   = document.getElementById('f-title').value.trim();
+  const company = document.getElementById('f-company').value.trim();
+  const desc    = document.getElementById('f-desc').value.trim();
+
+  if (!title || !company || !desc) {
+    showAlert('error', 'Please fill in Title, Company and Description.');
+    return;
+  }
+
+  const btn = document.getElementById('save-btn');
+  btn.textContent = 'Saving...';
+  btn.disabled = true;
+
+  const data = {
+    title,
+    company,
+    location:     document.getElementById('f-location').value.trim(),
+    level:        document.getElementById('f-level').value,
+    type:         document.getElementById('f-type').value,
+    range:        document.getElementById('f-range').value,
+    posted:       document.getElementById('f-posted').value.trim(),
+    url:          document.getElementById('f-url').value.trim(),
+    description:  desc,
+    requirements: document.getElementById('f-req').value.trim(),
+    active:       true,
+  };
+
+  try {
+    if (editingId) {
+      await sbFetch(`jobs?id=eq.${editingId}`, {
+        method: 'PATCH',
+        body: JSON.stringify(data)
+      });
+      showAlert('success', 'Job updated successfully.');
+      cancelEdit();
+    } else {
+      await sbFetch('jobs', {
+        method: 'POST',
+        body: JSON.stringify(data)
+      });
+      showAlert('success', 'Job added successfully.');
+      clearForm();
+    }
+    loadJobs();
+  } catch(e) {
+    showAlert('error', 'Error saving job: ' + e.message);
+  }
+
+  btn.textContent = editingId ? 'Update Job' : 'Save Job';
+  btn.disabled = false;
+}
+
+// ── EDIT JOB ──────────────────────────────────────────────────────────────────
+async function editJob(id) {
+  try {
+    const jobs = await sbFetch(`jobs?id=eq.${id}&select=*`);
+    const j = jobs[0];
+    editingId = id;
+
+    document.getElementById('f-title').value    = j.title       || '';
+    document.getElementById('f-company').value  = j.company     || '';
+    document.getElementById('f-location').value = j.location    || '';
+    document.getElementById('f-level').value    = j.level       || 'Sales Manager';
+    document.getElementById('f-type').value     = j.type        || 'Hybrid';
+    document.getElementById('f-range').value    = j.range       || '$100K–$200K';
+    document.getElementById('f-posted').value   = j.posted      || '1d';
+    document.getElementById('f-url').value      = j.url         || '';
+    document.getElementById('f-desc').value     = j.description || '';
+    document.getElementById('f-req').value      = j.requirements|| '';
+
+    document.getElementById('form-title').textContent      = 'Edit Job';
+    document.getElementById('save-btn').textContent        = 'Update Job';
+    document.getElementById('cancel-edit-btn').style.display = 'flex';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  } catch(e) {
+    alert('Could not load job: ' + e.message);
+  }
+}
+
+function cancelEdit() {
+  editingId = null;
+  clearForm();
+  document.getElementById('form-title').textContent        = 'Add New Job';
+  document.getElementById('save-btn').textContent          = 'Save Job';
+  document.getElementById('cancel-edit-btn').style.display = 'none';
+}
+
+// ── TOGGLE ACTIVE ─────────────────────────────────────────────────────────────
+async function toggleActive(id, current) {
+  try {
+    await sbFetch(`jobs?id=eq.${id}`, {
+      method: 'PATCH',
+      body: JSON.stringify({ active: !current })
+    });
+    loadJobs();
+  } catch(e) { alert('Error: ' + e.message); }
+}
+
+// ── DELETE JOB ────────────────────────────────────────────────────────────────
+async function deleteJob(id) {
+  if (!confirm('Delete this job? This cannot be undone.')) return;
+  try {
+    await sbFetch(`jobs?id=eq.${id}`, { method: 'DELETE' });
+    loadJobs();
+  } catch(e) { alert('Error deleting: ' + e.message); }
+}
+
+// ── HELPERS ───────────────────────────────────────────────────────────────────
+function clearForm() {
+  ['f-title','f-company','f-location','f-posted','f-url','f-desc','f-req'].forEach(id => {
+    document.getElementById(id).value = id === 'f-posted' ? '1d' : '';
+  });
+  document.getElementById('f-level').value = 'Sales Manager';
+  document.getElementById('f-type').value  = 'Hybrid';
+  document.getElementById('f-range').value = '$100K–$200K';
+}
+
+function showAlert(type, msg) {
+  const el = document.getElementById(`form-alert-${type}`);
+  el.textContent = msg;
+  el.style.display = 'block';
+  setTimeout(() => el.style.display = 'none', 4000);
+}
+
+// Init
+if (sessionStorage.getItem('cw_admin') === '1') loadJobs();
+</script>
+</body>
+</html>
