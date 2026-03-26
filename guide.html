@@ -1013,9 +1013,10 @@ function switchPage(page, el) {
   document.querySelectorAll('.page-tab').forEach(t => t.classList.remove('active'));
   document.getElementById('page-' + page).classList.add('active');
   el.classList.add('active');
+  // If already unlocked, skip gates on page switch
   if (globalUnlocked) {
-    document.getElementById('guide').style.display = 'block';
-    document.getElementById('bip-guide').style.display = 'block';
+    revealGuide();
+    revealBip();
   }
 }
 
@@ -1026,11 +1027,20 @@ function toggleAcc(id) {
 async function saveEmail(email, stage) {
   try {
     await fetch(`${SB_URL}/rest/v1/waitlist`, {
-      method: 'POST',
-      headers: { 'apikey': SB_KEY, 'Authorization': `Bearer ${SB_KEY}`, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
-      body: JSON.stringify({ name: 'Guide Reader', email, career_stage: stage })
+      method:'POST',
+      headers:{'apikey':SB_KEY,'Authorization':`Bearer ${SB_KEY}`,'Content-Type':'application/json','Prefer':'return=minimal'},
+      body: JSON.stringify({ name:'Guide Reader', email, career_stage: stage })
     });
-  } catch(e) { console.error(e); }
+  } catch(e){ console.error(e); }
+}
+
+function revealGuide() {
+  document.getElementById('guide').style.display = 'block';
+  document.getElementById('acc1').classList.add('open');
+}
+
+function revealBip() {
+  document.getElementById('bip-guide').style.display = 'block';
 }
 
 async function unlockGuide() {
@@ -1043,11 +1053,11 @@ async function unlockGuide() {
   btn.textContent = 'Unlocked ✓';
   btn.style.background = 'var(--green)';
   globalUnlocked = true;
+  // Pre-fill BIP gate email and mark it unlocked too
   document.getElementById('bip-gate-email').value = email;
   setTimeout(() => {
-    document.getElementById('guide').style.display = 'block';
-    document.getElementById('guide').scrollIntoView({ behavior: 'smooth', block: 'start' });
-    document.getElementById('acc1').classList.add('open');
+    revealGuide();
+    document.getElementById('guide').scrollIntoView({ behavior:'smooth', block:'start' });
   }, 500);
 }
 
@@ -1061,15 +1071,16 @@ async function unlockBip() {
   btn.textContent = 'Unlocked ✓';
   btn.style.background = 'var(--green)';
   globalUnlocked = true;
+  // Pre-fill prompts gate email too
   document.getElementById('gate-email').value = email;
   setTimeout(() => {
-    document.getElementById('bip-guide').style.display = 'block';
-    document.getElementById('bip-guide').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    revealBip();
+    document.getElementById('bip-guide').scrollIntoView({ behavior:'smooth', block:'start' });
   }, 500);
 }
 
-document.getElementById('gate-email').addEventListener('keydown', e => { if (e.key === 'Enter') unlockGuide(); });
-document.getElementById('bip-gate-email').addEventListener('keydown', e => { if (e.key === 'Enter') unlockBip(); });
+document.getElementById('gate-email').addEventListener('keydown', e => { if(e.key==='Enter') unlockGuide(); });
+document.getElementById('bip-gate-email').addEventListener('keydown', e => { if(e.key==='Enter') unlockBip(); });
 </script>
 </body>
 </html>
