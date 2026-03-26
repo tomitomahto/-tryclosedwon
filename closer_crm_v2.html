@@ -1,0 +1,1534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Closer CRM — Job Search Intelligence</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Instrument+Serif:ital@1&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:          #FFFFFF;
+  --bg2:         #F7F8FA;
+  --bg3:         #F0F2F5;
+  --border:      #E5E7EB;
+  --border2:     #D1D5DB;
+  --navy:        #0F1A2E;
+  --navy2:       #1E2D4A;
+  --gold:        #D4891A;
+  --gold-bg:     #FDF3E3;
+  --gold-border: #F5D9A8;
+  --text:        #111827;
+  --text2:       #374151;
+  --muted:       #6B7280;
+  --muted2:      #9CA3AF;
+  --green:       #059669;
+  --green-bg:    #ECFDF5;
+  --green-border:#A7F3D0;
+  --blue:        #2563EB;
+  --blue-bg:     #EFF6FF;
+  --blue-border: #BFDBFE;
+  --yellow:      #D97706;
+  --yellow-bg:   #FFFBEB;
+  --yellow-border:#FDE68A;
+  --red:         #DC2626;
+  --red-bg:      #FEF2F2;
+  --red-border:  #FECACA;
+  --purple:      #7C3AED;
+  --purple-bg:   #F5F3FF;
+  --purple-border:#DDD6FE;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  min-height: 100vh;
+}
+
+/* ── SIDEBAR ── */
+.sidebar {
+  background: var(--navy);
+  display: flex;
+  flex-direction: column;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+}
+
+.sidebar-logo {
+  padding: 24px 20px 20px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.logo-mark {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 4px;
+}
+
+.logo-sq {
+  width: 32px; height: 32px;
+  background: var(--gold);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 13px;
+  color: var(--navy);
+}
+
+.logo-name {
+  font-weight: 700;
+  font-size: 15px;
+  color: #fff;
+  letter-spacing: -0.02em;
+}
+
+.logo-sub {
+  font-size: 10px;
+  color: rgba(255,255,255,0.4);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding-left: 42px;
+}
+
+.sidebar-nav { padding: 16px 12px; flex: 1; }
+
+.nav-section {
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.35);
+  padding: 12px 8px 6px;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  color: rgba(255,255,255,0.55);
+  transition: all 0.15s;
+  margin-bottom: 2px;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.nav-item:hover { background: rgba(255,255,255,0.07); color: #fff; }
+.nav-item.active { background: rgba(255,255,255,0.1); color: #fff; }
+.nav-item.active .nav-icon { color: var(--gold); }
+
+.nav-icon { font-size: 14px; width: 18px; text-align: center; flex-shrink: 0; }
+
+.nav-badge {
+  margin-left: auto;
+  background: var(--gold);
+  color: var(--navy);
+  font-size: 9px;
+  padding: 2px 7px;
+  border-radius: 20px;
+  font-weight: 700;
+}
+
+.sidebar-footer {
+  padding: 16px 20px;
+  border-top: 1px solid rgba(255,255,255,0.08);
+  font-size: 11px;
+  color: rgba(255,255,255,0.35);
+}
+
+.sidebar-footer strong { color: var(--gold); }
+
+/* ── MAIN ── */
+.main {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: var(--bg2);
+}
+
+/* ── TOPBAR ── */
+.topbar {
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+  padding: 0 28px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.page-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--navy);
+}
+
+.topbar-right { display: flex; gap: 8px; }
+
+/* ── BUTTONS ── */
+.btn {
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: all 0.15s;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.btn-navy  { background: var(--navy); color: #fff; }
+.btn-navy:hover { background: var(--navy2); }
+
+.btn-gold  { background: var(--gold); color: #fff; }
+.btn-gold:hover { filter: brightness(1.05); }
+
+.btn-ghost { background: var(--bg); color: var(--text2); border-color: var(--border2); }
+.btn-ghost:hover { background: var(--bg2); }
+
+.btn-sm { padding: 5px 10px; font-size: 12px; }
+
+.btn-danger { background: var(--red-bg); color: var(--red); border-color: var(--red-border); }
+.btn-danger:hover { background: #fee2e2; }
+
+/* ── CONTENT AREA ── */
+.content { padding: 24px 28px; flex: 1; }
+
+.panel { display: none; }
+.panel.active { display: block; animation: fadeIn 0.2s ease; }
+
+@keyframes fadeIn {
+  from { opacity:0; transform:translateY(6px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+
+/* ── STAT CARDS ── */
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  margin-bottom: 22px;
+}
+
+.stat-card {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 18px 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.stat-card::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  border-radius: 12px 12px 0 0;
+}
+
+.stat-card.navy::after   { background: var(--navy); }
+.stat-card.green::after  { background: var(--green); }
+.stat-card.blue::after   { background: var(--blue); }
+.stat-card.gold::after   { background: var(--gold); }
+
+.stat-num {
+  font-size: 30px;
+  font-weight: 800;
+  color: var(--navy);
+  line-height: 1;
+  margin-bottom: 4px;
+  letter-spacing: -0.02em;
+}
+
+.stat-card.green .stat-num { color: var(--green); }
+.stat-card.blue  .stat-num { color: var(--blue); }
+.stat-card.gold  .stat-num { color: var(--gold); }
+
+.stat-label {
+  font-size: 11px;
+  color: var(--muted);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+/* ── TABLE CARD ── */
+.table-card {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.table-card-head {
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--bg);
+}
+
+.table-card-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--navy);
+}
+
+table { width: 100%; border-collapse: collapse; }
+
+thead th {
+  background: var(--bg2);
+  padding: 10px 16px;
+  text-align: left;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-weight: 600;
+  border-bottom: 1px solid var(--border);
+}
+
+tbody tr {
+  border-bottom: 1px solid var(--border);
+  transition: background 0.1s;
+  cursor: pointer;
+}
+tbody tr:hover { background: var(--bg2); }
+tbody tr:last-child { border-bottom: none; }
+
+td {
+  padding: 11px 16px;
+  vertical-align: middle;
+  font-size: 13px;
+  color: var(--text);
+}
+
+.td-company { font-weight: 700; color: var(--navy); }
+.td-role    { font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+/* ── PILLS / TAGS ── */
+.pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 9px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  border: 1px solid transparent;
+}
+
+.pill-p0 { background: var(--green-bg);  color: var(--green);  border-color: var(--green-border); }
+.pill-p1 { background: var(--blue-bg);   color: var(--blue);   border-color: var(--blue-border);  }
+.pill-p2 { background: var(--yellow-bg); color: var(--yellow); border-color: var(--yellow-border);}
+.pill-p3 { background: var(--red-bg);    color: var(--red);    border-color: var(--red-border);   }
+
+.pill-applied   { background: var(--green-bg);  color: var(--green);  border-color: var(--green-border); }
+.pill-interview { background: var(--blue-bg);   color: var(--blue);   border-color: var(--blue-border);  }
+.pill-2nd       { background: var(--purple-bg); color: var(--purple); border-color: var(--purple-border);}
+.pill-final     { background: var(--yellow-bg); color: var(--yellow); border-color: var(--yellow-border);}
+.pill-offer     { background: #ECFDF5;          color: #065F46;       border-color: #6EE7B7; }
+
+.pill-pending  { background: var(--blue-bg);   color: var(--blue);   border-color: var(--blue-border);  }
+.pill-ghosted  { background: var(--yellow-bg); color: var(--yellow); border-color: var(--yellow-border);}
+.pill-rejected { background: var(--red-bg);    color: var(--red);    border-color: var(--red-border);   }
+.pill-passed   { background: var(--green-bg);  color: var(--green);  border-color: var(--green-border); }
+.pill-closed   { background: var(--red-bg);    color: var(--red);    border-color: var(--red-border);   }
+.pill-received { background: #ECFDF5;          color: #065F46;       border-color: #6EE7B7; }
+
+/* ── TASKS ── */
+.tasks-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+.task-card {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 18px 20px;
+}
+
+.task-card-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.task-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 9px 0;
+  border-bottom: 1px solid var(--border);
+}
+.task-item:last-child { border-bottom: none; }
+
+.task-check {
+  width: 17px; height: 17px;
+  border: 1.5px solid var(--border2);
+  border-radius: 4px;
+  cursor: pointer;
+  flex-shrink: 0;
+  margin-top: 1px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s;
+}
+
+.task-check.done { background: var(--green); border-color: var(--green); }
+.task-check.done::after { content: '✓'; font-size: 9px; color: #fff; font-weight: 700; }
+
+.task-text { font-size: 12px; color: var(--text2); flex: 1; line-height: 1.5; }
+.task-text.done { text-decoration: line-through; color: var(--muted2); }
+.task-company-tag { font-size: 10px; color: var(--muted); white-space: nowrap; }
+
+/* ── ADD TASK ROW ── */
+.add-task-card {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 18px 20px;
+  margin-top: 16px;
+}
+
+.add-task-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
+  gap: 12px;
+  align-items: end;
+}
+
+/* ── AI PANEL ── */
+.ai-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+
+.ai-card {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.ai-card-head {
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg2);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.ai-card-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--navy);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.ai-card-body { padding: 20px; }
+
+/* ── FORM ELEMENTS ── */
+.field-label {
+  display: block;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text2);
+  margin-bottom: 5px;
+  margin-top: 14px;
+}
+.field-label:first-child { margin-top: 0; }
+
+textarea, input[type=text], select {
+  width: 100%;
+  background: var(--bg);
+  border: 1px solid var(--border2);
+  border-radius: 8px;
+  padding: 9px 12px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 13px;
+  color: var(--text);
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+  resize: vertical;
+}
+
+textarea:focus, input[type=text]:focus, select:focus {
+  border-color: var(--navy);
+  box-shadow: 0 0 0 3px rgba(15,26,46,0.06);
+}
+
+select option { background: var(--bg); }
+
+.generate-btn {
+  width: 100%;
+  margin-top: 14px;
+  padding: 13px;
+  background: var(--navy);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.15s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.generate-btn:hover { background: var(--navy2); }
+.generate-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* Output tabs */
+.output-tabs {
+  display: flex;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg2);
+}
+
+.output-tab {
+  padding: 11px 18px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  color: var(--muted);
+  border-bottom: 2px solid transparent;
+  transition: all 0.15s;
+}
+.output-tab.active { color: var(--navy); border-bottom-color: var(--navy); font-weight: 600; }
+.output-tab:hover  { color: var(--text); }
+
+.output-body {
+  padding: 18px 20px;
+  min-height: 360px;
+  max-height: 520px;
+  overflow-y: auto;
+  font-size: 13px;
+  line-height: 1.75;
+  color: var(--text2);
+}
+
+.output-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 300px;
+  color: var(--muted2);
+  text-align: center;
+  gap: 10px;
+  font-size: 12px;
+}
+
+.output-empty-icon { font-size: 32px; opacity: 0.3; }
+
+.output-toolbar {
+  padding: 10px 18px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: flex-end;
+  background: var(--bg2);
+}
+
+.copy-btn {
+  padding: 5px 12px;
+  background: var(--bg);
+  border: 1px solid var(--border2);
+  border-radius: 6px;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 500;
+  cursor: pointer;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  transition: all 0.15s;
+}
+.copy-btn:hover { color: var(--text); }
+
+/* ── MODAL ── */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  z-index: 200;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.modal-overlay.open { display: flex; }
+
+.modal-box {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  width: 100%;
+  max-width: 520px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+}
+
+.modal-head {
+  padding: 16px 22px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--bg2);
+  border-radius: 16px 16px 0 0;
+}
+
+.modal-head-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--navy);
+}
+
+.modal-close {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  width: 28px; height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--muted);
+  font-size: 14px;
+  transition: all 0.15s;
+}
+.modal-close:hover { background: var(--border); color: var(--text); }
+
+.modal-body { padding: 22px; }
+
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.form-group { display: flex; flex-direction: column; }
+
+.modal-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+.modal-actions .btn { flex: 1; justify-content: center; }
+
+/* ── DETAIL DRAWER ── */
+.detail-drawer {
+  display: none;
+  position: fixed;
+  right: 0; top: 0; bottom: 0;
+  width: 440px;
+  background: var(--bg);
+  border-left: 1px solid var(--border);
+  z-index: 100;
+  overflow-y: auto;
+  box-shadow: -8px 0 40px rgba(0,0,0,0.08);
+  transform: translateX(100%);
+  transition: transform 0.25s ease;
+}
+
+.detail-drawer.open {
+  display: block;
+  transform: translateX(0);
+}
+
+.drawer-head {
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  background: var(--bg);
+  z-index: 1;
+}
+
+.drawer-company { font-size: 12px; color: var(--muted); margin-bottom: 3px; }
+.drawer-role    { font-size: 17px; font-weight: 700; color: var(--navy); margin-bottom: 10px; }
+.drawer-pills   { display: flex; gap: 6px; flex-wrap: wrap; }
+
+.drawer-body { padding: 20px 24px; }
+
+.drawer-section { margin-bottom: 20px; }
+
+.drawer-section-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.drawer-section-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+.drawer-notes {
+  width: 100%;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 13px;
+  color: var(--text);
+  min-height: 90px;
+  resize: vertical;
+  outline: none;
+  transition: border-color 0.15s;
+}
+.drawer-notes:focus { border-color: var(--navy); }
+
+/* Timeline */
+.timeline { padding-left: 16px; border-left: 2px solid var(--border); }
+.timeline-item { position: relative; margin-bottom: 12px; padding-left: 14px; }
+.timeline-item::before {
+  content: '';
+  position: absolute;
+  left: -6px; top: 5px;
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--gold);
+  border: 2px solid var(--bg);
+}
+.timeline-date { font-size: 10px; color: var(--muted); margin-bottom: 2px; }
+.timeline-text { font-size: 12px; color: var(--text2); }
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 4px; }
+
+/* ── SPINNER ── */
+.spinner {
+  width: 16px; height: 16px;
+  border: 2px solid rgba(255,255,255,0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  display: inline-block;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+</style>
+</head>
+<body>
+
+<!-- ── SIDEBAR ── -->
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-mark">
+      <div class="logo-sq">C</div>
+      <div class="logo-name">Closer CRM</div>
+    </div>
+    <div class="logo-sub">Job Search Intelligence</div>
+  </div>
+
+  <nav class="sidebar-nav">
+    <div class="nav-section">Pipeline</div>
+    <div class="nav-item active" onclick="showPanel('dashboard')">
+      <span class="nav-icon">◈</span>
+      <span>Dashboard</span>
+      <span class="nav-badge" id="badge-total">0</span>
+    </div>
+    <div class="nav-item" onclick="showPanel('applications')">
+      <span class="nav-icon">⊡</span>
+      <span>Applications</span>
+    </div>
+    <div class="nav-item" onclick="showPanel('tasks')">
+      <span class="nav-icon">◻</span>
+      <span>Follow-ups</span>
+      <span class="nav-badge" id="badge-tasks">0</span>
+    </div>
+
+    <div class="nav-section">AI Tools</div>
+    <div class="nav-item" onclick="showPanel('ai')">
+      <span class="nav-icon">✦</span>
+      <span>Resume Builder</span>
+    </div>
+  </nav>
+
+  <div class="sidebar-footer">
+    <strong>Founder to Closer</strong><br>
+    @tomi.tomahto
+  </div>
+</aside>
+
+<!-- ── MAIN ── -->
+<div class="main">
+
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <div class="page-title" id="page-title">Dashboard</div>
+    <div class="topbar-right">
+      <button class="btn btn-ghost btn-sm" onclick="showPanel('ai')">✦ AI Resume</button>
+      <button class="btn btn-navy btn-sm" onclick="openAddModal()">+ Add Application</button>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- ── DASHBOARD ── -->
+    <div class="panel active" id="panel-dashboard">
+      <div class="stats-row">
+        <div class="stat-card navy">
+          <div class="stat-num" id="stat-total">0</div>
+          <div class="stat-label">Total Applications</div>
+        </div>
+        <div class="stat-card green">
+          <div class="stat-num" id="stat-active">0</div>
+          <div class="stat-label">Active Pipeline</div>
+        </div>
+        <div class="stat-card blue">
+          <div class="stat-num" id="stat-interviews">0</div>
+          <div class="stat-label">Interviews</div>
+        </div>
+        <div class="stat-card gold">
+          <div class="stat-num" id="stat-offers">0</div>
+          <div class="stat-label">Offers</div>
+        </div>
+      </div>
+
+      <div class="table-card">
+        <div class="table-card-head">
+          <div class="table-card-title">Active Pipeline</div>
+          <button class="btn btn-ghost btn-sm" onclick="showPanel('applications')">View all →</button>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>Company / Role</th>
+              <th>Priority</th>
+              <th>Status</th>
+              <th>Applied</th>
+              <th>Result</th>
+              <th>Next Action</th>
+            </tr>
+          </thead>
+          <tbody id="dashboard-table"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ── APPLICATIONS ── -->
+    <div class="panel" id="panel-applications">
+      <div class="table-card">
+        <div class="table-card-head">
+          <div class="table-card-title">All Applications</div>
+          <div style="display:flex;gap:8px">
+            <select id="filter-status" onchange="renderApplications()" style="width:auto;font-size:12px;padding:5px 10px">
+              <option value="">All Statuses</option>
+              <option>Applied</option><option>Interviewed</option>
+              <option>2nd Interview</option><option>Final Round</option><option>Offer</option>
+            </select>
+            <select id="filter-result" onchange="renderApplications()" style="width:auto;font-size:12px;padding:5px 10px">
+              <option value="">All Results</option>
+              <option>Pending</option><option>Ghosted</option><option>Rejected</option>
+              <option>Passed</option><option>Offer Received</option>
+            </select>
+          </div>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>Company / Role</th>
+              <th>Priority</th>
+              <th>Source</th>
+              <th>Status</th>
+              <th>Applied</th>
+              <th>Result</th>
+            </tr>
+          </thead>
+          <tbody id="all-table"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ── TASKS ── -->
+    <div class="panel" id="panel-tasks">
+      <div class="tasks-grid">
+        <div class="task-card">
+          <div class="task-card-title">◻ Follow-ups</div>
+          <div id="tasks-followup"></div>
+        </div>
+        <div class="task-card">
+          <div class="task-card-title">✦ Interview Prep</div>
+          <div id="tasks-prep"></div>
+        </div>
+      </div>
+
+      <div class="add-task-card">
+        <div class="table-card-title" style="margin-bottom:14px">Add Follow-up Task</div>
+        <div class="add-task-row">
+          <div>
+            <label class="field-label">Company</label>
+            <select id="task-company" style="font-size:13px"></select>
+          </div>
+          <div>
+            <label class="field-label">Task</label>
+            <input type="text" id="task-text" placeholder="e.g. Follow up with Amber Naslund" />
+          </div>
+          <button class="btn btn-navy" onclick="addTask()" style="align-self:flex-end">Add</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── AI BUILDER ── -->
+    <div class="panel" id="panel-ai">
+      <div class="ai-grid">
+
+        <!-- Input -->
+        <div class="ai-card">
+          <div class="ai-card-head">
+            <div class="ai-card-title">✦ AI Resume Builder</div>
+          </div>
+          <div class="ai-card-body">
+            <label class="field-label">Your Base Resume</label>
+            <textarea id="ai-resume" rows="7" placeholder="Paste your full resume text here..."></textarea>
+
+            <label class="field-label">Job Description</label>
+            <textarea id="ai-jd" rows="7" placeholder="Paste the job description here..."></textarea>
+
+            <label class="field-label">What to Generate</label>
+            <select id="ai-mode">
+              <option value="resume">Tailored Resume Bullets</option>
+              <option value="cover">Cover Letter</option>
+              <option value="both">Both Resume + Cover Letter</option>
+              <option value="gap">Gap Analysis + Suggestions</option>
+            </select>
+
+            <label class="field-label">Tone</label>
+            <select id="ai-tone">
+              <option value="confident">Confident and direct</option>
+              <option value="strategic">Strategic and analytical</option>
+              <option value="warm">Warm and collaborative</option>
+            </select>
+
+            <button class="generate-btn" id="generate-btn" onclick="generateContent()">
+              ✦ Generate
+            </button>
+          </div>
+        </div>
+
+        <!-- Output -->
+        <div class="ai-card">
+          <div class="output-tabs">
+            <div class="output-tab active" id="tab-result"  onclick="switchTab('result')">Output</div>
+            <div class="output-tab"        id="tab-history" onclick="switchTab('history')">History</div>
+          </div>
+
+          <div id="tab-result-body">
+            <div class="output-body" id="ai-output">
+              <div class="output-empty">
+                <div class="output-empty-icon">✦</div>
+                <p>Paste your resume and a job description then hit Generate.</p>
+              </div>
+            </div>
+            <div class="output-toolbar">
+              <button class="copy-btn" id="copy-btn" style="display:none" onclick="copyOutput()">⎘ Copy output</button>
+            </div>
+          </div>
+
+          <div id="tab-history-body" style="display:none">
+            <div class="output-body" id="ai-history">
+              <div class="output-empty">
+                <div class="output-empty-icon">◈</div>
+                <p>Your generation history will appear here.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div><!-- /content -->
+</div><!-- /main -->
+
+<!-- ── ADD/EDIT MODAL ── -->
+<div class="modal-overlay" id="add-modal">
+  <div class="modal-box">
+    <div class="modal-head">
+      <div class="modal-head-title" id="modal-title-text">Add Application</div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-row">
+        <div class="form-group">
+          <label class="field-label">Company</label>
+          <input type="text" id="f-company" placeholder="e.g. LinkedIn" />
+        </div>
+        <div class="form-group">
+          <label class="field-label">Role</label>
+          <input type="text" id="f-role" placeholder="e.g. Sales Manager" />
+        </div>
+      </div>
+      <div class="form-row" style="margin-top:12px">
+        <div class="form-group">
+          <label class="field-label">Priority</label>
+          <select id="f-priority">
+            <option>P0</option><option>P1</option><option>P2</option><option>P3</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="field-label">Source</label>
+          <select id="f-source">
+            <option>LinkedIn</option><option>Referral</option><option>Direct</option>
+            <option>Built In Toronto</option><option>Job Board</option><option>Other</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row" style="margin-top:12px">
+        <div class="form-group">
+          <label class="field-label">Status</label>
+          <select id="f-status">
+            <option>Applied</option><option>Interviewed</option>
+            <option>2nd Interview</option><option>Final Round</option><option>Offer</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="field-label">Result</label>
+          <select id="f-result">
+            <option>Pending</option><option>Ghosted</option><option>Rejected</option>
+            <option>Passed</option><option>Job Closed</option><option>Offer Received</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row" style="margin-top:12px">
+        <div class="form-group">
+          <label class="field-label">Date Applied</label>
+          <input type="text" id="f-date" placeholder="DD/MM/YYYY" />
+        </div>
+        <div class="form-group">
+          <label class="field-label">Hiring Manager</label>
+          <input type="text" id="f-hm" placeholder="Name + LinkedIn URL" />
+        </div>
+      </div>
+      <div style="margin-top:12px">
+        <label class="field-label">Notes</label>
+        <textarea id="f-notes" rows="3" placeholder="Key context, next steps, salary range..."></textarea>
+      </div>
+      <div class="modal-actions">
+        <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
+        <button class="btn btn-navy" onclick="saveApplication()">Save Application</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── DETAIL DRAWER ── -->
+<div class="detail-drawer" id="detail-drawer">
+  <div class="drawer-head">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start">
+      <div>
+        <div class="drawer-company" id="d-company"></div>
+        <div class="drawer-role"    id="d-role"></div>
+      </div>
+      <button class="btn btn-ghost btn-sm" onclick="closeDetail()">✕</button>
+    </div>
+    <div class="drawer-pills" id="d-pills"></div>
+  </div>
+
+  <div class="drawer-body">
+    <div class="drawer-section">
+      <div class="drawer-section-label">Update</div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="field-label">Status</label>
+          <select id="d-status" onchange="updateDetail('status')" style="font-size:13px"></select>
+        </div>
+        <div class="form-group">
+          <label class="field-label">Result</label>
+          <select id="d-result" onchange="updateDetail('result')" style="font-size:13px"></select>
+        </div>
+      </div>
+    </div>
+
+    <div class="drawer-section">
+      <div class="drawer-section-label">Hiring Manager</div>
+      <div id="d-hm" style="font-size:13px;color:var(--text2)"></div>
+    </div>
+
+    <div class="drawer-section">
+      <div class="drawer-section-label">Timeline</div>
+      <div class="timeline" id="d-timeline"></div>
+    </div>
+
+    <div class="drawer-section">
+      <div class="drawer-section-label">Notes</div>
+      <textarea class="drawer-notes" id="d-notes" placeholder="Add interview notes, feedback, next steps..." onblur="updateDetail('notes')"></textarea>
+    </div>
+
+    <div style="display:flex;gap:8px;margin-top:4px">
+      <button class="btn btn-ghost btn-sm" onclick="useForAI()" style="flex:1">✦ Use in AI Builder</button>
+      <button class="btn btn-danger btn-sm" onclick="deleteCurrentApp()">Delete</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const STORAGE_KEY = 'closer_crm_v3';
+const TASKS_KEY   = 'closer_tasks_v2';
+const HIST_KEY    = 'closer_history_v2';
+
+let apps     = [];
+let tasks    = [];
+let aiHistory = [];
+let editingId = null;
+let detailId  = null;
+
+function uid() { return Date.now().toString(36) + Math.random().toString(36).slice(2,6); }
+
+function load() {
+  try { apps      = JSON.parse(localStorage.getItem(STORAGE_KEY)) || seedData(); } catch(e) { apps = seedData(); }
+  try { tasks     = JSON.parse(localStorage.getItem(TASKS_KEY))   || []; }          catch(e) { tasks = []; }
+  try { aiHistory = JSON.parse(localStorage.getItem(HIST_KEY))    || []; }          catch(e) { aiHistory = []; }
+}
+
+function persist() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(apps));
+  localStorage.setItem(TASKS_KEY,   JSON.stringify(tasks));
+  localStorage.setItem(HIST_KEY,    JSON.stringify(aiHistory));
+}
+
+function seedData() {
+  return [
+    { id:uid(), company:'LinkedIn Marketing Solutions', role:'Sales Manager, LCS Canada',       priority:'P0', source:'LinkedIn', status:'Applied',       result:'Pending',  date:'25/03/2026', hm:'Amber Naslund — linkedin.com/in/ambernaslund', notes:'Referred by Obinna. OTE $264K-$314K. Best role in pipeline.', timeline:['25/03/2026: Applied','25/03/2026: Connection request sent to Amber Naslund'] },
+    { id:uid(), company:'CoLab Software',               role:'Director of Sales',               priority:'P0', source:'LinkedIn', status:'Interviewed',   result:'Pending',  date:'10/03/2026', hm:'', notes:'Strong fit. Player-coach. Travel to NL twice per year.', timeline:['10/03/2026: Applied','15/03/2026: First interview completed'] },
+    { id:uid(), company:'Mentimeter',                   role:'Sales Manager, Strategic Accounts',priority:'P0', source:'LinkedIn', status:'Applied',       result:'Pending',  date:'22/03/2026', hm:'', notes:'Non-commission model. $176-194K base. Hybrid Toronto.', timeline:['22/03/2026: Applied'] },
+    { id:uid(), company:'GitLab',                       role:'SMB Regional Manager',            priority:'P0', source:'Referral', status:'2nd Interview', result:'Passed',   date:'05/03/2026', hm:'Kazem Kutob — Senior Director, Global Digital SMB', notes:'HM interview with Kazem booked. Fully remote, CAD comp.', timeline:['05/03/2026: Applied','10/03/2026: First interview passed','16/03/2026: HM interview booked'] },
+    { id:uid(), company:'Boomi',                        role:'Director of Commercial Sales',    priority:'P1', source:'LinkedIn', status:'Applied',       result:'Pending',  date:'20/03/2026', hm:'', notes:'Hunter culture role. $300K-$375K OTE CAD. Vancouver or remote.', timeline:['20/03/2026: Applied'] },
+    { id:uid(), company:'Google LCS SF',                role:'Account Executive',               priority:'P0', source:'Internal', status:'Interviewed',   result:'Pending',  date:'18/03/2026', hm:'', notes:'SF role. USD comp. Partial in-office.', timeline:['18/03/2026: Interview completed'] },
+    { id:uid(), company:'Camunda',                      role:'Sales Manager, Majors',           priority:'P1', source:'LinkedIn', status:'Applied',       result:'Pending',  date:'26/03/2026', hm:'', notes:'F1000 accounts. $353K-$569K USD. Open to relocate.', timeline:['26/03/2026: Applied'] },
+    { id:uid(), company:'Xero',                         role:'New Business Sales Manager',      priority:'P1', source:'LinkedIn', status:'Applied',       result:'Ghosted',  date:'18/03/2026', hm:'', notes:'SMB focus. East Coast preferred.', timeline:['18/03/2026: Applied'] },
+  ];
+}
+
+// ── NAV ──────────────────────────────────────────────────────────────────────
+function showPanel(name) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('panel-' + name).classList.add('active');
+  document.querySelector(`[onclick="showPanel('${name}')"]`).classList.add('active');
+  const titles = { dashboard:'Dashboard', applications:'Applications', tasks:'Follow-ups', ai:'✦ AI Resume Builder' };
+  document.getElementById('page-title').textContent = titles[name] || name;
+  if (name === 'dashboard')    renderDashboard();
+  if (name === 'applications') renderApplications();
+  if (name === 'tasks')        renderTasks();
+}
+
+// ── PILLS ─────────────────────────────────────────────────────────────────────
+function priorityPill(p) {
+  const cls = { P0:'pill-p0', P1:'pill-p1', P2:'pill-p2', P3:'pill-p3' };
+  return `<span class="pill ${cls[p]||'pill-p1'}">${p}</span>`;
+}
+function statusPill(s) {
+  const cls = { 'Applied':'pill-applied','Interviewed':'pill-interview','2nd Interview':'pill-2nd','Final Round':'pill-final','Offer':'pill-offer' };
+  return `<span class="pill ${cls[s]||'pill-applied'}">${s}</span>`;
+}
+function resultPill(r) {
+  const cls = { 'Pending':'pill-pending','Ghosted':'pill-ghosted','Rejected':'pill-rejected','Passed':'pill-passed','Job Closed':'pill-closed','Offer Received':'pill-received' };
+  return `<span class="pill ${cls[r]||'pill-pending'}">${r}</span>`;
+}
+
+// ── DASHBOARD ─────────────────────────────────────────────────────────────────
+function renderDashboard() {
+  const total      = apps.length;
+  const active     = apps.filter(a => a.result === 'Pending').length;
+  const interviews = apps.filter(a => ['Interviewed','2nd Interview','Final Round'].includes(a.status)).length;
+  const offers     = apps.filter(a => a.result === 'Offer Received').length;
+
+  document.getElementById('stat-total').textContent      = total;
+  document.getElementById('stat-active').textContent     = active;
+  document.getElementById('stat-interviews').textContent = interviews;
+  document.getElementById('stat-offers').textContent     = offers;
+  document.getElementById('badge-total').textContent     = total;
+  document.getElementById('badge-tasks').textContent     = tasks.filter(t => !t.done).length;
+
+  const activeApps = apps.filter(a => a.result === 'Pending').slice(0, 10);
+  const tbody = document.getElementById('dashboard-table');
+
+  if (!activeApps.length) {
+    tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;padding:40px;color:var(--muted)">No active applications yet. Hit + Add Application to start.</td></tr>`;
+    return;
+  }
+
+  tbody.innerHTML = activeApps.map(a => `
+    <tr onclick="openDetail('${a.id}')">
+      <td>
+        <div class="td-company">${a.company}</div>
+        <div class="td-role">${a.role}</div>
+      </td>
+      <td>${priorityPill(a.priority)}</td>
+      <td>${statusPill(a.status)}</td>
+      <td style="color:var(--muted);font-size:12px">${a.date}</td>
+      <td>${resultPill(a.result)}</td>
+      <td style="color:var(--muted2);font-size:12px">${getNextAction(a)}</td>
+    </tr>
+  `).join('');
+}
+
+function getNextAction(a) {
+  const t = tasks.find(t => t.company === a.company && !t.done);
+  if (t) return t.text;
+  if (a.status === 'Applied')      return 'Follow up in 5 days';
+  if (a.status === 'Interviewed')  return 'Send thank you note';
+  if (a.status === '2nd Interview') return 'Deep prep required';
+  return '—';
+}
+
+// ── APPLICATIONS ──────────────────────────────────────────────────────────────
+function renderApplications() {
+  const fs = document.getElementById('filter-status').value;
+  const fr = document.getElementById('filter-result').value;
+  const filtered = apps.filter(a => (!fs || a.status === fs) && (!fr || a.result === fr));
+
+  const tbody = document.getElementById('all-table');
+  if (!filtered.length) {
+    tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;padding:40px;color:var(--muted)">No applications match your filters.</td></tr>`;
+    return;
+  }
+
+  tbody.innerHTML = filtered.map(a => `
+    <tr onclick="openDetail('${a.id}')">
+      <td>
+        <div class="td-company">${a.company}</div>
+        <div class="td-role">${a.role}</div>
+      </td>
+      <td>${priorityPill(a.priority)}</td>
+      <td style="color:var(--muted2);font-size:12px">${a.source}</td>
+      <td>${statusPill(a.status)}</td>
+      <td style="color:var(--muted);font-size:12px">${a.date}</td>
+      <td>${resultPill(a.result)}</td>
+    </tr>
+  `).join('');
+}
+
+// ── TASKS ─────────────────────────────────────────────────────────────────────
+function renderTasks() {
+  const followups = tasks.filter(t => t.type !== 'prep');
+  const prepTasks = apps
+    .filter(a => ['Interviewed','2nd Interview','Final Round'].includes(a.status) && a.result === 'Pending')
+    .map(a => ({ id:'auto-'+a.id, type:'prep', company:a.company, text:`Interview prep — ${a.company} (${a.status})`, done:false, auto:true }));
+
+  const fu = document.getElementById('tasks-followup');
+  fu.innerHTML = followups.length ? followups.map(t => taskHTML(t)).join('') :
+    '<div style="color:var(--muted2);font-size:12px;padding:8px 0">No follow-ups pending.</div>';
+
+  const prep = document.getElementById('tasks-prep');
+  prep.innerHTML = prepTasks.length ? prepTasks.map(t => taskHTML(t)).join('') :
+    '<div style="color:var(--muted2);font-size:12px;padding:8px 0">No interviews active.</div>';
+
+  const sel = document.getElementById('task-company');
+  sel.innerHTML = apps.map(a => `<option value="${a.company}">${a.company}</option>`).join('');
+
+  document.getElementById('badge-tasks').textContent = tasks.filter(t => !t.done).length;
+}
+
+function taskHTML(t) {
+  return `
+    <div class="task-item">
+      <div class="task-check ${t.done ? 'done' : ''}" onclick="toggleTask('${t.id}')"></div>
+      <div class="task-text ${t.done ? 'done' : ''}">${t.text}</div>
+      <div class="task-company-tag">${t.company}</div>
+    </div>`;
+}
+
+function addTask() {
+  const company = document.getElementById('task-company').value;
+  const text    = document.getElementById('task-text').value.trim();
+  if (!text) return;
+  tasks.unshift({ id:uid(), type:'followup', company, text, done:false });
+  document.getElementById('task-text').value = '';
+  persist();
+  renderTasks();
+}
+
+function toggleTask(id) {
+  const t = tasks.find(x => x.id === id);
+  if (t) { t.done = !t.done; persist(); renderTasks(); }
+}
+
+// ── MODAL ─────────────────────────────────────────────────────────────────────
+function openAddModal(id = null) {
+  editingId = id;
+  const app = id ? apps.find(a => a.id === id) : null;
+  document.getElementById('modal-title-text').textContent = id ? 'Edit Application' : 'Add Application';
+  document.getElementById('f-company').value  = app?.company  || '';
+  document.getElementById('f-role').value     = app?.role     || '';
+  document.getElementById('f-priority').value = app?.priority || 'P1';
+  document.getElementById('f-source').value   = app?.source   || 'LinkedIn';
+  document.getElementById('f-status').value   = app?.status   || 'Applied';
+  document.getElementById('f-result').value   = app?.result   || 'Pending';
+  document.getElementById('f-date').value     = app?.date     || new Date().toLocaleDateString('en-GB');
+  document.getElementById('f-hm').value       = app?.hm       || '';
+  document.getElementById('f-notes').value    = app?.notes    || '';
+  document.getElementById('add-modal').classList.add('open');
+}
+
+function closeModal() { document.getElementById('add-modal').classList.remove('open'); }
+
+function saveApplication() {
+  const company = document.getElementById('f-company').value.trim();
+  if (!company) { alert('Company name required.'); return; }
+  const data = {
+    company,
+    role:     document.getElementById('f-role').value.trim(),
+    priority: document.getElementById('f-priority').value,
+    source:   document.getElementById('f-source').value,
+    status:   document.getElementById('f-status').value,
+    result:   document.getElementById('f-result').value,
+    date:     document.getElementById('f-date').value,
+    hm:       document.getElementById('f-hm').value.trim(),
+    notes:    document.getElementById('f-notes').value.trim(),
+    timeline: editingId ? apps.find(a => a.id === editingId)?.timeline || [] : [new Date().toLocaleDateString('en-GB') + ': Applied'],
+  };
+  if (editingId) {
+    const idx = apps.findIndex(a => a.id === editingId);
+    if (idx > -1) apps[idx] = { ...apps[idx], ...data };
+  } else {
+    apps.unshift({ id:uid(), ...data });
+  }
+  persist();
+  closeModal();
+  renderDashboard();
+}
+
+// ── DETAIL DRAWER ─────────────────────────────────────────────────────────────
+function openDetail(id) {
+  const a = apps.find(x => x.id === id);
+  if (!a) return;
+  detailId = id;
+
+  document.getElementById('d-company').textContent = a.company;
+  document.getElementById('d-role').textContent    = a.role;
+  document.getElementById('d-pills').innerHTML     = priorityPill(a.priority) + ' ' + statusPill(a.status) + ' ' + resultPill(a.result);
+
+  // Status select
+  const dStatus = document.getElementById('d-status');
+  dStatus.innerHTML = ['Applied','Interviewed','2nd Interview','Final Round','Offer'].map(s => `<option ${a.status===s?'selected':''}>${s}</option>`).join('');
+
+  // Result select
+  const dResult = document.getElementById('d-result');
+  dResult.innerHTML = ['Pending','Ghosted','Rejected','Passed','Job Closed','Offer Received'].map(r => `<option ${a.result===r?'selected':''}>${r}</option>`).join('');
+
+  document.getElementById('d-notes').value = a.notes || '';
+
+  document.getElementById('d-hm').innerHTML = a.hm
+    ? `<div style="font-size:13px;color:var(--text2)">${a.hm}</div>`
+    : '<div style="font-size:12px;color:var(--muted2)">No hiring manager added yet.</div>';
+
+  document.getElementById('d-timeline').innerHTML = (a.timeline||[]).map(t =>
+    `<div class="timeline-item"><div class="timeline-text">${t}</div></div>`
+  ).join('') || '<div style="font-size:12px;color:var(--muted2)">No events logged yet.</div>';
+
+  document.getElementById('detail-drawer').classList.add('open');
+}
+
+function closeDetail() {
+  document.getElementById('detail-drawer').classList.remove('open');
+  detailId = null;
+}
+
+function updateDetail(field) {
+  const a = apps.find(x => x.id === detailId);
+  if (!a) return;
+  if (field === 'status') {
+    a.status = document.getElementById('d-status').value;
+    a.timeline = a.timeline || [];
+    a.timeline.push(new Date().toLocaleDateString('en-GB') + ': Status updated to ' + a.status);
+    document.getElementById('d-pills').innerHTML = priorityPill(a.priority) + ' ' + statusPill(a.status) + ' ' + resultPill(a.result);
+  }
+  if (field === 'result') {
+    a.result = document.getElementById('d-result').value;
+    document.getElementById('d-pills').innerHTML = priorityPill(a.priority) + ' ' + statusPill(a.status) + ' ' + resultPill(a.result);
+  }
+  if (field === 'notes') a.notes = document.getElementById('d-notes').value;
+  persist();
+  renderDashboard();
+}
+
+function deleteCurrentApp() {
+  if (!detailId) return;
+  if (!confirm('Delete this application?')) return;
+  apps = apps.filter(a => a.id !== detailId);
+  persist();
+  closeDetail();
+  renderDashboard();
+}
+
+function useForAI() {
+  const a = apps.find(x => x.id === detailId);
+  if (!a) return;
+  closeDetail();
+  showPanel('ai');
+  document.getElementById('ai-jd').placeholder = `Paste the ${a.company} — ${a.role} job description here...`;
+  document.getElementById('ai-jd').focus();
+}
+
+// ── AI BUILDER ────────────────────────────────────────────────────────────────
+const BASE_RESUME = `TOMI GBELEYI — Sales Leader
+
+HEAD OF NEW BUSINESS SALES, GOOGLE CANADA (Jan 2024 – Feb 2026)
+• Built and led a 7-person AE team from scratch against a $40M CAD annual quota, driving 110% blended YTD attainment and highest sales activity per FTE in the Americas region.
+• Grew average seller productivity from $1.2M to $2M per quarter through structured coaching, pipeline inspection cadences, and targeted outbound prospecting strategies.
+• Compressed new hire ramp from 5+ quarters to 3 through a customised onboarding and capability-building programme, driving 40% growth in new client activation per quarter.
+• Owned pipeline forecasting and revenue reporting to senior leadership daily and weekly. Earned Regional Forecast Accuracy Award across the Americas.
+• Served as regional leadership partner on quota allocation, compensation, and performance management. All three acquisition partner teams exceeded 100% of target in Q2 2025.
+
+SALES PRINCIPAL, NEW BUSINESS SALES, GOOGLE CANADA (Apr 2022 – Jan 2024)
+• Achieved 140% blended quota attainment. Led a pod of 3 AEs past target through structured deal coaching and pipeline accountability framework.
+• Recognised for the highest individual revenue contribution in NBS Canada history.
+
+SENIOR ACCOUNT EXECUTIVE, NEW BUSINESS SALES, GOOGLE CANADA (Jun 2021 – Mar 2022)
+• Exceeded quota by 300%, highest Noogler attainment in the Americas. Top Noogler and Rising Star awards 2021.
+• Activated 25+ net new clients. Closed PointsBet ahead of Canadian market launch.
+
+NATIONAL MANAGER, CANADA, LIGHTHOUSE LABS (Jun 2019 – Jun 2021)
+• Doubled employer pipeline from 2,750 to 5,500. Improved close rate from 15% to 21%.
+• Led cross-functional team of 8. Grew enrolment 30%. Placed 95% of graduates in roles within 120 days.
+
+ACCOUNT EXECUTIVE, TOP HAT (Jan 2017 – Jan 2018)
+• Exceeded quota by 150%. Sold greenfield solution against established incumbents.
+
+FOUNDER & CEO, MFMG COSMETICS (Dec 2017 – 2022)
+• Built beauty brand from zero. Secured $100K non-dilutive funding. Coverage in NYT, Teen Vogue, Globe and Mail.
+
+Google Generative AI Leader Certification
+BA Psychology & International Development Studies, University of New Brunswick
+34 peer and leadership awards across Google tenure`;
+
+async function generateContent() {
+  const resume = document.getElementById('ai-resume').value.trim() || BASE_RESUME;
+  const jd     = document.getElementById('ai-jd').value.trim();
+  const mode   = document.getElementById('ai-mode').value;
+  const tone   = document.getElementById('ai-tone').value;
+
+  if (!jd) { alert('Please paste a job description first.'); return; }
+
+  const btn = document.getElementById('generate-btn');
+  btn.disabled = true;
+  btn.innerHTML = '<div class="spinner"></div> Generating...';
+  document.getElementById('copy-btn').style.display = 'none';
+  document.getElementById('ai-output').innerHTML = '<div class="output-empty"><div class="output-empty-icon" style="animation:spin 1s linear infinite">◈</div><p>Analysing and generating...</p></div>';
+
+  const prompts = {
+    resume: `You are an expert sales career coach. Analyse the job description and candidate resume. Produce tailored achievement-led bullet points reframing the candidate's experience to match the role. Format with role headers. Lead with strong action verbs. Quantify wherever possible. Highlight 3-5 key JD keywords.`,
+    cover:  `You are an expert sales career coach. Write a compelling personalised cover letter for this role. Open with a strong hook specific to this company, make a direct case for fit with concrete evidence, address the most critical requirements, close with confidence. No em dashes. UK English. Tone: ${tone}.`,
+    both:   `You are an expert sales career coach. Produce: 1. TAILORED RESUME BULLETS organised by role. 2. COVER LETTER personalised for this specific role. No em dashes. UK English. Tone: ${tone}.`,
+    gap:    `You are an expert sales career coach. Analyse the gap between the resume and job description. Produce: 1. MATCH SCORE (percentage + rationale). 2. STRENGTHS: Top 5 fit points. 3. GAPS: Top 3 weaknesses. 4. SUGGESTIONS: Specific resume edits. 5. RED FLAGS: Claims the candidate cannot credibly make.`
+  };
+
+  const prompt = `${prompts[mode]}\n\n---CANDIDATE RESUME---\n${resume}\n\n---JOB DESCRIPTION---\n${jd}`;
+
+  try {
+    const resp = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        messages: [{ role: 'user', content: prompt }]
+      })
+    });
+
+    const data = await resp.json();
+    const text = data.content?.map(c => c.text || '').join('') || 'No response received.';
+
+    const formatted = text
+      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+      .replace(/^#{1,3} (.+)$/gm, '<h3 style="font-size:14px;font-weight:700;color:var(--navy);margin:14px 0 6px">$1</h3>')
+      .replace(/^• (.+)$/gm, '<div style="display:flex;gap:8px;margin-bottom:4px"><span style="color:var(--gold);flex-shrink:0">▸</span><span>$1</span></div>');
+
+    document.getElementById('ai-output').innerHTML = `<div style="font-size:13px;line-height:1.75;color:var(--text2)">${formatted}</div>`;
+    document.getElementById('copy-btn').style.display = 'block';
+
+    aiHistory.unshift({ id:uid(), date:new Date().toLocaleDateString('en-GB'), mode, jd_snippet:jd.slice(0,100)+'...', output:text });
+    if (aiHistory.length > 20) aiHistory = aiHistory.slice(0,20);
+    persist();
+
+  } catch(err) {
+    document.getElementById('ai-output').innerHTML = `<div style="color:var(--red);font-size:12px;padding:8px">Error connecting to AI. Please try again.<br><code style="font-size:11px">${err.message}</code></div>`;
+  }
+
+  btn.disabled = false;
+  btn.innerHTML = '✦ Generate';
+}
+
+function copyOutput() {
+  const text = document.getElementById('ai-output').innerText;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.getElementById('copy-btn');
+    btn.textContent = '✓ Copied';
+    setTimeout(() => btn.textContent = '⎘ Copy output', 1500);
+  });
+}
+
+function switchTab(tab) {
+  document.getElementById('tab-result').classList.toggle('active',  tab === 'result');
+  document.getElementById('tab-history').classList.toggle('active', tab === 'history');
+  document.getElementById('tab-result-body').style.display  = tab === 'result'  ? 'block' : 'none';
+  document.getElementById('tab-history-body').style.display = tab === 'history' ? 'block' : 'none';
+
+  if (tab === 'history') {
+    document.getElementById('ai-history').innerHTML = aiHistory.length
+      ? aiHistory.map(h => `
+          <div style="border-bottom:1px solid var(--border);padding:10px 0;cursor:pointer" onclick="loadHistory('${h.id}')">
+            <div style="font-size:10px;color:var(--muted);margin-bottom:2px">${h.date} — ${h.mode}</div>
+            <div style="font-size:12px;color:var(--text2)">${h.jd_snippet}</div>
+          </div>`).join('')
+      : '<div class="output-empty"><div class="output-empty-icon">◈</div><p>No history yet.</p></div>';
+  }
+}
+
+function loadHistory(id) {
+  const h = aiHistory.find(x => x.id === id);
+  if (!h) return;
+  switchTab('result');
+  document.getElementById('ai-output').innerHTML = `<div style="font-size:13px;line-height:1.75;color:var(--text2)">${h.output}</div>`;
+  document.getElementById('copy-btn').style.display = 'block';
+}
+
+// ── CLOSE ON OUTSIDE CLICK ────────────────────────────────────────────────────
+document.addEventListener('click', e => {
+  const drawer = document.getElementById('detail-drawer');
+  const modal  = document.getElementById('add-modal');
+  if (drawer.classList.contains('open') && !drawer.contains(e.target) && !e.target.closest('tr')) closeDetail();
+  if (modal.classList.contains('open') && e.target === modal) closeModal();
+});
+
+// ── INIT ──────────────────────────────────────────────────────────────────────
+load();
+document.getElementById('ai-resume').value = BASE_RESUME;
+renderDashboard();
+</script>
+</body>
+</html>
