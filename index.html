@@ -284,13 +284,14 @@ footer{background:var(--white);border-top:1px solid var(--border);padding:28px 2
   <div class="hero-inner">
     <div class="eyebrow"><div class="eyebrow-dot"></div> The AI-powered job platform for sales professionals</div>
     <h1>Find the role.<br><em>Win</em> the interview.</h1>
-    <p class="hero-sub">Curated sales jobs across North America, with AI tools built in to tailor your resume, prep for interviews, and benchmark your salary.</p>
+    <p class="hero-sub">Curated sales jobs worldwide, with AI tools built in to tailor your resume, prep for interviews, and benchmark your salary.</p>
     <div class="search-bar">
       <input type="text" id="s-input" placeholder="Job title, company or keyword..." oninput="doFilter()" />
       <select id="s-loc" onchange="doFilter()">
         <option value="">All Locations</option>
         <option>Toronto</option><option>New York</option><option>San Francisco</option>
-        <option>Vancouver</option><option>Remote</option><option>Chicago</option>
+        <option>Vancouver</option><option>Chicago</option><option>London</option>
+        <option>Austin</option><option>Remote</option>
       </select>
       <button class="s-btn" onclick="doFilter()">Search</button>
     </div>
@@ -306,14 +307,21 @@ footer{background:var(--white);border-top:1px solid var(--border);padding:28px 2
 <div id="jobs-page">
   <div class="filters-bar">
     <div class="filters-inner">
-      <span class="filter-lbl">Filter:</span>
+      <span class="filter-lbl">Role:</span>
       <div class="chip on"  onclick="setFilter(this,'','level')">All</div>
       <div class="chip" onclick="setFilter(this,'SDR / BDR','level')">SDR / BDR</div>
       <div class="chip" onclick="setFilter(this,'Account Executive','level')">Account Executive</div>
       <div class="chip" onclick="setFilter(this,'Sales Manager','level')">Sales Manager</div>
       <div class="chip" onclick="setFilter(this,'Director','level')">Director</div>
       <div class="chip" onclick="setFilter(this,'VP','level')">VP</div>
-      <div class="chip" onclick="setFilter(this,'Remote','type')">Remote Only</div>
+      <div style="width:1px;background:var(--border2);margin:0 4px;flex-shrink:0"></div>
+      <span class="filter-lbl">Location:</span>
+      <div class="chip" onclick="setLocFilter(this,'')">Everywhere</div>
+      <div class="chip" onclick="setLocFilter(this,'Toronto')">Toronto</div>
+      <div class="chip" onclick="setLocFilter(this,'New York')">New York</div>
+      <div class="chip" onclick="setLocFilter(this,'San Francisco')">San Francisco</div>
+      <div class="chip" onclick="setLocFilter(this,'Remote')">Remote</div>
+      <div class="chip" onclick="setLocFilter(this,'London')">London</div>
     </div>
   </div>
   <div class="layout">
@@ -450,7 +458,7 @@ const FALLBACK_JOBS = [
 
 let JOBS     = [...FALLBACK_JOBS];
 let vis      = [...JOBS];
-let activeId = null, lvlF = '', typeF = '';
+let activeId = null, lvlF = '', typeF = '', locF = '';
 
 // ── FETCH MANUAL JOBS FROM SUPABASE ──────────────────────────────────────────
 const SUPABASE_URL = 'https://vhbcnhyddxfnlpjqmqxj.supabase.co';
@@ -629,15 +637,23 @@ function doFilter(){
   vis=JOBS.filter(j=>
     (!q||j.title.toLowerCase().includes(q)||j.co.toLowerCase().includes(q))&&
     (!loc||j.loc.includes(loc))&&
+    (!locF||j.loc.includes(locF))&&
     (!lvlF||j.level===lvlF)&&
     (!typeF||j.type===typeF));
   render();
 }
 
 function setFilter(el,val,kind){
-  document.querySelectorAll('.chip').forEach(c=>c.classList.remove('on'));
+  document.querySelectorAll('.chip[onclick*="setFilter"]').forEach(c=>c.classList.remove('on'));
   el.classList.add('on');
   if(kind==='type'){typeF=val;lvlF='';}else{lvlF=val;typeF='';}
+  doFilter();
+}
+
+function setLocFilter(el,val){
+  document.querySelectorAll('.chip[onclick*="setLocFilter"]').forEach(c=>c.classList.remove('on'));
+  el.classList.add('on');
+  locF=val;
   doFilter();
 }
 
@@ -649,13 +665,35 @@ function showPage(page){
 
 function openWL(){document.getElementById('wl-overlay').classList.add('on');document.getElementById('wl-success').style.display='none';}
 function closeWL(){document.getElementById('wl-overlay').classList.remove('on');}
-function submitWL(){
+async function submitWL(){
   const name=document.getElementById('wl-name').value.trim();
   const email=document.getElementById('wl-email').value.trim();
+  const stage=document.getElementById('wl-stage').value;
   if(!name||!email||!email.includes('@')){alert('Please enter a valid name and email.');return;}
+  
+  const btn=document.querySelector('#wl-overlay .gen-btn');
+  if(btn){btn.disabled=true;btn.textContent='Saving...';}
+  
+  try {
+    await fetch(`${SUPABASE_URL}/rest/v1/waitlist`, {
+      method: 'POST',
+      headers: {
+        'apikey': SUPABASE_KEY,
+        'Authorization': `Bearer ${SUPABASE_KEY}`,
+        'Content-Type': 'application/json',
+        'Prefer': 'return=minimal'
+      },
+      body: JSON.stringify({ name, email, career_stage: stage })
+    });
+  } catch(e) {
+    console.error('Waitlist save error:', e);
+    // still show success to user even if save fails
+  }
+  
   document.getElementById('wl-success').style.display='block';
   document.getElementById('wl-name').value='';
   document.getElementById('wl-email').value='';
+  if(btn){btn.disabled=false;btn.textContent='Claim My Founding Member Spot';}
 }
 
 function openAI(tab){document.getElementById('ai-overlay').classList.add('on');switchAI(tab);}
