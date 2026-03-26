@@ -264,7 +264,6 @@ footer{background:var(--white);border-top:1px solid var(--border);padding:28px 2
     </a>
     <ul class="nav-links">
       <li><a href="#" id="nav-jobs" class="active" onclick="showPage('jobs');return false;">Find Jobs</a></li>
-      <li><a href="#" id="nav-about" onclick="showPage('about');return false;">About</a></li>
       <li><a href="#" onclick="openAI('resume');return false;">AI Resume</a></li>
       <li><a href="#" onclick="openAI('prep');return false;">Interview Prep</a></li>
       <li><a href="#" onclick="openAI('salary');return false;">Salary Guide</a></li>
@@ -304,29 +303,6 @@ footer{background:var(--white);border-top:1px solid var(--border);padding:28px 2
   </div>
 </div>
 
-<div id="about-page">
-  <div class="about-badge">Our Story</div>
-  <h2 class="about-h2">Built by someone who had to figure it out without a roadmap.</h2>
-  <p class="about-p">I moved to Canada from Nigeria at 17 with almost nothing. No money. No network. No one to call and ask what to do next.</p>
-  <p class="about-p">My first job after university, the company went bankrupt. So I did what anyone would do. I Googled which jobs make good money. Sales came up. I had no idea what I was doing. I just knew I could talk to people and I was hungry enough to figure out the rest.</p>
-  <p class="about-p">That stumble eventually led to a career that took me from cold calling strangers to leading a new business sales team at Google Canada, building a beauty brand that landed in the New York Times, and founding a coaching platform for ambitious sales professionals.</p>
-  <p class="about-p">Sales gave me everything. But the path was harder than it needed to be. Not because the work was hard, but because the information and tools that should have existed simply did not.</p>
-  <div class="about-quote"><p>I built Closed Won for everyone who is building a sales career without a roadmap. The ones figuring it out at midnight. The ones who do not have the warm introductions or the right university or the network. The ones who are just hungry enough to figure out the rest.</p></div>
-  <div class="about-author">
-    <div class="about-avatar">T</div>
-    <div><div class="about-name">Tomi Gbeleyi</div><div class="about-role">Founder, Closed Won · Former Head of New Business Sales, Google Canada · @tomi.tomahto</div></div>
-  </div>
-  <div style="border-top:1px solid var(--border);padding-top:32px">
-    <h3 style="font-size:18px;font-weight:700;color:var(--navy);margin-bottom:16px">What we are building</h3>
-    <div class="about-grid">
-      <div class="about-feat"><div class="about-feat-title">Curated Sales Jobs</div><div class="about-feat-desc">Every role is hand-picked or submitted by verified companies. No spam.</div></div>
-      <div class="about-feat"><div class="about-feat-title">AI Resume Tailor</div><div class="about-feat-desc">Paste any job description, get your resume rewritten to match in under a minute.</div></div>
-      <div class="about-feat"><div class="about-feat-title">Interview Prep</div><div class="about-feat-desc">Role-specific questions, stories to prepare, and smart questions to ask.</div></div>
-      <div class="about-feat"><div class="about-feat-title">Salary Benchmarks</div><div class="about-feat-desc">Know your number before the negotiation. Real data, North America wide.</div></div>
-    </div>
-    <button class="btn btn-navy" onclick="openWL()" style="padding:12px 24px;font-size:14px">Join the Waitlist</button>
-  </div>
-</div>
 
 <div id="jobs-page">
   <div class="filters-bar">
@@ -454,9 +430,6 @@ footer{background:var(--white);border-top:1px solid var(--border);padding:28px 2
   </button>
   <button class="mn-item" id="mn-wl" onclick="openWL()">
     <span class="mn-icon">◈</span>Waitlist
-  </button>
-  <button class="mn-item" id="mn-about" onclick="showPage('about');setMobileNav('about')">
-    <span class="mn-icon">○</span>About
   </button>
 </nav>
 
