@@ -439,44 +439,79 @@ footer{background:var(--white);border-top:1px solid var(--border);padding:28px 2
 </footer>
 
 <script>
-const R = { entry:'$50K–$100K', mid:'$100K–$200K', senior:'$200K–$300K', exec:'$300K+' };
+/*
+  GOOGLE SHEETS INTEGRATION
+  ─────────────────────────────────────────────────────────────────────────────
+  To update your job listings:
+  1. Open your "Closed Won Jobs" Google Sheet
+  2. Add or edit rows (one job per row)
+  3. The site refreshes automatically — no code changes needed
 
-const JOBS = [
-  {id:1, title:'Sales Development Representative',co:'Salesforce',loc:'Toronto, ON',level:'SDR / BDR',type:'Hybrid',range:R.entry,posted:'1d',desc:'Generate pipeline through outbound prospecting and inbound qualification for enterprise accounts. Clear path to AE with structured coaching programme.',req:'0-2 years experience, strong communication, coachable mindset.'},
-  {id:2, title:'Business Development Representative',co:'HubSpot',loc:'Remote (Canada)',level:'SDR / BDR',type:'Remote',range:R.entry,posted:'2d',desc:'Own top-of-funnel pipeline for the Canadian mid-market segment. Research accounts, personalise outreach, book discovery calls.',req:'1+ year customer-facing experience, high energy and curiosity.'},
-  {id:3, title:'Outbound SDR',co:'Shopify',loc:'Toronto, ON',level:'SDR / BDR',type:'Hybrid',range:R.entry,posted:'3d',desc:'Drive outbound prospecting for Shopify Plus targeting mid-market ecommerce brands. Build sequences, make calls, develop your foundation.',req:'No prior sales experience required. Entrepreneurial spirit, strong written communication.'},
-  {id:4, title:'SDR — Commercial Sales',co:'GitLab',loc:'Remote (Canada)',level:'SDR / BDR',type:'Remote',range:R.entry,posted:'4d',desc:'Generate qualified pipeline for the commercial team at a leading DevOps platform. Fully remote with clear path to AE.',req:'1+ year sales or biz dev experience, tech curiosity.'},
-  {id:5, title:'Sales Development Representative',co:'Zendesk',loc:'Toronto, ON',level:'SDR / BDR',type:'Hybrid',range:R.entry,posted:'2d',desc:'Qualify inbound and develop outbound pipeline for the SMB and mid-market team across Canada.',req:'0-2 years experience, CRM proficiency a plus.'},
-  {id:6, title:'Account Executive, SMB',co:'Xero',loc:'Toronto, ON',level:'Account Executive',type:'Hybrid',range:R.mid,posted:'1d',desc:'Own the full sales cycle for small business accounts across Canada. Manage inbound leads, run demos, close net-new customers.',req:'1-2 years closing experience, strong demo skills, Salesforce proficiency.'},
-  {id:7, title:'Account Executive, Mid-Market',co:'Zendesk',loc:'Remote (Canada)',level:'Account Executive',type:'Remote',range:R.mid,posted:'3d',desc:'Drive net-new business in the mid-market segment. Full cycle AE role with SDR support and strong inbound motion.',req:'2-3 years SaaS AE experience, consistent quota attainment.'},
-  {id:8, title:'Account Executive, Commercial',co:'Slack',loc:'Toronto, ON',level:'Account Executive',type:'Hybrid',range:R.mid,posted:'5d',desc:'Close new business and expand existing accounts in the commercial segment. Work with the Salesforce ecosystem and channel partners.',req:'2+ years B2B SaaS sales, strong stakeholder management.'},
-  {id:9, title:'Account Executive — Growth',co:'Intercom',loc:'Remote (Canada)',level:'Account Executive',type:'Remote',range:R.mid,posted:'4d',desc:'Own the full sales cycle for growth and mid-market accounts. Inbound-heavy motion with outbound responsibilities.',req:'1-3 years SaaS closing experience, strong written communication.'},
-  {id:10,title:'Commercial Account Executive',co:'Notion',loc:'Remote (Canada)',level:'Account Executive',type:'Remote',range:R.mid,posted:'6d',desc:'Drive new business and expansion in the commercial segment across tech, media, and professional services.',req:'1-3 years full-cycle SaaS sales, strong product intuition.'},
-  {id:11,title:'Senior Account Executive',co:'HubSpot',loc:'Remote (Canada)',level:'Account Executive',type:'Remote',range:R.mid,posted:'3d',desc:'Close net-new mid-market business across Canada. Own the full sales cycle from outbound prospecting through close.',req:'3+ years SaaS AE, mid-market focus, CRM proficiency.'},
-  {id:12,title:'Enterprise Account Executive',co:'Salesforce',loc:'Toronto, ON',level:'Account Executive',type:'Hybrid',range:R.senior,posted:'1d',desc:'Drive new business and expansion in enterprise financial services accounts across Canada. Full cycle AE role.',req:'5+ years enterprise SaaS sales, Salesforce product knowledge, complex deal management.'},
-  {id:13,title:'Senior AE, Enterprise',co:'Workday',loc:'Toronto, ON',level:'Account Executive',type:'Hybrid',range:R.senior,posted:'2d',desc:'Drive net-new enterprise business for Workday HCM and financial management across large accounts in Canada.',req:'5+ years enterprise SaaS, MEDDPICC experience, HCM or ERP background preferred.'},
-  {id:14,title:'Account Executive, Enterprise',co:'Snowflake',loc:'Toronto, ON',level:'Account Executive',type:'Hybrid',range:R.senior,posted:'3d',desc:'Land and expand enterprise accounts for the Data Cloud. Hunt new logos while growing consumption revenue.',req:'5+ years enterprise SaaS, data or cloud background preferred.'},
-  {id:15,title:'Mid-Market Account Executive',co:'Asana',loc:'Remote (Canada)',level:'Account Executive',type:'Remote',range:R.mid,posted:'4d',desc:'Own the full sales cycle for mid-market accounts across professional services, tech, and media.',req:'3-5 years SaaS AE, outbound prospecting capability.'},
-  {id:16,title:'Account Executive, Mid-Market',co:'Shopify',loc:'Toronto, ON',level:'Account Executive',type:'Hybrid',range:R.mid,posted:'4d',desc:'Drive new merchant acquisition and expansion for Shopify Plus across mid-market ecommerce brands.',req:'3+ years SaaS or ecommerce sales, consultative selling approach.'},
-  {id:17,title:'Sales Manager, Large Customer Sales',co:'LinkedIn',loc:'Toronto, ON',level:'Sales Manager',type:'Hybrid',range:R.senior,posted:'2d',desc:'Lead a team of AEs and CSMs managing key client relationships and delivering advertising solutions to large customers.',req:'8+ years media sales, 3+ years people management, enterprise advertising background.'},
-  {id:18,title:'New Business Sales Manager',co:'Xero',loc:'Toronto (East Coast)',level:'Sales Manager',type:'Hybrid',range:R.senior,posted:'6d',desc:'Lead BDR and AE teams driving SMB new business. Develop the Canadian AE strategy and implement prospecting cadences.',req:'Outbound sales leadership, SaaS environment, Salesforce proficiency.'},
-  {id:19,title:'Sales Manager, Strategic Accounts',co:'Mentimeter',loc:'Toronto, ON',level:'Sales Manager',type:'Hybrid',range:R.mid,posted:'4d',desc:'Lead Relationship Managers and CSMs focused on enterprise growth and retention in North America. Non-commission model.',req:'Coaching excellence, strategic selling, enterprise account management.'},
-  {id:20,title:'Regional Sales Manager',co:'GitLab',loc:'Remote (Canada)',level:'Sales Manager',type:'Remote',range:R.senior,posted:'2d',desc:'Lead SMB and mid-market AE team focused on new logo acquisition and expansion across the Canadian region.',req:'5+ years SaaS sales leadership, new business focus.'},
-  {id:21,title:'Sales Manager, SMB',co:'Salesforce',loc:'Toronto, ON',level:'Sales Manager',type:'Hybrid',range:R.senior,posted:'1d',desc:'Lead a team of 6-8 SMB AEs focused on net-new acquisition and expansion across Canada. Pipeline rigour and weekly coaching.',req:'2+ years sales leadership, SMB SaaS background, proven coaching track record.'},
-  {id:22,title:'Sales Manager, Commercial',co:'Workday',loc:'Remote (Canada)',level:'Sales Manager',type:'Remote',range:R.senior,posted:'5d',desc:'Lead and develop a commercial AE team selling HCM and financial management solutions to mid-market organisations.',req:'3+ years sales management, SaaS leadership.'},
-  {id:23,title:'Revenue Manager, New Business',co:'Shopify',loc:'Toronto, ON',level:'Sales Manager',type:'Hybrid',range:R.senior,posted:'3d',desc:'Lead a team of AEs focused on Shopify Plus new business in Canada and the US. Build a culture of outbound excellence.',req:'2-4 years sales leadership, ecommerce or SaaS background.'},
-  {id:24,title:'Director of Commercial Sales',co:'Boomi',loc:'Toronto / Remote',level:'Director',type:'Remote',range:R.exec,posted:'3d',desc:'Lead a hunter team dedicated to net-new logo acquisition. Build a high-energy acquisition culture and drive aggressive pipeline.',req:'10+ years sales experience, 5+ years people leadership, MEDDPICC expertise, SaaS background.'},
-  {id:25,title:'Director of Sales',co:'CoLab',loc:'Remote (Canada)',level:'Director',type:'Remote',range:R.senior,posted:'5d',desc:'Player-coach director leading AEs selling design review software to mechanical engineering teams. Occasional travel required.',req:'7+ years sales leadership, challenger selling, SaaS background.'},
-  {id:26,title:'Sales Director, Marketing Solutions',co:'Meta',loc:'Toronto, ON',level:'Director',type:'Hybrid',range:R.exec,posted:'7d',desc:'Lead AMs selling advertising solutions to enterprise brands and agencies across Canada. Shape GTM strategy for the Canadian market.',req:'10+ years digital advertising sales, people management experience.'},
-  {id:27,title:'Director of Sales, AMER',co:'Snowflake',loc:'New York, NY',level:'Director',type:'Hybrid',range:R.exec,posted:'2d',desc:'Lead a regional team of enterprise AEs driving new logo acquisition and consumption growth across the Americas.',req:'8+ years enterprise sales, 3+ years leadership, MEDDPICC expertise.'},
-  {id:28,title:'Director of Revenue, Canada',co:'Intercom',loc:'Remote (Canada)',level:'Director',type:'Remote',range:R.senior,posted:'6d',desc:'Own the Canadian revenue number across new business and expansion. Lead AE and CSM teams.',req:'7+ years SaaS revenue leadership, new business and expansion experience.'},
-  {id:29,title:'Director of Enterprise Sales',co:'Asana',loc:'Remote (US/Canada)',level:'Director',type:'Remote',range:R.exec,posted:'4d',desc:'Lead the enterprise sales organisation in North America. Build the enterprise motion and own quarterly bookings targets.',req:'8+ years enterprise SaaS, 3+ years director-level leadership.'},
-  {id:30,title:'VP, Head of Sales',co:'AdParlor',loc:'Toronto, ON',level:'VP',type:'Hybrid',range:R.exec,posted:'1d',desc:'Own the sales function end-to-end at a creator performance marketing agency. Player-coach with personal quota and team building.',req:'8+ years senior sales experience, influencer marketing background, HubSpot proficiency.'},
-  {id:31,title:'VP of Sales, North America',co:'Descript',loc:'Remote (US/Canada)',level:'VP',type:'Remote',range:R.exec,posted:'5d',desc:'Build and lead an enterprise AE team at an AI-powered video and audio platform backed by OpenAI and a16z.',req:'Extensive enterprise sales leadership, pipeline generation culture, high-growth SaaS background.'},
-  {id:32,title:'VP of Revenue Operations',co:'HubSpot',loc:'Remote (Canada)',level:'VP',type:'Remote',range:R.exec,posted:'7d',desc:'Build and lead Revenue Operations for the Canadian segment. Own the systems and processes that enable sales and CS teams to scale.',req:'8+ years in RevOps or sales operations, SaaS background, strong analytical skills.'},
+  Sheet columns (must match exactly, row 1 = headers):
+  id | title | company | location | level | type | range | posted | description | requirements | url
+
+  To get your sheet URL:
+  File → Share → Publish to web → Sheet1 → CSV → Publish → copy URL
+  Paste it below replacing SHEET_CSV_URL
+*/
+const SHEET_CSV_URL = 'YOUR_GOOGLE_SHEET_CSV_URL_HERE';
+
+// Fallback jobs shown while sheet loads or if fetch fails
+const FALLBACK_JOBS = [
+  {id:1, title:'Sales Development Representative',co:'Salesforce',loc:'Toronto, ON',level:'SDR / BDR',type:'Hybrid',range:'$50K–$100K',posted:'1d',desc:'Generate pipeline through outbound prospecting and inbound qualification for enterprise accounts. Clear path to AE with structured coaching programme.',req:'0-2 years experience, strong communication, coachable mindset.',url:''},
+  {id:2, title:'Business Development Representative',co:'HubSpot',loc:'Remote (Canada)',level:'SDR / BDR',type:'Remote',range:'$50K–$100K',posted:'2d',desc:'Own top-of-funnel pipeline for the Canadian mid-market segment. Research accounts, personalise outreach, book discovery calls.',req:'1+ year customer-facing experience, high energy and curiosity.',url:''},
+  {id:3, title:'Account Executive, SMB',co:'Xero',loc:'Toronto, ON',level:'Account Executive',type:'Hybrid',range:'$100K–$200K',posted:'1d',desc:'Own the full sales cycle for small business accounts across Canada. Manage inbound leads, run demos, close net-new customers.',req:'1-2 years closing experience, strong demo skills, Salesforce proficiency.',url:''},
+  {id:4, title:'Sales Manager, Large Customer Sales',co:'LinkedIn',loc:'Toronto, ON',level:'Sales Manager',type:'Hybrid',range:'$200K–$300K',posted:'2d',desc:'Lead a team of AEs and CSMs managing key client relationships and delivering advertising solutions to large customers.',req:'8+ years media sales, 3+ years people management, enterprise advertising background.',url:''},
+  {id:5, title:'Director of Commercial Sales',co:'Boomi',loc:'Toronto / Remote',level:'Director',type:'Remote',range:'$300K+',posted:'3d',desc:'Lead a hunter team dedicated to net-new logo acquisition. Build a high-energy acquisition culture and drive aggressive pipeline.',req:'10+ years sales experience, 5+ years people leadership, MEDDPICC expertise.',url:''},
+  {id:6, title:'VP, Head of Sales',co:'AdParlor',loc:'Toronto, ON',level:'VP',type:'Hybrid',range:'$300K+',posted:'1d',desc:'Own the sales function end-to-end at a creator performance marketing agency. Player-coach with personal quota and team building.',req:'8+ years senior sales experience, influencer marketing background.',url:''},
 ];
 
-let vis=[...JOBS], activeId=null, lvlF='', typeF='';
+let JOBS = [...FALLBACK_JOBS];
+let vis  = [...JOBS];
+let activeId = null, lvlF = '', typeF = '';
+
+// ── FETCH JOBS FROM GOOGLE SHEET ─────────────────────────────────────────────
+async function loadJobsFromSheet() {
+  // If no sheet URL set yet, just use fallback
+  if (!SHEET_CSV_URL || SHEET_CSV_URL === 'YOUR_GOOGLE_SHEET_CSV_URL_HERE') return;
+
+  try {
+    const resp = await fetch(SHEET_CSV_URL);
+    const csv  = await resp.text();
+    const rows = csv.trim().split('\n');
+    const headers = rows[0].split(',').map(h => h.trim().toLowerCase().replace(/"/g,''));
+
+    const parsed = rows.slice(1).map((row, i) => {
+      // Handle commas inside quoted fields
+      const cols = row.match(/(".*?"|[^,]+)(?=,|$)/g) || [];
+      const clean = cols.map(c => c.replace(/^"|"$/g,'').trim());
+      const obj = {};
+      headers.forEach((h, idx) => obj[h] = clean[idx] || '');
+      return {
+        id:    i + 1,
+        title: obj.title     || '',
+        co:    obj.company   || '',
+        loc:   obj.location  || '',
+        level: obj.level     || '',
+        type:  obj.type      || 'Hybrid',
+        range: obj.range     || '',
+        posted:obj.posted    || '',
+        desc:  obj.description   || '',
+        req:   obj.requirements  || '',
+        url:   obj.url       || '',
+      };
+    }).filter(j => j.title); // remove empty rows
+
+    if (parsed.length > 0) {
+      JOBS = parsed;
+      vis  = [...JOBS];
+      doFilter();
+    }
+  } catch(e) {
+    console.log('Sheet fetch failed, using fallback jobs:', e.message);
+  }
+}
+
 
 function render(){
   document.getElementById('cnt').textContent=vis.length;
@@ -502,8 +537,7 @@ function render(){
         <span class="c-posted">Posted ${j.posted} ago</span>
         <div class="c-actions">
           <button class="c-btn ai-btn" onclick="event.stopPropagation();openAIForJob(${j.id},'resume')">✦ AI Resume</button>
-          <button class="c-btn" onclick="event.stopPropagation();openAIForJob(${j.id},'prep')">Prep</button>
-          <button class="c-btn apply" onclick="event.stopPropagation()">Apply →</button>
+          <button class="c-btn apply" onclick="event.stopPropagation();applyToJob('${j.url}')" >Apply →</button>
         </div>
       </div>
     </div>`).join('');
@@ -531,7 +565,7 @@ function pick(id){
       <span class="tag t-level">${j.level}</span>
       <span style="font-size:11px;color:var(--muted2);align-self:center">Posted ${j.posted} ago</span>
     </div>
-    <button class="d-apply">Apply Now →</button>
+    <button class="d-apply" onclick="applyToJob('${j.url}')">Apply Now →</button>
     <button class="d-ai-btn" onclick="openAIForJob(${id},'resume')">✦ Tailor Resume with AI</button>`;
   render();
 }
@@ -634,7 +668,17 @@ function setMobileNav(page){
   if(el) el.classList.add('active');
 }
 
+// Apply button logic — opens real URL if available, otherwise opens waitlist
+function applyToJob(url) {
+  if (url && url.startsWith('http')) {
+    window.open(url, '_blank');
+  } else {
+    openWL();
+  }
+}
+
 render();pick(1);
+loadJobsFromSheet();
 </script>
 </body>
 </html>
