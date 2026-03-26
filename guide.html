@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Real Prompts — Closed Won AI</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root {
+  --white:#FFFFFF; --bg:#F7F8FA; --border:#E5E7EB; --border2:#D1D5DB;
+  --navy:#0F1A2E; --navy2:#1E2D4A; --gold:#C97D1A; --gold-bg:#FDF4E7; --gold-bd:#F0D0A0;
+  --text:#111827; --text2:#374151; --muted:#6B7280; --muted2:#9CA3AF;
+  --green:#059669; --green-bg:#ECFDF5; --green-bd:#A7F3D0;
+  --red:#DC2626;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;line-height:1.5;}
+a{text-decoration:none;color:inherit;}
+button{cursor:pointer;font-family:inherit;}
+input,select{font-family:inherit;}
+::-webkit-scrollbar{width:4px;}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:4px;}
+
+/* NAV */
+.nav{background:var(--white);border-bottom:1px solid var(--border);height:56px;display:flex;align-items:center;padding:0 24px;position:sticky;top:0;z-index:100;}
+.nav-inner{max-width:900px;margin:0 auto;width:100%;display:flex;align-items:center;justify-content:space-between;}
+.logo{display:flex;align-items:center;gap:8px;text-decoration:none;}
+.logo-icon{width:28px;height:28px;background:var(--navy);border-radius:6px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:11px;color:#fff;}
+.logo-name{font-weight:700;font-size:14px;color:var(--navy);letter-spacing:-0.02em;}
+.logo-badge{font-size:9px;font-weight:700;color:var(--gold);background:var(--gold-bg);border:1px solid var(--gold-bd);border-radius:4px;padding:1px 5px;}
+
+/* HERO */
+.hero{background:var(--white);border-bottom:1px solid var(--border);padding:52px 24px 44px;text-align:center;}
+.hero-inner{max-width:680px;margin:0 auto;}
+.eyebrow{display:inline-flex;align-items:center;gap:6px;background:var(--gold-bg);border:1px solid var(--gold-bd);border-radius:20px;padding:5px 14px;font-size:12px;font-weight:600;color:var(--gold);margin-bottom:18px;}
+h1{font-size:clamp(28px,5vw,42px);font-weight:800;line-height:1.1;letter-spacing:-0.03em;color:var(--navy);margin-bottom:14px;}
+h1 em{font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;color:var(--gold);}
+.hero-sub{font-size:16px;color:var(--muted);line-height:1.7;max-width:560px;margin:0 auto 28px;}
+.hero-meta{font-size:12px;color:var(--muted2);display:flex;align-items:center;justify-content:center;gap:16px;}
+.hero-meta span{display:flex;align-items:center;gap:5px;}
+
+/* GATE / UNLOCK */
+.gate-section{max-width:900px;margin:0 auto;padding:40px 24px 0;}
+.gate-card{background:var(--white);border:1px solid var(--border);border-radius:14px;overflow:hidden;}
+.gate-head{background:var(--navy);padding:28px 32px;color:#fff;}
+.gate-title{font-size:18px;font-weight:700;margin-bottom:6px;}
+.gate-sub{font-size:13px;color:rgba(255,255,255,.65);line-height:1.6;}
+.gate-body{padding:28px 32px;}
+.gate-preview{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:24px;}
+.preview-item{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:14px 16px;}
+.preview-num{font-size:20px;font-weight:800;color:var(--gold);letter-spacing:-0.02em;margin-bottom:2px;}
+.preview-lbl{font-size:11px;color:var(--muted);font-weight:500;}
+.gate-form{display:flex;gap:10px;align-items:flex-end;}
+.gate-input{flex:1;background:var(--white);border:1px solid var(--border2);border-radius:8px;padding:10px 14px;font-size:14px;color:var(--text);outline:none;transition:border-color .15s;}
+.gate-input:focus{border-color:var(--navy);box-shadow:0 0 0 3px rgba(15,26,46,.06);}
+.gate-btn{background:var(--navy);color:#fff;border:none;border-radius:8px;padding:11px 22px;font-size:14px;font-weight:700;white-space:nowrap;transition:background .15s;}
+.gate-btn:hover{background:var(--navy2);}
+.gate-note{font-size:11px;color:var(--muted2);margin-top:10px;text-align:center;}
+.gate-success{display:none;text-align:center;padding:16px;background:var(--green-bg);border:1px solid var(--green-bd);border-radius:8px;margin-top:14px;}
+.gate-success-h{font-size:14px;font-weight:700;color:var(--green);margin-bottom:3px;}
+.gate-success-p{font-size:12px;color:var(--muted);}
+
+/* GUIDE CONTENT (hidden until email entered) */
+.guide-content{display:none;}
+
+/* LAYOUT */
+.content-wrap{max-width:900px;margin:0 auto;padding:0 24px 80px;}
+
+/* INTRO SECTION */
+.intro-section{padding:44px 0 32px;}
+.section-badge{display:inline-flex;align-items:center;gap:5px;background:var(--gold-bg);border:1px solid var(--gold-bd);border-radius:20px;padding:4px 12px;font-size:11px;font-weight:600;color:var(--gold);margin-bottom:14px;}
+.intro-text{font-size:15px;color:var(--text2);line-height:1.8;max-width:720px;}
+.intro-text + .intro-text{margin-top:12px;}
+.callout{background:var(--bg);border-left:3px solid var(--gold);border-radius:0 8px 8px 0;padding:14px 18px;margin:20px 0;font-family:'Instrument Serif',serif;font-style:italic;font-size:16px;color:var(--navy);line-height:1.7;}
+
+/* PROMPT CARDS */
+.prompts-grid{display:flex;flex-direction:column;gap:24px;padding-top:8px;}
+.prompt-card{background:var(--white);border:1px solid var(--border);border-radius:12px;overflow:hidden;}
+.prompt-card-head{padding:18px 22px;border-bottom:1px solid var(--border);background:var(--bg);display:flex;align-items:flex-start;gap:14px;}
+.prompt-num{width:28px;height:28px;background:var(--navy);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff;flex-shrink:0;margin-top:2px;}
+.prompt-meta{flex:1;}
+.prompt-title{font-size:14px;font-weight:700;color:var(--navy);margin-bottom:3px;}
+.prompt-context{font-size:12px;color:var(--muted);line-height:1.5;}
+.prompt-badge{display:inline-flex;align-items:center;padding:2px 8px;border-radius:4px;font-size:10px;font-weight:600;margin-left:8px;vertical-align:middle;}
+.badge-story{background:#EFF6FF;color:#2563EB;border:1px solid #BFDBFE;}
+.badge-prompt{background:var(--gold-bg);color:var(--gold);border:1px solid var(--gold-bd);}
+.badge-lesson{background:var(--green-bg);color:var(--green);border:1px solid var(--green-bd);}
+.prompt-body{padding:18px 22px;}
+
+/* Story exchange */
+.exchange{display:flex;flex-direction:column;gap:10px;margin-bottom:16px;}
+.message{padding:12px 16px;border-radius:8px;font-size:13px;line-height:1.65;}
+.msg-user{background:var(--navy);color:#fff;border-radius:8px 8px 2px 8px;align-self:flex-end;max-width:85%;}
+.msg-ai{background:var(--bg);border:1px solid var(--border);color:var(--text2);border-radius:2px 8px 8px 8px;align-self:flex-start;max-width:90%;}
+.msg-label{font-size:10px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:5px;}
+.msg-user .msg-label{color:rgba(255,255,255,.5);}
+.msg-ai .msg-label{color:var(--muted2);}
+
+/* Prompt box */
+.prompt-box{background:#F0F2F5;border:1px solid var(--border2);border-radius:8px;padding:14px 16px;margin-bottom:14px;font-size:13px;color:var(--text2);line-height:1.7;white-space:pre-wrap;font-family:monospace;}
+.prompt-box strong{color:var(--navy);font-family:'Plus Jakarta Sans',sans-serif;}
+
+/* What to take from it */
+.takeaway{background:var(--gold-bg);border:1px solid var(--gold-bd);border-radius:8px;padding:14px 16px;}
+.takeaway-lbl{font-size:10px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--gold);margin-bottom:5px;}
+.takeaway-text{font-size:13px;color:var(--text2);line-height:1.65;}
+
+/* Divider sections */
+.section-header{padding:36px 0 16px;}
+.section-title{font-size:18px;font-weight:700;color:var(--navy);margin-bottom:6px;}
+.section-desc{font-size:14px;color:var(--muted);line-height:1.6;}
+
+/* CTA */
+.cta-section{background:var(--navy);border-radius:14px;padding:32px;text-align:center;margin-top:48px;color:#fff;}
+.cta-title{font-size:20px;font-weight:700;margin-bottom:8px;}
+.cta-sub{font-size:14px;color:rgba(255,255,255,.65);margin-bottom:20px;line-height:1.6;}
+.cta-btn{background:var(--gold);color:#fff;border:none;border-radius:8px;padding:12px 28px;font-size:14px;font-weight:700;display:inline-block;text-decoration:none;}
+.cta-btn:hover{filter:brightness(1.05);}
+
+/* MOBILE */
+@media(max-width:600px){
+  .gate-preview{grid-template-columns:1fr 1fr;}
+  .gate-form{flex-direction:column;}
+  .gate-btn{width:100%;}
+  h1{font-size:26px;}
+  .gate-body,.gate-head{padding:20px;}
+  .prompt-card-head{flex-direction:column;gap:8px;}
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="logo" href="/">
+      <div class="logo-icon">CW</div>
+      <span class="logo-name">Closed Won</span>
+      <span class="logo-badge">AI</span>
+    </a>
+    <a href="/" style="font-size:13px;color:var(--muted);font-weight:500;">← Back to Jobs</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="eyebrow">Build in Public</div>
+    <h1>The <em>Real</em> Prompts<br>That Built This Site</h1>
+    <p class="hero-sub">Not the cleaned-up version. The actual exchanges, the design pivots, the moments where it clicked, and the prompts that actually worked. Free to keep.</p>
+    <div class="hero-meta">
+      <span>⚡ 12 prompts with real context</span>
+      <span>·</span>
+      <span>📍 Built in one session</span>
+      <span>·</span>
+      <span>🎯 Sales job search focus</span>
+    </div>
+  </div>
+</div>
+
+<!-- EMAIL GATE -->
+<div class="gate-section">
+  <div class="gate-card" id="gate-card">
+    <div class="gate-head">
+      <div class="gate-title">Get the full guide, free.</div>
+      <div class="gate-sub">Enter your email to unlock all 12 prompts + the real design story. You'll also be first in line for Closed Won Pro when we launch.</div>
+    </div>
+    <div class="gate-body">
+      <div class="gate-preview">
+        <div class="preview-item">
+          <div class="preview-num">12</div>
+          <div class="preview-lbl">Real prompts with context</div>
+        </div>
+        <div class="preview-item">
+          <div class="preview-num">1</div>
+          <div class="preview-lbl">Build session, start to finish</div>
+        </div>
+        <div class="preview-item">
+          <div class="preview-num">3</div>
+          <div class="preview-lbl">Design pivots explained</div>
+        </div>
+        <div class="preview-item">
+          <div class="preview-num">0</div>
+          <div class="preview-lbl">Fluff or cleaned-up rewrites</div>
+        </div>
+      </div>
+      <div class="gate-form">
+        <input class="gate-input" type="text" id="gate-email" placeholder="your@email.com" />
+        <button class="gate-btn" id="gate-submit-btn" onclick="unlockGuide()">Unlock the Guide →</button>
+      </div>
+      <div class="gate-note">No spam. Your email joins the Closed Won waitlist (50% off at launch).</div>
+      <div class="gate-success" id="gate-success">
+        <div class="gate-success-h">✓ Unlocked. Scroll down.</div>
+        <div class="gate-success-p">Your email is saved. We'll notify you at launch.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- GUIDE CONTENT -->
+<div class="guide-content" id="guide-content">
+<div class="content-wrap">
+
+  <div class="intro-section">
+    <div class="section-badge">The Real Story</div>
+    <p class="intro-text">I built tryclosedwon.com in one session while actively job searching. What you're reading is pulled directly from that conversation, not summarised or polished after the fact.</p>
+    <p class="intro-text">The prompts below are organised by what they were actually trying to accomplish — not by topic or category. Some of them will look simple. That's the point. The most effective prompts usually are.</p>
+    <div class="callout">The dark version existed before this session. The white pivot happened in the first message. The real lesson is knowing what you want before you start typing.</div>
+  </div>
+
+  <div class="section-header">
+    <div class="section-title">Part 1 — Starting with clarity, not vibes</div>
+    <div class="section-desc">The first mistake most people make when building with AI is starting with "make it look cool." These prompts show what happens when you start with a specific reference point instead.</div>
+  </div>
+
+  <div class="prompts-grid">
+
+    <div class="prompt-card">
+      <div class="prompt-card-head">
+        <div class="prompt-num">1</div>
+        <div class="prompt-meta">
+          <div class="prompt-title">The design pivot in one sentence <span class="prompt-badge badge-story">Real Exchange</span></div>
+          <div class="prompt-context">This was the actual opening message that set the entire visual direction for the product.</div>
+        </div>
+      </div>
+      <div class="prompt-body">
+        <div class="exchange">
+          <div class="message msg-user">
+            <div class="msg-label">Me</div>
+            The design feels too edgy and dark. I want it to match sites like LinkedIn and Built In. Clean, white, professional. Familiar enough that people know exactly how to use it without thinking.
+          </div>
+          <div class="message msg-ai">
+            <div class="msg-label">Claude</div>
+            Got it. Clean, white, professional. Familiar enough that users trust it immediately, distinctive enough to be memorable. Let me rebuild it.
+          </div>
+        </div>
+        <div class="takeaway">
+          <div class="takeaway-lbl">Why this worked</div>
+          <div class="takeaway-text">Naming specific reference sites ("LinkedIn and Built In") gave the model something to calibrate against. "Too edgy and dark" alone leaves room for interpretation. Adding the reference removed the guesswork. Short, specific, and directional beats long and descriptive every time.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="prompt-card">
+      <div class="prompt-card-head">
+        <div class="prompt-num">2</div>
+        <div class="prompt-meta">
+          <div class="prompt-title">Getting clean cards without saying "clean" <span class="prompt-badge badge-prompt">Prompt Pattern</span></div>
+          <div class="prompt-context">When the initial cards felt cluttered, this is the exact prompt that fixed them — without asking for a redesign.</div>
+        </div>
+      </div>
+      <div class="prompt-body">
+        <div class="exchange">
+          <div class="message msg-user">
+            <div class="msg-label">Me</div>
+            The cards feel cluttered. Too many tags, too many actions. What's the minimum information someone needs to decide whether to click into a role?
+          </div>
+          <div class="message msg-ai">
+            <div class="msg-label">Claude</div>
+            Good instinct on the money. Showing OTE on every card makes it look like a salary aggregator rather than a premium career platform. Less is more. The minimum: title, company, location, work type, seniority level, and a salary bracket (not the full number). Actions: AI button and Apply. Everything else lives in the detail panel.
+          </div>
+        </div>
+        <div class="takeaway">
+          <div class="takeaway-lbl">The pattern here</div>
+          <div class="takeaway-text">Instead of "make it less cluttered", ask what the minimum viable information is. This forces the model to think about hierarchy rather than just removing things at random. The answer usually reveals a design principle you can apply everywhere.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="prompt-card">
+      <div class="prompt-card-head">
+        <div class="prompt-num">3</div>
+        <div class="prompt-meta">
+          <div class="prompt-title">The salary display debate <span class="prompt-badge badge-story">Real Exchange</span></div>
+          <div class="prompt-context">This exchange shaped one of the most important product decisions — what to show on the card vs what to hide in the detail view.</div>
+        </div>
+      </div>
+      <div class="prompt-body">
+        <div class="exchange">
+          <div class="message msg-user">
+            <div class="msg-label">Me</div>
+            Should we show full OTE on every card or just a bracket? I'm worried that showing $264K–$314K everywhere makes it feel like a salary listing site, not a career platform.
+          </div>
+          <div class="message msg-ai">
+            <div class="msg-label">Claude</div>
+            Right instinct. Show brackets on cards ($200K–$320K), full comp only in the detail panel. Brackets signal the opportunity, full numbers reward the click. Every feature should either earn its place on the card or earn its place in the detail view — not both.
+          </div>
+        </div>
+        <div class="prompt-box"><strong>The general prompt template:</strong>
+
+We're deciding between [Option A] and [Option B] for [feature].
+The concern with A is [specific problem].
+What does each choice signal to the user, and which is more consistent with [brand goal]?</div>
+        <div class="takeaway">
+          <div class="takeaway-lbl">When to use this</div>
+          <div class="takeaway-text">Any time you're choosing between two product directions, frame it as a signal question. "What does this choice signal?" is more useful than "which is better?" — because better is subjective, but signal is about perception.</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="section-header" style="margin-top:16px;">
+    <div class="section-title">Part 2 — Building features that actually work</div>
+    <div class="section-desc">These prompts were used to build working functionality — not just mockups. The key difference is context. These include the real constraints upfront.</div>
+  </div>
+
+  <div class="prompts-grid">
+
+    <div class="prompt-card">
+      <div class="prompt-card-head">
+        <div class="prompt-num">4</div>
+        <div class="prompt-meta">
+          <div class="prompt-title">Setting up the Supabase connection <span class="prompt-badge badge-prompt">Prompt Pattern</span></div>
+          <div class="prompt-context">This is the prompt structure that got the database integration working cleanly.</div>
+        </div>
+      </div>
+      <div class="prompt-body">
+        <div class="prompt-box"><strong>Prompt used:</strong>
+
+I have a Supabase project. URL is [URL], anon key is [KEY].
+The table is called Salesjobs (not "jobs"). 
+RLS is enabled with public SELECT.
+Write a fetch() call that loads all active jobs from this table and prepends them to my existing JOBS array before render.
+Handle errors silently — if Supabase is down, fall back to the hardcoded jobs.</div>
+        <div class="takeaway">
+          <div class="takeaway-lbl">What made this work</div>
+          <div class="takeaway-text">Three things: giving the exact table name (the bug was "jobs" vs "Salesjobs"), specifying the error handling behaviour upfront ("silently"), and saying where the result goes ("prepend to JOBS before render"). Technical prompts need to specify the failure state, not just the happy path.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="prompt-card">
+      <div class="prompt-card-head">
+        <div class="prompt-num">5</div>
+        <div class="prompt-meta">
+          <div class="prompt-title">The "AI gate" decision <span class="prompt-badge badge-story">Real Exchange</span></div>
+          <div class="prompt-context">How the product went from "AI tools free on every card" to "AI tools gated behind waitlist."</div>
+        </div>
+      </div>
+      <div class="prompt-body">
+        <div class="exchange">
+          <div class="message msg-user">
+            <div class="msg-label">Me</div>
+            Browse jobs free, AI tools gated behind waitlist. Can we make the AI buttons on each card open a "coming soon, join waitlist" modal instead of the actual tools?
+          </div>
+          <div class="message msg-ai">
+            <div class="msg-label">Claude</div>
+            Yes, and that's the right product decision. The AI tools cost money per use (API calls), and exposing them before you have a payment wall means you pay for every anonymous visitor. Gate them behind waitlist now, open them when you launch Pro. The buttons stay on the cards as social proof of what the product does — they just redirect to waitlist instead of firing the API.
+          </div>
+        </div>
+        <div class="takeaway">
+          <div class="takeaway-lbl">The lesson</div>
+          <div class="takeaway-text">Ask for a product decision, not just implementation. "Can we make X do Y" often gets a better answer if you also ask "is this the right decision?" The model knows enough context to flag when a decision has downstream consequences.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="prompt-card">
+      <div class="prompt-card-head">
+        <div class="prompt-num">6</div>
+        <div class="prompt-meta">
+          <div class="prompt-title">Mobile nav that actually works <span class="prompt-badge badge-prompt">Prompt Pattern</span></div>
+          <div class="prompt-context">Getting a proper mobile-first nav without fighting the layout.</div>
+        </div>
+      </div>
+      <div class="prompt-body">
+        <div class="prompt-box"><strong>Prompt used:</strong>
+
+Add a mobile bottom nav bar. Fixed to the bottom of the screen.
+Three items: Jobs (home icon), AI Tools (star), Waitlist (lock).
+Jobs links to the main job list. AI Tools and Waitlist open their respective modals.
+Match the white/navy aesthetic of the rest of the site.
+Hide it on desktop (display:none above 768px).
+The job list on mobile needs 80px of padding-bottom so the last card isn't hidden behind the nav bar.</strong></div>
+        <div class="takeaway">
+          <div class="takeaway-lbl">The detail that matters</div>
+          <div class="takeaway-text">The padding-bottom fix is what most people miss. Every mobile bottom nav prompt should include "add X padding-bottom to the main content container." If you skip it, your last card disappears behind the nav and you spend 20 minutes debugging.</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="section-header" style="margin-top:16px;">
+    <div class="section-title">Part 3 — Writing that converts</div>
+    <div class="section-desc">The marketing copy, the origin story, the product positioning. These prompts produced the actual text on the live site.</div>
+  </div>
+
+  <div class="prompts-grid">
+
+    <div class="prompt-card">
+      <div class="prompt-card-head">
+        <div class="prompt-num">7</div>
+        <div class="prompt-meta">
+          <div class="prompt-title">The brand positioning prompt <span class="prompt-badge badge-story">Real Exchange</span></div>
+          <div class="prompt-context">This was the moment the product positioning clicked into something real.</div>
+        </div>
+      </div>
+      <div class="prompt-body">
+        <div class="exchange">
+          <div class="message msg-user">
+            <div class="msg-label">Me</div>
+            I moved to Canada from Nigeria at 17. First job out of university, the company went bankrupt. I Googled "which jobs make good money." Sales came up. I had no idea what I was doing. That's how it started.
+          </div>
+          <div class="message msg-ai">
+            <div class="msg-label">Claude</div>
+            That is gold. That is not just a personal brand story. That is a movement story. Every first-generation professional, every immigrant, every person who had to figure it out without a safety net will see themselves in that. The brand line is: Closed Won is for everyone who is building a sales career without a roadmap.
+          </div>
+        </div>
+        <div class="takeaway">
+          <div class="takeaway-lbl">What made this land</div>
+          <div class="takeaway-text">Specific personal facts beat polished narratives every time. Don't say "I came from humble beginnings." Say "I Googled 'which jobs make good money' and that's how I ended up in sales." The AI doesn't know which facts are powerful — you do. Give it the raw material and let it find the pattern.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="prompt-card">
+      <div class="prompt-card-head">
+        <div class="prompt-num">8</div>
+        <div class="prompt-meta">
+          <div class="prompt-title">The launch post formula <span class="prompt-badge badge-prompt">Prompt Pattern</span></div>
+          <div class="prompt-context">The exact prompt that produced the Threads launch post.</div>
+        </div>
+      </div>
+      <div class="prompt-body">
+        <div class="prompt-box"><strong>Prompt used:</strong>
+
+Write a Threads launch post for tryclosedwon.com.
+
+Context: I moved to Canada from Nigeria at 17 with almost nothing. First job out of uni, company went bankrupt. Googled "which jobs make good money." Ended up in sales. Built a career to Head of New Business Sales at Google Canada.
+
+Built Closed Won while job searching. It's a sales job board with AI tools that tailor your resume, generate interview prep, and benchmark salary.
+
+Tone rules:
+- No therapy speak
+- No em dashes
+- No engagement bait hooks
+- UK English
+- Short sentences. One idea per line.
+- End with something honest, not a call to action.
+- The brand line somewhere in it: "For everyone who is figuring it out without a roadmap."</div>
+        <div class="takeaway">
+          <div class="takeaway-lbl">The tone rules section</div>
+          <div class="takeaway-text">The "tone rules" block at the bottom is what separates AI-generated copy from copy that sounds like you. Most people write the context and hope for the best. The rules section is where you eliminate the generic patterns — the "but here's the thing" hooks, the therapy-speak affirmations, the em dashes. Be specific about what you don't want.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="prompt-card">
+      <div class="prompt-card-head">
+        <div class="prompt-num">9</div>
+        <div class="prompt-meta">
+          <div class="prompt-title">Writing the hero headline <span class="prompt-badge badge-lesson">Lesson</span></div>
+          <div class="prompt-context">Why the headline on the site is "Find the role. Win the interview." and not something more clever.</div>
+        </div>
+      </div>
+      <div class="prompt-body">
+        <div class="exchange">
+          <div class="message msg-user">
+            <div class="msg-label">Me</div>
+            Give me 5 headline options for the hero. The product helps sales people find jobs and win interviews.
+          </div>
+          <div class="message msg-ai">
+            <div class="msg-label">Claude</div>
+            Options: 1. "Find sales roles. Win the interview." 2. "Your next sales role. Already prepared for." 3. "Search smarter. Interview sharper." 4. "The sales job board that preps you for the role." 5. "Built for closers. Designed to get you hired."
+
+The first one is the strongest. It's direct, it mirrors how people actually think about the job search (find it, then get it), and "Win" sets the tone for the brand without being cringe.
+          </div>
+        </div>
+        <div class="takeaway">
+          <div class="takeaway-lbl">Ask for options, then ask which one</div>
+          <div class="takeaway-text">Always ask the model to both generate options AND recommend one. If you just ask for options, you get a list and have to make the call alone. If you ask for a recommendation with reasoning, you get a collaborator. The model's reasoning about why option 1 is strongest is often more useful than the headlines themselves.</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="section-header" style="margin-top:16px;">
+    <div class="section-title">Part 4 — Debugging and the stuff that breaks</div>
+    <div class="section-desc">These are the prompts from the moments things stopped working. The pattern: give the error, give the relevant code, give the expected behaviour.</div>
+  </div>
+
+  <div class="prompts-grid">
+
+    <div class="prompt-card">
+      <div class="prompt-card-head">
+        <div class="prompt-num">10</div>
+        <div class="prompt-meta">
+          <div class="prompt-title">The Supabase table name bug <span class="prompt-badge badge-story">Real Exchange</span></div>
+          <div class="prompt-context">The bug that took 20 minutes to find. The table name was "Salesjobs" not "jobs."</div>
+        </div>
+      </div>
+      <div class="prompt-body">
+        <div class="exchange">
+          <div class="message msg-user">
+            <div class="msg-label">Me</div>
+            Supabase fetch isn't returning anything. No error, just empty. The fetch call looks right but the jobs aren't loading.
+          </div>
+          <div class="message msg-ai">
+            <div class="msg-label">Claude</div>
+            Most likely causes in order: 1. Table name mismatch — is it "jobs" or "Salesjobs"? Supabase REST API is case-sensitive. 2. RLS policy not set — the policy needs to allow public SELECT. 3. The active filter is excluding all rows. Can you share the exact table name from your Supabase dashboard?
+          </div>
+          <div class="message msg-user">
+            <div class="msg-label">Me</div>
+            The table is "Salesjobs" — the code says "jobs". That's it.
+          </div>
+        </div>
+        <div class="takeaway">
+          <div class="takeaway-lbl">The debugging pattern that works</div>
+          <div class="takeaway-text">When something silently fails (no error, wrong result), the best prompt is: "Here's what I expected. Here's what happened. Here's the relevant code. Give me the most likely causes in order." The AI will triage before it fixes — which is faster than asking it to just "fix the bug."</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="prompt-card">
+      <div class="prompt-card-head">
+        <div class="prompt-num">11</div>
+        <div class="prompt-meta">
+          <div class="prompt-title">Netlify 404 after deploy <span class="prompt-badge badge-story">Real Exchange</span></div>
+          <div class="prompt-context">The site deployed but the URL returned a 404. The fix was a file rename.</div>
+        </div>
+      </div>
+      <div class="prompt-body">
+        <div class="exchange">
+          <div class="message msg-user">
+            <div class="msg-label">Me</div>
+            Netlify deployed but I get a 404 at the URL. The file is called closedwon_v3.html.
+          </div>
+          <div class="message msg-ai">
+            <div class="msg-label">Claude</div>
+            Netlify looks for index.html as the root file. Rename closedwon_v3.html to index.html and push again. The deploy will auto-refresh within 30 seconds.
+          </div>
+        </div>
+        <div class="takeaway">
+          <div class="takeaway-lbl">Keep the context in the prompt</div>
+          <div class="takeaway-text">The detail "the file is called closedwon_v3.html" is what made the diagnosis instant. Most debugging prompts fail because they describe the symptom but not the environment. Platform + symptom + file name = fast answer.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="prompt-card">
+      <div class="prompt-card-head">
+        <div class="prompt-num">12</div>
+        <div class="prompt-meta">
+          <div class="prompt-title">The universal ship-it prompt <span class="prompt-badge badge-lesson">Lesson</span></div>
+          <div class="prompt-context">The question that ended the session and put the site live.</div>
+        </div>
+      </div>
+      <div class="prompt-body">
+        <div class="exchange">
+          <div class="message msg-user">
+            <div class="msg-label">Me</div>
+            What do I actually need before I push this live? Be honest about what's blocking versus what I can fix later.
+          </div>
+          <div class="message msg-ai">
+            <div class="msg-label">Claude</div>
+            Blocking: rename the file to index.html, buy the domain, point DNS to Netlify. Not blocking: Stripe integration, email sequences, the full AI tools, 100 job listings. The product works now. Momentum matters more than perfection. Deploy it today, improve it publicly.
+          </div>
+        </div>
+        <div class="takeaway">
+          <div class="takeaway-lbl">The most useful question you can ask</div>
+          <div class="takeaway-text">"What's blocking vs what can wait" is the most practical framing for any build decision. Most people ask "is this ready?" and get a vague answer. Asking "what specifically blocks launch?" forces a concrete list. The site went live the same day this question was asked.</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="cta-section">
+    <div class="cta-title">Ready to use these?</div>
+    <div class="cta-sub">tryclosedwon.com is live. AI resume tailor, interview prep, and salary benchmarks built into every job listing. Founding members get 50% off when Pro launches.</div>
+    <a class="cta-btn" href="/">Browse Sales Jobs →</a>
+  </div>
+
+</div>
+</div>
+
+<!-- SUPABASE CONFIG (same as main site) -->
+<script>
+const SUPABASE_URL = 'https://vhbcnhyddxfnlpjqmqxj.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZoYmNuaHlkZHhmbmxwanFtcXhqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ1NDg3NjUsImV4cCI6MjA5MDEyNDc2NX0.HYJW5MEwUsppGoqCDZVkBs_hxA1zsHN7g9k1pGYmbFk';
+
+async function unlockGuide() {
+  const email = document.getElementById('gate-email').value.trim();
+  if (!email || !email.includes('@')) {
+    alert('Please enter a valid email address.');
+    return;
+  }
+
+  const btn = document.getElementById('gate-submit-btn');
+  btn.disabled = true;
+  btn.textContent = 'Saving...';
+
+  // Save to Supabase waitlist table
+  try {
+    await fetch(`${SUPABASE_URL}/rest/v1/waitlist`, {
+      method: 'POST',
+      headers: {
+        'apikey': SUPABASE_KEY,
+        'Authorization': `Bearer ${SUPABASE_KEY}`,
+        'Content-Type': 'application/json',
+        'Prefer': 'return=minimal'
+      },
+      body: JSON.stringify({ 
+        name: 'Guide Reader', 
+        email, 
+        career_stage: 'guide-download' 
+      })
+    });
+  } catch(e) {
+    console.error('Save error:', e);
+    // Proceed anyway — don't block on network error
+  }
+
+  // Show success, reveal guide
+  document.getElementById('gate-success').style.display = 'block';
+  btn.disabled = false;
+  btn.textContent = 'Unlocked ✓';
+  btn.style.background = 'var(--green)';
+
+  // Small delay then reveal guide content
+  setTimeout(() => {
+    document.getElementById('guide-content').style.display = 'block';
+    document.getElementById('guide-content').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 600);
+}
+
+// Allow enter key in email field
+document.getElementById('gate-email').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') unlockGuide();
+});
+</script>
+
+</body>
+</html>
