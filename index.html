@@ -186,7 +186,71 @@ textarea.f-input{resize:vertical;}
 .spin{width:14px;height:14px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:sp .7s linear infinite;display:inline-block;}
 @keyframes sp{to{transform:rotate(360deg);}}
 footer{background:var(--white);border-top:1px solid var(--border);padding:28px 24px;text-align:center;color:var(--muted);font-size:12px;}
-@media(max-width:768px){.layout{grid-template-columns:1fr;}.sidebar{display:none;}.about-grid{grid-template-columns:1fr;}}
+/* ── MOBILE BOTTOM NAV (hidden on desktop) ── */
+.mobile-nav{display:none;position:fixed;bottom:0;left:0;right:0;background:var(--white);border-top:1px solid var(--border);z-index:90;padding:6px 0 env(safe-area-inset-bottom,6px);}
+.mn-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 4px;color:var(--muted);font-size:10px;font-weight:500;cursor:pointer;transition:color .15s;border:none;background:none;font-family:inherit;}
+.mn-item.active{color:var(--navy);}
+.mn-icon{font-size:18px;line-height:1;}
+
+@media(max-width:768px){
+  /* NAV */
+  .nav{padding:0 16px;height:52px;}
+  .nav-links{display:none;}
+  .nav-right .btn-ghost{display:none;}
+  .btn-navy{padding:6px 12px;font-size:12px;}
+
+  /* BANNER */
+  #wl-banner{padding:10px 16px;gap:8px;text-align:center;}
+  #wl-banner p{font-size:12px;}
+
+  /* HERO */
+  .hero{padding:28px 16px 24px;}
+  h1{font-size:26px;}
+  .hero-sub{font-size:14px;margin-bottom:20px;}
+
+  /* SEARCH — stack vertically */
+  .search-bar{flex-direction:column;padding:0;gap:0;}
+  .search-bar input{padding:12px 14px;border-bottom:1px solid var(--border);font-size:14px;}
+  .search-bar select{max-width:100%;border:none;border-bottom:1px solid var(--border);border-left:none;padding:10px 14px;}
+  .search-bar .s-btn{border-radius:0 0 10px 10px;padding:12px;font-size:14px;}
+
+  /* STATS */
+  .hero-stats{gap:0;}
+  .h-stat{padding:0 10px;}
+  .h-stat-num{font-size:16px;}
+  .h-stat-lbl{font-size:10px;}
+
+  /* FILTERS */
+  .filters-bar{padding:8px 12px;}
+
+  /* LAYOUT */
+  .layout{grid-template-columns:1fr;padding:12px 16px 80px;gap:10px;}
+  .sidebar{display:none;}
+
+  /* CARDS */
+  .card{padding:14px 16px;}
+  .c-title{font-size:13px;white-space:normal;}
+  .card-foot{flex-direction:column;align-items:flex-start;gap:8px;}
+  .c-actions{width:100%;}
+  .c-btn{flex:1;justify-content:center;padding:7px 10px;font-size:12px;}
+
+  /* LIST HEADER */
+  .list-hdr{margin-bottom:10px;}
+
+  /* ABOUT */
+  #about-page{padding:28px 16px 80px;}
+  .about-h2{font-size:22px;}
+  .about-grid{grid-template-columns:1fr;}
+  .about-quote p{font-size:15px;}
+
+  /* MODALS — slide up from bottom */
+  .overlay{align-items:flex-end;padding:0;}
+  .modal{border-radius:14px 14px 0 0;max-width:100%;max-height:90vh;}
+  .modal-sm{max-width:100%;}
+
+  /* MOBILE NAV */
+  .mobile-nav{display:flex;}
+}
 </style>
 </head>
 <body>
@@ -380,6 +444,21 @@ footer{background:var(--white);border-top:1px solid var(--border);padding:28px 2
     </div>
   </div>
 </div>
+
+<nav class="mobile-nav">
+  <button class="mn-item active" id="mn-jobs" onclick="showPage('jobs');setMobileNav('jobs')">
+    <span class="mn-icon">⊡</span>Jobs
+  </button>
+  <button class="mn-item" id="mn-ai" onclick="openAI('resume');setMobileNav('ai')">
+    <span class="mn-icon">✦</span>AI Tools
+  </button>
+  <button class="mn-item" id="mn-wl" onclick="openWL()">
+    <span class="mn-icon">◈</span>Waitlist
+  </button>
+  <button class="mn-item" id="mn-about" onclick="showPage('about');setMobileNav('about')">
+    <span class="mn-icon">○</span>About
+  </button>
+</nav>
 
 <footer>
   <strong style="color:var(--text2)">Closed Won.ai</strong> — The AI-powered sales job platform for North America.<br>
@@ -575,6 +654,12 @@ function copyOut(id){
 
 document.getElementById('ai-overlay').addEventListener('click',e=>{if(e.target===document.getElementById('ai-overlay'))closeAI();});
 document.getElementById('wl-overlay').addEventListener('click',e=>{if(e.target===document.getElementById('wl-overlay'))closeWL();});
+
+function setMobileNav(page){
+  document.querySelectorAll('.mn-item').forEach(i=>i.classList.remove('active'));
+  const el=document.getElementById('mn-'+page);
+  if(el) el.classList.add('active');
+}
 
 render();pick(1);
 </script>
