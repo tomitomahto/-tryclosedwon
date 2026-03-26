@@ -440,76 +440,138 @@ footer{background:var(--white);border-top:1px solid var(--border);padding:28px 2
 
 <script>
 /*
-  GOOGLE SHEETS INTEGRATION
+  JOBICY API INTEGRATION
   ─────────────────────────────────────────────────────────────────────────────
-  To update your job listings:
-  1. Open your "Closed Won Jobs" Google Sheet
-  2. Add or edit rows (one job per row)
-  3. The site refreshes automatically — no code changes needed
-
-  Sheet columns (must match exactly, row 1 = headers):
-  id | title | company | location | level | type | range | posted | description | requirements | url
-
-  To get your sheet URL:
-  File → Share → Publish to web → Sheet1 → CSV → Publish → copy URL
-  Paste it below replacing SHEET_CSV_URL
+  Jobicy is a free remote jobs API. No API key needed.
+  Jobs load automatically on page visit, filtered to sales roles.
+  Fallback jobs show instantly while the API loads in the background.
+  API docs: https://jobicy.com/jobs-rss-feed
 */
-const SHEET_CSV_URL = 'YOUR_GOOGLE_SHEET_CSV_URL_HERE';
 
-// Fallback jobs shown while sheet loads or if fetch fails
+// Fallback jobs shown instantly while API loads
 const FALLBACK_JOBS = [
-  {id:1, title:'Sales Development Representative',co:'Salesforce',loc:'Toronto, ON',level:'SDR / BDR',type:'Hybrid',range:'$50K–$100K',posted:'1d',desc:'Generate pipeline through outbound prospecting and inbound qualification for enterprise accounts. Clear path to AE with structured coaching programme.',req:'0-2 years experience, strong communication, coachable mindset.',url:''},
-  {id:2, title:'Business Development Representative',co:'HubSpot',loc:'Remote (Canada)',level:'SDR / BDR',type:'Remote',range:'$50K–$100K',posted:'2d',desc:'Own top-of-funnel pipeline for the Canadian mid-market segment. Research accounts, personalise outreach, book discovery calls.',req:'1+ year customer-facing experience, high energy and curiosity.',url:''},
-  {id:3, title:'Account Executive, SMB',co:'Xero',loc:'Toronto, ON',level:'Account Executive',type:'Hybrid',range:'$100K–$200K',posted:'1d',desc:'Own the full sales cycle for small business accounts across Canada. Manage inbound leads, run demos, close net-new customers.',req:'1-2 years closing experience, strong demo skills, Salesforce proficiency.',url:''},
-  {id:4, title:'Sales Manager, Large Customer Sales',co:'LinkedIn',loc:'Toronto, ON',level:'Sales Manager',type:'Hybrid',range:'$200K–$300K',posted:'2d',desc:'Lead a team of AEs and CSMs managing key client relationships and delivering advertising solutions to large customers.',req:'8+ years media sales, 3+ years people management, enterprise advertising background.',url:''},
-  {id:5, title:'Director of Commercial Sales',co:'Boomi',loc:'Toronto / Remote',level:'Director',type:'Remote',range:'$300K+',posted:'3d',desc:'Lead a hunter team dedicated to net-new logo acquisition. Build a high-energy acquisition culture and drive aggressive pipeline.',req:'10+ years sales experience, 5+ years people leadership, MEDDPICC expertise.',url:''},
-  {id:6, title:'VP, Head of Sales',co:'AdParlor',loc:'Toronto, ON',level:'VP',type:'Hybrid',range:'$300K+',posted:'1d',desc:'Own the sales function end-to-end at a creator performance marketing agency. Player-coach with personal quota and team building.',req:'8+ years senior sales experience, influencer marketing background.',url:''},
+  {id:1, title:'Sales Development Representative',co:'Salesforce',loc:'Remote',level:'SDR / BDR',type:'Remote',range:'$50K–$100K',posted:'1d',desc:'Generate pipeline through outbound prospecting and inbound qualification. Clear path to AE with structured coaching programme.',req:'0-2 years experience, strong communication, coachable mindset.',url:''},
+  {id:2, title:'Account Executive, Mid-Market',co:'HubSpot',loc:'Remote',level:'Account Executive',type:'Remote',range:'$100K–$200K',posted:'2d',desc:'Own the full sales cycle for mid-market accounts. Strong inbound motion with outbound responsibilities.',req:'2-3 years SaaS AE experience, consistent quota attainment.',url:''},
+  {id:3, title:'Senior Account Executive',co:'Intercom',loc:'Remote',level:'Account Executive',type:'Remote',range:'$150K–$220K',posted:'1d',desc:'Close net-new business and expand existing accounts at a leading customer messaging platform.',req:'3+ years SaaS closing experience, strong discovery skills.',url:''},
+  {id:4, title:'Sales Manager, Commercial',co:'Notion',loc:'Remote',level:'Sales Manager',type:'Remote',range:'$200K–$280K',posted:'3d',desc:'Lead and develop a commercial AE team. Build pipeline rigour and a coaching culture that drives consistent attainment.',req:'3+ years sales management, SaaS background.',url:''},
+  {id:5, title:'Director of Sales',co:'Loom',loc:'Remote',level:'Director',type:'Remote',range:'$280K–$360K',posted:'2d',desc:'Own the sales function for a fast-growing video messaging platform. Player-coach role with team building responsibility.',req:'7+ years sales leadership, SaaS background, strong enterprise motion.',url:''},
+  {id:6, title:'VP of Sales',co:'Descript',loc:'Remote',level:'VP',type:'Remote',range:'$350K+',posted:'4d',desc:'Build and lead an enterprise AE team at an AI-powered video editing platform backed by OpenAI and a16z.',req:'Extensive enterprise sales leadership, pipeline generation culture.',url:''},
 ];
 
-let JOBS = [...FALLBACK_JOBS];
-let vis  = [...JOBS];
+let JOBS     = [...FALLBACK_JOBS];
+let vis      = [...JOBS];
 let activeId = null, lvlF = '', typeF = '';
 
-// ── FETCH JOBS FROM GOOGLE SHEET ─────────────────────────────────────────────
-async function loadJobsFromSheet() {
-  // If no sheet URL set yet, just use fallback
-  if (!SHEET_CSV_URL || SHEET_CSV_URL === 'YOUR_GOOGLE_SHEET_CSV_URL_HERE') return;
+// ── FETCH MANUAL JOBS FROM SUPABASE ──────────────────────────────────────────
+const SUPABASE_URL = 'https://vhbcnhyddxfnlpjqmqxj.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZoYmNuaHlkZHhmbmxwanFtcXhqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ1NDg3NjUsImV4cCI6MjA5MDEyNDc2NX0.HYJW5MEwUsppGoqCDZVkBs_hxA1zsHN7g9k1pGYmbFk';
+
+async function loadManualJobs() {
+  try {
+    const resp = await fetch(`${SUPABASE_URL}/rest/v1/jobs?active=eq.true&order=created_at.desc&select=*`, {
+      headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` }
+    });
+    const data = await resp.json();
+    return data.map((j, i) => ({
+      id:     9000 + i,
+      title:  j.title       || '',
+      co:     j.company     || '',
+      loc:    j.location    || '',
+      level:  j.level       || 'Account Executive',
+      type:   j.type        || 'Hybrid',
+      range:  j.range       || '',
+      posted: j.posted      || '',
+      desc:   j.description || '',
+      req:    j.requirements|| '',
+      url:    j.url         || '',
+    }));
+  } catch(e) {
+    console.log('Supabase fetch failed:', e.message);
+    return [];
+  }
+}
+
+
+async function loadJobsFromJobicy() {
+  // Show loading indicator
+  const list = document.getElementById('job-list');
+  list.innerHTML = '<div style="text-align:center;padding:48px;color:var(--muted)"><div style="font-size:24px;margin-bottom:12px">⟳</div>Loading live jobs...</div>';
 
   try {
-    const resp = await fetch(SHEET_CSV_URL);
-    const csv  = await resp.text();
-    const rows = csv.trim().split('\n');
-    const headers = rows[0].split(',').map(h => h.trim().toLowerCase().replace(/"/g,''));
+    // Jobicy API — sales roles, North America
+    // count=50 returns up to 50 jobs, tag=sales filters to sales roles
+    const url = 'https://jobicy.com/api/v2/remote-jobs?count=50&tag=sales';
+    const resp = await fetch(url);
+    const data = await resp.json();
 
-    const parsed = rows.slice(1).map((row, i) => {
-      // Handle commas inside quoted fields
-      const cols = row.match(/(".*?"|[^,]+)(?=,|$)/g) || [];
-      const clean = cols.map(c => c.replace(/^"|"$/g,'').trim());
-      const obj = {};
-      headers.forEach((h, idx) => obj[h] = clean[idx] || '');
-      return {
-        id:    i + 1,
-        title: obj.title     || '',
-        co:    obj.company   || '',
-        loc:   obj.location  || '',
-        level: obj.level     || '',
-        type:  obj.type      || 'Hybrid',
-        range: obj.range     || '',
-        posted:obj.posted    || '',
-        desc:  obj.description   || '',
-        req:   obj.requirements  || '',
-        url:   obj.url       || '',
-      };
-    }).filter(j => j.title); // remove empty rows
+    if (data.jobs && data.jobs.length > 0) {
+      JOBS = data.jobs.map((j, i) => ({
+        id:     i + 1,
+        title:  j.jobTitle   || '',
+        co:     j.companyName || '',
+        loc:    j.jobGeo      || 'Remote',
+        level:  detectLevel(j.jobTitle || ''),
+        type:   'Remote',
+        range:  j.annualSalaryMin && j.annualSalaryMax
+                  ? `$${Math.round(j.annualSalaryMin/1000)}K–$${Math.round(j.annualSalaryMax/1000)}K`
+                  : detectRange(j.jobTitle || ''),
+        posted: formatPosted(j.pubDate || ''),
+        desc:   stripHTML(j.jobDescription || '').slice(0, 280) + '...',
+        req:    '',
+        url:    j.url || '',
+      }));
 
-    if (parsed.length > 0) {
-      JOBS = parsed;
-      vis  = [...JOBS];
+      vis = [...JOBS];
       doFilter();
+    } else {
+      // No results, keep fallback
+      vis = [...FALLBACK_JOBS];
+      JOBS = [...FALLBACK_JOBS];
+      render();
     }
   } catch(e) {
-    console.log('Sheet fetch failed, using fallback jobs:', e.message);
+    console.log('Jobicy fetch failed, using fallback:', e.message);
+    vis = [...FALLBACK_JOBS];
+    JOBS = [...FALLBACK_JOBS];
+    render();
   }
+}
+
+// Detect level from job title
+function detectLevel(title) {
+  const t = title.toLowerCase();
+  if (t.includes('vp') || t.includes('vice president')) return 'VP';
+  if (t.includes('director')) return 'Director';
+  if (t.includes('manager')) return 'Sales Manager';
+  if (t.includes('sdr') || t.includes('bdr') || t.includes('development rep')) return 'SDR / BDR';
+  return 'Account Executive';
+}
+
+// Detect salary range from title
+function detectRange(title) {
+  const t = title.toLowerCase();
+  if (t.includes('vp') || t.includes('director')) return '$250K+';
+  if (t.includes('senior') || t.includes('manager')) return '$150K–$250K';
+  if (t.includes('sdr') || t.includes('bdr')) return '$50K–$100K';
+  return '$100K–$200K';
+}
+
+// Format posted date
+function formatPosted(dateStr) {
+  if (!dateStr) return '';
+  try {
+    const days = Math.floor((Date.now() - new Date(dateStr)) / 86400000);
+    if (days === 0) return 'Today';
+    if (days === 1) return '1d';
+    if (days < 7)  return days + 'd';
+    if (days < 30) return Math.floor(days/7) + 'w';
+    return Math.floor(days/30) + 'mo';
+  } catch(e) { return ''; }
+}
+
+// Strip HTML tags from description
+function stripHTML(html) {
+  return html.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
 }
 
 
@@ -678,7 +740,16 @@ function applyToJob(url) {
 }
 
 render();pick(1);
-loadJobsFromSheet();
+
+// Load manual jobs from Supabase + remote jobs from Jobicy simultaneously
+Promise.all([loadManualJobs(), loadJobsFromJobicy()]).then(([manual]) => {
+  if (manual.length > 0) {
+    // Prepend manual (curated) jobs to whatever Jobicy returned
+    JOBS = [...manual, ...JOBS.filter(j => j.id < 9000)];
+    vis  = [...JOBS];
+    doFilter();
+  }
+});
 </script>
 </body>
 </html>
