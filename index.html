@@ -264,9 +264,8 @@ footer{background:var(--white);border-top:1px solid var(--border);padding:28px 2
     </a>
     <ul class="nav-links">
       <li><a href="#" id="nav-jobs" class="active" onclick="showPage('jobs');return false;">Find Jobs</a></li>
-      <li><a href="#" onclick="openAI('resume');return false;">AI Resume</a></li>
-      <li><a href="#" onclick="openAI('prep');return false;">Interview Prep</a></li>
-      <li><a href="#" onclick="openAI('salary');return false;">Salary Guide</a></li>
+      <li><a href="#" onclick="openWL();return false;">AI Resume</a></li>
+      <li><a href="#" onclick="openWL();return false;">Interview Prep</a></li>
     </ul>
     <div class="nav-right">
       <button class="btn btn-ghost" onclick="openWL()">Join Waitlist</button>
@@ -357,7 +356,6 @@ footer{background:var(--white);border-top:1px solid var(--border);padding:28px 2
     <div class="m-tabs">
       <div class="m-tab on" id="t-resume" onclick="switchAI('resume')">Resume Tailor</div>
       <div class="m-tab" id="t-prep" onclick="switchAI('prep')">Interview Prep</div>
-      <div class="m-tab" id="t-salary" onclick="switchAI('salary')">Salary Guide</div>
     </div>
     <div id="b-resume" class="m-body">
       <label class="f-label">Your Resume</label>
@@ -374,14 +372,6 @@ footer{background:var(--white);border-top:1px solid var(--border);padding:28px 2
       <textarea class="f-input" id="p-bg" rows="4" placeholder="Brief summary of your sales experience..."></textarea>
       <button class="gen-btn" id="p-btn" onclick="genPrep()">✦ Generate Interview Prep</button>
       <div class="ai-out-wrap" id="p-wrap"><div class="ai-out-head"><span>AI Output</span><button class="copy-btn" onclick="copyOut('p-out')">Copy</button></div><div class="ai-out" id="p-out"></div></div>
-    </div>
-    <div id="b-salary" class="m-body" style="display:none">
-      <label class="f-label">Role Title</label>
-      <input class="f-input" type="text" id="sal-role" placeholder="e.g. Director of Sales..." />
-      <label class="f-label">Location</label>
-      <input class="f-input" type="text" id="sal-loc" placeholder="e.g. Toronto, New York, Remote..." />
-      <button class="gen-btn" id="sal-btn" onclick="genSalary()">✦ Get Salary Benchmark</button>
-      <div class="ai-out-wrap" id="sal-wrap"><div class="ai-out-head"><span>AI Output</span><button class="copy-btn" onclick="copyOut('sal-out')">Copy</button></div><div class="ai-out" id="sal-out"></div></div>
     </div>
   </div>
 </div>
@@ -653,10 +643,8 @@ function setFilter(el,val,kind){
 
 function showPage(page){
   document.getElementById('jobs-page').style.display=page==='jobs'?'block':'none';
-  document.getElementById('about-page').style.display=page==='about'?'block':'none';
   document.getElementById('hero-section').style.display=page==='jobs'?'block':'none';
   document.getElementById('nav-jobs').classList.toggle('active',page==='jobs');
-  document.getElementById('nav-about').classList.toggle('active',page==='about');
 }
 
 function openWL(){document.getElementById('wl-overlay').classList.add('on');document.getElementById('wl-success').style.display='none';}
@@ -679,7 +667,7 @@ function openAIForJob(id,tab){
   if(j&&tab==='prep')document.getElementById('p-role').value=`${j.title} at ${j.co}`;
 }
 function switchAI(tab){
-  ['resume','prep','salary'].forEach(t=>{
+  ['resume','prep'].forEach(t=>{
     document.getElementById('t-'+t).classList.toggle('on',t===tab);
     document.getElementById('b-'+t).style.display=t===tab?'block':'none';
   });
@@ -710,13 +698,6 @@ async function genPrep(){
   if(!role){alert('Please enter the role.');return;}
   await callClaude(`You are an expert sales interview coach. Generate interview prep for:\n\nROLE: ${role}\n${bg?'BACKGROUND: '+bg:''}\n\nProvide:\n1. TOP 5 LIKELY QUESTIONS with what each tests\n2. TWO STORIES to prepare\n3. THREE SMART QUESTIONS to ask the interviewer\n\nBe specific to sales. Tight and actionable.`,'p-out','p-wrap','p-btn');
 }
-async function genSalary(){
-  const role=document.getElementById('sal-role').value.trim();
-  const loc=document.getElementById('sal-loc').value.trim();
-  if(!role){alert('Please enter a role title.');return;}
-  await callClaude(`You are a sales compensation expert. Salary benchmark for:\n\nROLE: ${role}\nLOCATION: ${loc||'North America'}\n\nProvide:\n1. BASE SALARY RANGE (low, mid, high 2025-2026)\n2. OTE RANGE\n3. TYPICAL COMMISSION STRUCTURE\n4. WHAT PUSHES COMP HIGHER\n5. ONE NEGOTIATION TIP\n\nCAD for Canadian locations, USD otherwise.`,'sal-out','sal-wrap','sal-btn');
-}
-
 function copyOut(id){
   navigator.clipboard.writeText(document.getElementById(id).textContent)
     .then(()=>{document.querySelectorAll('.copy-btn').forEach(b=>{b.textContent='Copied!';setTimeout(()=>b.textContent='Copy',1500);});});
