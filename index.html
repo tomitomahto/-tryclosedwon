@@ -1,1 +1,775 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Closed Won — Sales Jobs, Powered by AI</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root {
+  --white:#FFFFFF; --bg:#F7F8FA; --border:#E5E7EB; --border2:#D1D5DB;
+  --navy:#0F1A2E; --navy2:#1E2D4A; --gold:#C97D1A; --gold-bg:#FDF4E7; --gold-bd:#F0D0A0;
+  --text:#111827; --text2:#374151; --muted:#6B7280; --muted2:#9CA3AF;
+  --green:#059669; --green-bg:#ECFDF5; --green-bd:#A7F3D0;
+  --blue:#2563EB; --blue-bg:#EFF6FF; --blue-bd:#BFDBFE;
+  --purple:#7C3AED; --pur-bg:#F5F3FF; --pur-bd:#DDD6FE;
+  --red:#DC2626;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;font-size:14px;}
+body{background:var(--bg);color:var(--text);font-family:'Plus Jakarta Sans',sans-serif;line-height:1.5;}
+a{text-decoration:none;color:inherit;}
+button{cursor:pointer;font-family:inherit;}
+input,select,textarea{font-family:inherit;}
+::-webkit-scrollbar{width:4px;}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:4px;}
 
+.nav{background:var(--white);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100;height:60px;display:flex;align-items:center;padding:0 24px;}
+.nav-inner{max-width:1200px;margin:0 auto;width:100%;display:flex;align-items:center;gap:24px;}
+.logo{display:flex;align-items:center;gap:8px;flex-shrink:0;}
+.logo-icon{width:30px;height:30px;background:var(--navy);border-radius:7px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:12px;color:#fff;}
+.logo-name{font-weight:700;font-size:15px;color:var(--navy);letter-spacing:-0.02em;}
+.logo-badge{font-size:9px;font-weight:700;color:var(--gold);background:var(--gold-bg);border:1px solid var(--gold-bd);border-radius:4px;padding:1px 5px;}
+.nav-links{display:flex;gap:2px;list-style:none;flex:1;}
+.nav-links a{padding:6px 10px;border-radius:6px;font-size:13px;font-weight:500;color:var(--muted);transition:all .15s;}
+.nav-links a:hover{color:var(--text);background:var(--bg);}
+.nav-links a.active{color:var(--navy);font-weight:600;}
+.nav-right{display:flex;gap:8px;}
+.btn{display:inline-flex;align-items:center;gap:5px;padding:7px 14px;border-radius:7px;font-size:13px;font-weight:600;border:1px solid transparent;transition:all .15s;}
+.btn-ghost{background:transparent;color:var(--text2);border-color:var(--border2);}
+.btn-ghost:hover{background:var(--bg);}
+.btn-navy{background:var(--navy);color:#fff;}
+.btn-navy:hover{background:var(--navy2);}
+
+#wl-banner{background:var(--navy);padding:12px 24px;display:flex;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap;}
+#wl-banner p{font-size:13px;color:rgba(255,255,255,.85);font-weight:500;}
+#wl-banner .wl-ban-btn{background:var(--gold);color:#fff;border:none;border-radius:6px;padding:6px 14px;font-size:12px;font-weight:700;white-space:nowrap;}
+#wl-banner .wl-ban-x{background:none;border:none;color:rgba(255,255,255,.4);font-size:16px;padding:0 4px;}
+
+.hero{background:var(--white);border-bottom:1px solid var(--border);padding:52px 24px 44px;text-align:center;}
+.hero-inner{max-width:600px;margin:0 auto;}
+.eyebrow{display:inline-flex;align-items:center;gap:6px;background:var(--gold-bg);border:1px solid var(--gold-bd);border-radius:20px;padding:4px 12px;font-size:11px;font-weight:600;color:var(--gold);margin-bottom:20px;}
+.eyebrow-dot{width:5px;height:5px;background:var(--gold);border-radius:50%;}
+h1{font-size:clamp(28px,5vw,44px);font-weight:800;line-height:1.1;letter-spacing:-0.03em;color:var(--navy);margin-bottom:14px;}
+h1 em{font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;color:var(--gold);}
+.hero-sub{font-size:15px;color:var(--muted);line-height:1.7;margin-bottom:28px;}
+.search-bar{display:flex;gap:8px;background:var(--white);border:1px solid var(--border2);border-radius:10px;padding:6px;box-shadow:0 1px 6px rgba(0,0,0,.05),0 4px 20px rgba(0,0,0,.04);margin-bottom:20px;}
+.search-bar input{flex:1;background:transparent;border:none;outline:none;font-size:14px;color:var(--text);padding:7px 10px;}
+.search-bar select{background:transparent;border:none;border-left:1px solid var(--border);outline:none;font-size:13px;color:var(--text2);padding:7px 10px;cursor:pointer;max-width:150px;}
+.search-bar select option{background:#fff;}
+.search-bar .s-btn{background:var(--navy);color:#fff;border:none;border-radius:7px;padding:9px 18px;font-size:13px;font-weight:700;white-space:nowrap;transition:background .15s;}
+.search-bar .s-btn:hover{background:var(--navy2);}
+.hero-stats{display:flex;justify-content:center;}
+.h-stat{padding:0 20px;text-align:center;border-right:1px solid var(--border);}
+.h-stat:last-child{border-right:none;}
+.h-stat-num{font-size:20px;font-weight:800;color:var(--navy);letter-spacing:-0.02em;}
+.h-stat-lbl{font-size:11px;color:var(--muted);margin-top:1px;}
+
+.filters-bar{background:var(--white);border-bottom:1px solid var(--border);padding:10px 24px;}
+.filters-inner{max-width:1200px;margin:0 auto;display:flex;gap:6px;align-items:center;overflow-x:auto;}
+.chip{display:inline-flex;align-items:center;padding:5px 12px;border-radius:20px;font-size:12px;font-weight:500;border:1px solid var(--border2);background:var(--white);color:var(--text2);white-space:nowrap;flex-shrink:0;transition:all .15s;}
+.chip:hover{border-color:var(--navy);color:var(--navy);}
+.chip.on{background:var(--navy);color:#fff;border-color:var(--navy);}
+.filter-lbl{font-size:11px;font-weight:600;color:var(--muted2);white-space:nowrap;margin-right:4px;}
+
+.layout{max-width:1200px;margin:0 auto;padding:24px;display:grid;grid-template-columns:1fr 340px;gap:20px;align-items:start;}
+.list-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
+.list-cnt{font-size:13px;font-weight:600;color:var(--text);}
+.list-cnt span{color:var(--gold);}
+.sort-sel{background:var(--white);border:1px solid var(--border2);border-radius:6px;padding:5px 10px;font-size:12px;color:var(--text2);outline:none;}
+
+.card{background:var(--white);border:1px solid var(--border);border-radius:10px;padding:18px 20px;margin-bottom:8px;cursor:pointer;transition:all .15s;}
+.card:hover{border-color:var(--border2);box-shadow:0 2px 10px rgba(0,0,0,.05);}
+.card.on{border-color:var(--navy);box-shadow:0 0 0 3px rgba(15,26,46,.06);}
+.card-top{display:flex;gap:12px;align-items:flex-start;margin-bottom:12px;}
+.c-logo{width:40px;height:40px;border-radius:8px;background:var(--bg);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;color:var(--navy);flex-shrink:0;}
+.c-info{flex:1;min-width:0;}
+.c-title{font-size:14px;font-weight:700;color:var(--navy);margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.c-meta{font-size:12px;color:var(--muted);}
+.c-meta strong{color:var(--text2);font-weight:600;}
+.c-tags{display:flex;gap:5px;flex-wrap:wrap;}
+.tag{display:inline-flex;align-items:center;padding:2px 7px;border-radius:5px;font-size:11px;font-weight:500;border:1px solid transparent;}
+.t-remote{background:var(--green-bg);color:var(--green);border-color:var(--green-bd);}
+.t-hybrid{background:var(--blue-bg);color:var(--blue);border-color:var(--blue-bd);}
+.t-level{background:var(--pur-bg);color:var(--purple);border-color:var(--pur-bd);}
+.t-range{background:var(--gold-bg);color:var(--gold);border-color:var(--gold-bd);}
+.t-new{background:var(--green-bg);color:var(--green);border-color:var(--green-bd);}
+.card-foot{display:flex;align-items:center;justify-content:space-between;margin-top:12px;padding-top:12px;border-top:1px solid var(--border);}
+.c-posted{font-size:11px;color:var(--muted2);}
+.c-actions{display:flex;gap:5px;}
+.c-btn{padding:5px 10px;border-radius:6px;font-size:11px;font-weight:600;border:1px solid var(--border2);background:var(--white);color:var(--text2);transition:all .15s;}
+.c-btn:hover{background:var(--bg);}
+.c-btn.ai-btn{border-color:var(--gold-bd);color:var(--gold);background:var(--gold-bg);}
+.c-btn.apply{background:var(--navy);color:#fff;border-color:var(--navy);}
+.c-btn.apply:hover{background:var(--navy2);}
+
+.sidebar{position:sticky;top:76px;}
+.detail-card{background:var(--white);border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-bottom:14px;}
+.detail-head{padding:18px 20px;border-bottom:1px solid var(--border);background:var(--bg);}
+.dh-row{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+.d-logo{width:44px;height:44px;border-radius:8px;background:var(--white);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:16px;color:var(--navy);flex-shrink:0;}
+.d-co{font-size:11px;color:var(--muted);margin-bottom:2px;}
+.d-title{font-size:15px;font-weight:700;color:var(--navy);line-height:1.3;}
+.detail-body{padding:18px 20px;}
+.d-section{margin-bottom:16px;}
+.d-label{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:5px;}
+.d-val{font-size:13px;color:var(--text2);line-height:1.6;}
+.d-range{font-size:20px;font-weight:800;color:var(--navy);letter-spacing:-0.02em;}
+.d-range-sub{font-size:11px;color:var(--muted);margin-top:2px;}
+.d-apply{width:100%;padding:11px;background:var(--navy);color:#fff;border:none;border-radius:7px;font-weight:700;font-size:13px;transition:background .15s;margin-bottom:7px;}
+.d-apply:hover{background:var(--navy2);}
+.d-ai-btn{width:100%;padding:10px;background:var(--gold-bg);color:var(--gold);border:1px solid var(--gold-bd);border-radius:7px;font-weight:700;font-size:13px;}
+.d-ai-btn:hover{filter:brightness(.97);}
+.s-bar{background:var(--bg);border-radius:4px;height:5px;margin:7px 0 4px;overflow:hidden;}
+.s-fill{height:100%;background:linear-gradient(90deg,var(--gold-bd),var(--gold));border-radius:4px;}
+.s-labels{display:flex;justify-content:space-between;font-size:10px;color:var(--muted2);}
+
+.promo-card{background:var(--navy);border-radius:10px;padding:20px;color:#fff;}
+.promo-title{font-size:14px;font-weight:700;margin-bottom:4px;}
+.promo-sub{font-size:12px;color:rgba(255,255,255,.6);line-height:1.6;margin-bottom:14px;}
+.promo-feat{display:flex;align-items:center;gap:7px;font-size:12px;color:rgba(255,255,255,.8);margin-bottom:7px;}
+.promo-check{color:var(--gold);}
+.promo-btn{width:100%;margin-top:14px;padding:11px;background:var(--gold);color:#fff;border:none;border-radius:7px;font-weight:700;font-size:13px;}
+.promo-btn:hover{filter:brightness(1.07);}
+
+#about-page{display:none;max-width:680px;margin:0 auto;padding:56px 24px;}
+.about-badge{display:inline-flex;align-items:center;gap:6px;background:var(--gold-bg);border:1px solid var(--gold-bd);border-radius:20px;padding:4px 12px;font-size:11px;font-weight:600;color:var(--gold);margin-bottom:18px;}
+.about-h2{font-size:clamp(26px,4vw,36px);font-weight:800;color:var(--navy);letter-spacing:-0.03em;line-height:1.15;margin-bottom:20px;}
+.about-p{font-size:15px;color:var(--muted);line-height:1.8;margin-bottom:14px;}
+.about-quote{background:var(--bg);border-left:4px solid var(--gold);border-radius:0 8px 8px 0;padding:18px 22px;margin:24px 0;}
+.about-quote p{font-family:'Instrument Serif',serif;font-style:italic;font-size:17px;color:var(--navy);line-height:1.7;}
+.about-author{display:flex;align-items:center;gap:14px;margin:24px 0 40px;}
+.about-avatar{width:48px;height:48px;border-radius:50%;background:var(--navy);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:17px;color:#fff;flex-shrink:0;}
+.about-name{font-size:14px;font-weight:700;color:var(--navy);}
+.about-role{font-size:12px;color:var(--muted);}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:28px;}
+.about-feat{background:var(--white);border:1px solid var(--border);border-radius:8px;padding:16px;}
+.about-feat-title{font-size:13px;font-weight:700;color:var(--navy);margin-bottom:4px;}
+.about-feat-desc{font-size:12px;color:var(--muted);line-height:1.6;}
+
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:300;align-items:center;justify-content:center;padding:20px;}
+.overlay.on{display:flex;}
+.modal{background:var(--white);border-radius:14px;width:100%;max-width:600px;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.18);}
+.modal-sm{max-width:460px;}
+.m-head{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.m-title{font-size:14px;font-weight:700;color:var(--navy);display:flex;align-items:center;gap:7px;}
+.m-badge{font-size:9px;background:var(--gold-bg);color:var(--gold);border:1px solid var(--gold-bd);padding:1px 6px;border-radius:4px;font-weight:600;}
+.m-close{width:26px;height:26px;border-radius:5px;background:var(--bg);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:13px;}
+.m-close:hover{background:var(--border);}
+.m-tabs{display:flex;border-bottom:1px solid var(--border);background:var(--bg);}
+.m-tab{padding:11px 18px;font-size:13px;font-weight:500;color:var(--muted);border-bottom:2px solid transparent;transition:all .15s;}
+.m-tab.on{color:var(--navy);border-bottom-color:var(--navy);font-weight:600;}
+.m-tab:hover{color:var(--text);}
+.m-body{padding:22px;}
+.f-label{display:block;font-size:12px;font-weight:600;color:var(--text2);margin-bottom:5px;margin-top:14px;}
+.f-label:first-child{margin-top:0;}
+.f-input{width:100%;background:var(--white);border:1px solid var(--border2);border-radius:7px;padding:9px 11px;font-size:13px;color:var(--text);outline:none;transition:border-color .15s;}
+.f-input:focus{border-color:var(--navy);box-shadow:0 0 0 3px rgba(15,26,46,.05);}
+textarea.f-input{resize:vertical;}
+.f-sel{width:100%;background:var(--white);border:1px solid var(--border2);border-radius:7px;padding:9px 11px;font-size:13px;color:var(--text);outline:none;}
+.gen-btn{width:100%;margin-top:14px;padding:12px;background:var(--navy);color:#fff;border:none;border-radius:7px;font-weight:700;font-size:14px;transition:background .15s;display:flex;align-items:center;justify-content:center;gap:7px;}
+.gen-btn:hover{background:var(--navy2);}
+.gen-btn:disabled{opacity:.5;cursor:not-allowed;}
+.ai-out-wrap{margin-top:14px;border:1px solid var(--border);border-radius:7px;overflow:hidden;display:none;}
+.ai-out-head{background:var(--bg);border-bottom:1px solid var(--border);padding:7px 13px;display:flex;align-items:center;justify-content:space-between;font-size:11px;color:var(--muted);font-weight:500;}
+.ai-out{padding:14px;font-size:13px;line-height:1.8;color:var(--text2);white-space:pre-wrap;max-height:300px;overflow-y:auto;}
+.copy-btn{padding:3px 9px;background:var(--white);border:1px solid var(--border2);border-radius:4px;font-size:11px;color:var(--muted);font-weight:500;}
+.copy-btn:hover{color:var(--text);}
+.wl-center{text-align:center;padding:8px 0 18px;}
+.wl-icon{font-size:28px;margin-bottom:10px;}
+.wl-h{font-size:17px;font-weight:700;color:var(--navy);margin-bottom:6px;}
+.wl-sub{font-size:13px;color:var(--muted);line-height:1.6;}
+.wl-note{text-align:center;margin-top:10px;font-size:11px;color:var(--muted2);}
+.wl-success{display:none;text-align:center;padding:18px;background:var(--green-bg);border:1px solid var(--green-bd);border-radius:7px;margin-top:14px;}
+.wl-success-h{font-size:14px;font-weight:700;color:var(--green);}
+.wl-success-p{font-size:12px;color:var(--muted);margin-top:3px;}
+.spin{width:14px;height:14px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:sp .7s linear infinite;display:inline-block;}
+@keyframes sp{to{transform:rotate(360deg);}}
+footer{background:var(--white);border-top:1px solid var(--border);padding:28px 24px;text-align:center;color:var(--muted);font-size:12px;}
+/* ── MOBILE BOTTOM NAV (hidden on desktop) ── */
+.mobile-nav{display:none;position:fixed;bottom:0;left:0;right:0;background:var(--white);border-top:1px solid var(--border);z-index:90;padding:6px 0 env(safe-area-inset-bottom,6px);}
+.mn-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 4px;color:var(--muted);font-size:10px;font-weight:500;cursor:pointer;transition:color .15s;border:none;background:none;font-family:inherit;}
+.mn-item.active{color:var(--navy);}
+.mn-icon{font-size:18px;line-height:1;}
+
+@media(max-width:768px){
+  /* NAV */
+  .nav{padding:0 16px;height:52px;}
+  .nav-links{display:none;}
+  .nav-right .btn-ghost{display:none;}
+  .btn-navy{padding:6px 12px;font-size:12px;}
+
+  /* BANNER */
+  #wl-banner{padding:10px 16px;gap:8px;text-align:center;}
+  #wl-banner p{font-size:12px;}
+
+  /* HERO */
+  .hero{padding:28px 16px 24px;}
+  h1{font-size:26px;}
+  .hero-sub{font-size:14px;margin-bottom:20px;}
+
+  /* SEARCH — stack vertically */
+  .search-bar{flex-direction:column;padding:0;gap:0;}
+  .search-bar input{padding:12px 14px;border-bottom:1px solid var(--border);font-size:14px;}
+  .search-bar select{max-width:100%;border:none;border-bottom:1px solid var(--border);border-left:none;padding:10px 14px;}
+  .search-bar .s-btn{border-radius:0 0 10px 10px;padding:12px;font-size:14px;}
+
+  /* STATS */
+  .hero-stats{gap:0;}
+  .h-stat{padding:0 10px;}
+  .h-stat-num{font-size:16px;}
+  .h-stat-lbl{font-size:10px;}
+
+  /* FILTERS */
+  .filters-bar{padding:8px 12px;}
+
+  /* LAYOUT */
+  .layout{grid-template-columns:1fr;padding:12px 16px 80px;gap:10px;}
+  .sidebar{display:none;}
+
+  /* CARDS */
+  .card{padding:14px 16px;}
+  .c-title{font-size:13px;white-space:normal;}
+  .card-foot{flex-direction:column;align-items:flex-start;gap:8px;}
+  .c-actions{width:100%;}
+  .c-btn{flex:1;justify-content:center;padding:7px 10px;font-size:12px;}
+
+  /* LIST HEADER */
+  .list-hdr{margin-bottom:10px;}
+
+  /* ABOUT */
+  #about-page{padding:28px 16px 80px;}
+  .about-h2{font-size:22px;}
+  .about-grid{grid-template-columns:1fr;}
+  .about-quote p{font-size:15px;}
+
+  /* MODALS — slide up from bottom */
+  .overlay{align-items:flex-end;padding:0;}
+  .modal{border-radius:14px 14px 0 0;max-width:100%;max-height:90vh;}
+  .modal-sm{max-width:100%;}
+
+  /* MOBILE NAV */
+  .mobile-nav{display:flex;}
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="logo" href="#" onclick="showPage('jobs');return false;">
+      <div class="logo-icon">CW</div>
+      <span class="logo-name">Closed Won</span>
+      <span class="logo-badge">AI</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#" id="nav-jobs" class="active" onclick="showPage('jobs');return false;">Find Jobs</a></li>
+      <li><a href="#" onclick="openWL();return false;">AI Resume</a></li>
+      <li><a href="#" onclick="openWL();return false;">Interview Prep</a></li>
+    </ul>
+    <div class="nav-right">
+      <button class="btn btn-ghost" onclick="openWL()">Join Waitlist</button>
+      <button class="btn btn-navy" onclick="openWL()">Get Full Access</button>
+    </div>
+  </div>
+</nav>
+
+<div id="wl-banner">
+  <p>✦ Launching soon — join the waitlist for 50% off founding member pricing.</p>
+  <button class="wl-ban-btn" onclick="openWL()">Get Early Access →</button>
+  <button class="wl-ban-x" onclick="this.parentElement.style.display='none'">✕</button>
+</div>
+
+<div class="hero" id="hero-section">
+  <div class="hero-inner">
+    <div class="eyebrow"><div class="eyebrow-dot"></div> The AI-powered job platform for sales professionals</div>
+    <h1>Find the role.<br><em>Win</em> the interview.</h1>
+    <p class="hero-sub">Curated sales jobs worldwide, with AI tools built in to tailor your resume, prep for interviews, and benchmark your salary.</p>
+    <div class="search-bar">
+      <input type="text" id="s-input" placeholder="Job title, company or keyword..." oninput="doFilter()" />
+      <select id="s-loc" onchange="doFilter()">
+        <option value="">All Locations</option>
+        <option>Toronto</option><option>New York</option><option>San Francisco</option>
+        <option>Vancouver</option><option>Chicago</option><option>London</option>
+        <option>Austin</option><option>Remote</option>
+      </select>
+      <button class="s-btn" onclick="doFilter()">Search</button>
+    </div>
+    <div class="hero-stats">
+      <div class="h-stat"><div class="h-stat-num" id="stat-n">32</div><div class="h-stat-lbl">Open Roles</div></div>
+      <div class="h-stat" style="border-left:1px solid var(--border);padding-left:20px"><div class="h-stat-num">All Levels</div><div class="h-stat-lbl">SDR to VP</div></div>
+      <div class="h-stat" style="border-left:1px solid var(--border);padding-left:20px"><div class="h-stat-num">AI Tools</div><div class="h-stat-lbl">Built In</div></div>
+    </div>
+  </div>
+</div>
+
+
+<div id="jobs-page">
+  <div class="filters-bar">
+    <div class="filters-inner">
+      <span class="filter-lbl">Role:</span>
+      <div class="chip on"  onclick="setFilter(this,'','level')">All</div>
+      <div class="chip" onclick="setFilter(this,'SDR / BDR','level')">SDR / BDR</div>
+      <div class="chip" onclick="setFilter(this,'Account Executive','level')">Account Executive</div>
+      <div class="chip" onclick="setFilter(this,'Sales Manager','level')">Sales Manager</div>
+      <div class="chip" onclick="setFilter(this,'Director','level')">Director</div>
+      <div class="chip" onclick="setFilter(this,'VP','level')">VP</div>
+      <div style="width:1px;background:var(--border2);margin:0 4px;flex-shrink:0"></div>
+      <span class="filter-lbl">Location:</span>
+      <div class="chip" onclick="setLocFilter(this,'')">Everywhere</div>
+      <div class="chip" onclick="setLocFilter(this,'Toronto')">Toronto</div>
+      <div class="chip" onclick="setLocFilter(this,'New York')">New York</div>
+      <div class="chip" onclick="setLocFilter(this,'San Francisco')">San Francisco</div>
+      <div class="chip" onclick="setLocFilter(this,'Remote')">Remote</div>
+      <div class="chip" onclick="setLocFilter(this,'London')">London</div>
+    </div>
+  </div>
+  <div class="layout">
+    <div>
+      <div class="list-hdr">
+        <div class="list-cnt"><span id="cnt">32</span> roles found</div>
+        <select class="sort-sel"><option>Most Recent</option><option>Best Match</option></select>
+      </div>
+      <div id="job-list"></div>
+    </div>
+    <div class="sidebar">
+      <div class="detail-card">
+        <div class="detail-head">
+          <div class="dh-row">
+            <div class="d-logo" id="d-logo">CW</div>
+            <div><div class="d-co" id="d-co">Select a role</div><div class="d-title" id="d-title" style="font-size:13px;color:var(--muted);font-weight:500">Click any job to preview</div></div>
+          </div>
+        </div>
+        <div class="detail-body" id="d-body"><p style="color:var(--muted);font-size:12px;text-align:center;padding:16px 0">Click a role to see details, salary range, and AI tools.</p></div>
+      </div>
+      <div class="promo-card">
+        <div class="promo-title">✦ Closed Won Pro</div>
+        <div class="promo-sub">AI tools for every listing. Tailor your resume, prep for interviews, and negotiate with confidence.</div>
+        <div class="promo-feat"><span class="promo-check">✓</span> AI resume tailor per job</div>
+        <div class="promo-feat"><span class="promo-check">✓</span> Role-specific interview prep</div>
+        <div class="promo-feat"><span class="promo-check">✓</span> Salary benchmarks</div>
+        <div class="promo-feat"><span class="promo-check">✓</span> Hiring manager outreach</div>
+        <button class="promo-btn" onclick="openWL()">Join Waitlist — 50% Off Launch</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="overlay" id="ai-overlay">
+  <div class="modal">
+    <div class="m-head">
+      <div class="m-title">Closed Won AI Tools <span class="m-badge">BETA</span></div>
+      <button class="m-close" onclick="closeAI()">✕</button>
+    </div>
+    <div class="m-tabs">
+      <div class="m-tab on" id="t-resume" onclick="switchAI('resume')">Resume Tailor</div>
+      <div class="m-tab" id="t-prep" onclick="switchAI('prep')">Interview Prep</div>
+    </div>
+    <div id="b-resume" class="m-body">
+      <label class="f-label">Your Resume</label>
+      <textarea class="f-input" id="r-resume" rows="5" placeholder="Paste your resume text here..."></textarea>
+      <label class="f-label">Job Description</label>
+      <textarea class="f-input" id="r-jd" rows="5" placeholder="Paste the job description here..."></textarea>
+      <button class="gen-btn" id="r-btn" onclick="genResume()">✦ Tailor My Resume</button>
+      <div class="ai-out-wrap" id="r-wrap"><div class="ai-out-head"><span>AI Output</span><button class="copy-btn" onclick="copyOut('r-out')">Copy</button></div><div class="ai-out" id="r-out"></div></div>
+    </div>
+    <div id="b-prep" class="m-body" style="display:none">
+      <label class="f-label">Role you are interviewing for</label>
+      <input class="f-input" type="text" id="p-role" placeholder="e.g. Sales Manager at LinkedIn" />
+      <label class="f-label">Your background (optional)</label>
+      <textarea class="f-input" id="p-bg" rows="4" placeholder="Brief summary of your sales experience..."></textarea>
+      <button class="gen-btn" id="p-btn" onclick="genPrep()">✦ Generate Interview Prep</button>
+      <div class="ai-out-wrap" id="p-wrap"><div class="ai-out-head"><span>AI Output</span><button class="copy-btn" onclick="copyOut('p-out')">Copy</button></div><div class="ai-out" id="p-out"></div></div>
+    </div>
+  </div>
+</div>
+
+<div class="overlay" id="wl-overlay">
+  <div class="modal modal-sm">
+    <div class="m-head">
+      <div class="m-title">Join the Waitlist</div>
+      <button class="m-close" onclick="closeWL()">✕</button>
+    </div>
+    <div class="m-body">
+      <div class="wl-center">
+        <div class="wl-icon">✦</div>
+        <div class="wl-h">Get early access to Closed Won</div>
+        <div class="wl-sub">Founding members get 50% off Pro forever. Be first when we launch.</div>
+      </div>
+      <label class="f-label">Full Name</label>
+      <input class="f-input" type="text" id="wl-name" placeholder="Your name" />
+      <label class="f-label">Email Address</label>
+      <input class="f-input" type="text" id="wl-email" placeholder="you@example.com" />
+      <label class="f-label">Where are you in your sales career?</label>
+      <select class="f-sel" id="wl-stage">
+        <option>Just starting out (SDR / BDR)</option>
+        <option>Account Executive (1-3 years)</option>
+        <option>Senior AE or Team Lead</option>
+        <option>Sales Manager or Director</option>
+        <option>VP or above</option>
+        <option>Career changer into sales</option>
+      </select>
+      <button class="gen-btn" style="background:var(--navy)" onclick="submitWL()">Claim My Founding Member Spot</button>
+      <p class="wl-note">No spam. Unsubscribe any time.</p>
+      <div class="wl-success" id="wl-success">
+        <div class="wl-success-h">✓ You are on the list.</div>
+        <div class="wl-success-p">We will email you the moment we launch with your founding member discount.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<nav class="mobile-nav">
+  <button class="mn-item active" id="mn-jobs" onclick="showPage('jobs');setMobileNav('jobs')">
+    <span class="mn-icon">⊡</span>Jobs
+  </button>
+  <button class="mn-item" id="mn-ai" onclick="openAI('resume');setMobileNav('ai')">
+    <span class="mn-icon">✦</span>AI Tools
+  </button>
+  <button class="mn-item" id="mn-wl" onclick="openWL()">
+    <span class="mn-icon">◈</span>Waitlist
+  </button>
+</nav>
+
+<footer>
+  <strong style="color:var(--text2)">Closed Won.ai</strong> — The AI-powered sales job platform for North America.<br>
+  <span style="margin-top:5px;display:block">Built by <a href="#" onclick="showPage('about');return false;" style="color:var(--gold)">Founder to Closer</a> · <a href="https://threads.com/@tomi.tomahto" style="color:var(--gold)">@tomi.tomahto</a></span>
+</footer>
+
+<script>
+/*
+  JOBICY API INTEGRATION
+  ─────────────────────────────────────────────────────────────────────────────
+  Jobicy is a free remote jobs API. No API key needed.
+  Jobs load automatically on page visit, filtered to sales roles.
+  Fallback jobs show instantly while the API loads in the background.
+  API docs: https://jobicy.com/jobs-rss-feed
+*/
+
+// Fallback jobs shown instantly while API loads
+const FALLBACK_JOBS = [
+  {id:1, title:'Sales Development Representative',co:'Salesforce',loc:'Remote',level:'SDR / BDR',type:'Remote',range:'$50K–$100K',posted:'1d',desc:'Generate pipeline through outbound prospecting and inbound qualification. Clear path to AE with structured coaching programme.',req:'0-2 years experience, strong communication, coachable mindset.',url:''},
+  {id:2, title:'Account Executive, Mid-Market',co:'HubSpot',loc:'Remote',level:'Account Executive',type:'Remote',range:'$100K–$200K',posted:'2d',desc:'Own the full sales cycle for mid-market accounts. Strong inbound motion with outbound responsibilities.',req:'2-3 years SaaS AE experience, consistent quota attainment.',url:''},
+  {id:3, title:'Senior Account Executive',co:'Intercom',loc:'Remote',level:'Account Executive',type:'Remote',range:'$150K–$220K',posted:'1d',desc:'Close net-new business and expand existing accounts at a leading customer messaging platform.',req:'3+ years SaaS closing experience, strong discovery skills.',url:''},
+  {id:4, title:'Sales Manager, Commercial',co:'Notion',loc:'Remote',level:'Sales Manager',type:'Remote',range:'$200K–$280K',posted:'3d',desc:'Lead and develop a commercial AE team. Build pipeline rigour and a coaching culture that drives consistent attainment.',req:'3+ years sales management, SaaS background.',url:''},
+  {id:5, title:'Director of Sales',co:'Loom',loc:'Remote',level:'Director',type:'Remote',range:'$280K–$360K',posted:'2d',desc:'Own the sales function for a fast-growing video messaging platform. Player-coach role with team building responsibility.',req:'7+ years sales leadership, SaaS background, strong enterprise motion.',url:''},
+  {id:6, title:'VP of Sales',co:'Descript',loc:'Remote',level:'VP',type:'Remote',range:'$350K+',posted:'4d',desc:'Build and lead an enterprise AE team at an AI-powered video editing platform backed by OpenAI and a16z.',req:'Extensive enterprise sales leadership, pipeline generation culture.',url:''},
+];
+
+let JOBS     = [...FALLBACK_JOBS];
+let vis      = [...JOBS];
+let activeId = null, lvlF = '', typeF = '', locF = '';
+
+// ── FETCH MANUAL JOBS FROM SUPABASE ──────────────────────────────────────────
+const SUPABASE_URL = 'https://vhbcnhyddxfnlpjqmqxj.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZoYmNuaHlkZHhmbmxwanFtcXhqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ1NDg3NjUsImV4cCI6MjA5MDEyNDc2NX0.HYJW5MEwUsppGoqCDZVkBs_hxA1zsHN7g9k1pGYmbFk';
+
+async function loadManualJobs() {
+  try {
+    const resp = await fetch(`${SUPABASE_URL}/rest/v1/Salesjobs?active=eq.true&order=created_at.desc&select=*`, {
+      headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` }
+    });
+    const data = await resp.json();
+    return data.map((j, i) => ({
+      id:     9000 + i,
+      title:  j.title       || '',
+      co:     j.company     || '',
+      loc:    j.location    || '',
+      level:  j.level       || 'Account Executive',
+      type:   j.type        || 'Hybrid',
+      range:  j.range       || '',
+      posted: j.posted      || '',
+      desc:   j.description || '',
+      req:    j.requirements|| '',
+      url:    j.url         || '',
+    }));
+  } catch(e) {
+    console.log('Supabase fetch failed:', e.message);
+    return [];
+  }
+}
+
+
+async function loadJobsFromJobicy() {
+  // Show loading indicator
+  const list = document.getElementById('job-list');
+  list.innerHTML = '<div style="text-align:center;padding:48px;color:var(--muted)"><div style="font-size:24px;margin-bottom:12px">⟳</div>Loading live jobs...</div>';
+
+  try {
+    // Use allorigins proxy to bypass CORS restriction
+    const jobicyUrl = 'https://jobicy.com/api/v2/remote-jobs?count=50&tag=sales';
+    const url = `https://api.allorigins.win/get?url=${encodeURIComponent(jobicyUrl)}`;
+    const resp = await fetch(url);
+    const wrapper = await resp.json();
+    const data = JSON.parse(wrapper.contents);
+
+    if (data.jobs && data.jobs.length > 0) {
+      JOBS = data.jobs.map((j, i) => ({
+        id:     i + 1,
+        title:  j.jobTitle   || '',
+        co:     j.companyName || '',
+        loc:    j.jobGeo      || 'Remote',
+        level:  detectLevel(j.jobTitle || ''),
+        type:   'Remote',
+        range:  j.annualSalaryMin && j.annualSalaryMax
+                  ? `$${Math.round(j.annualSalaryMin/1000)}K–$${Math.round(j.annualSalaryMax/1000)}K`
+                  : detectRange(j.jobTitle || ''),
+        posted: formatPosted(j.pubDate || ''),
+        desc:   stripHTML(j.jobDescription || '').slice(0, 280) + '...',
+        req:    '',
+        url:    j.url || '',
+      }));
+
+      vis = [...JOBS];
+      doFilter();
+    } else {
+      // No results, keep fallback
+      vis = [...FALLBACK_JOBS];
+      JOBS = [...FALLBACK_JOBS];
+      render();
+    }
+  } catch(e) {
+    console.log('Jobicy fetch failed, using fallback:', e.message);
+    vis = [...FALLBACK_JOBS];
+    JOBS = [...FALLBACK_JOBS];
+    render();
+  }
+}
+
+// Detect level from job title
+function detectLevel(title) {
+  const t = title.toLowerCase();
+  if (t.includes('vp') || t.includes('vice president')) return 'VP';
+  if (t.includes('director')) return 'Director';
+  if (t.includes('manager')) return 'Sales Manager';
+  if (t.includes('sdr') || t.includes('bdr') || t.includes('development rep')) return 'SDR / BDR';
+  return 'Account Executive';
+}
+
+// Detect salary range from title
+function detectRange(title) {
+  const t = title.toLowerCase();
+  if (t.includes('vp') || t.includes('director')) return '$250K+';
+  if (t.includes('senior') || t.includes('manager')) return '$150K–$250K';
+  if (t.includes('sdr') || t.includes('bdr')) return '$50K–$100K';
+  return '$100K–$200K';
+}
+
+// Format posted date
+function formatPosted(dateStr) {
+  if (!dateStr) return '';
+  try {
+    const days = Math.floor((Date.now() - new Date(dateStr)) / 86400000);
+    if (days === 0) return 'Today';
+    if (days === 1) return '1d';
+    if (days < 7)  return days + 'd';
+    if (days < 30) return Math.floor(days/7) + 'w';
+    return Math.floor(days/30) + 'mo';
+  } catch(e) { return ''; }
+}
+
+// Strip HTML tags from description
+function stripHTML(html) {
+  return html.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
+}
+
+
+function render(){
+  document.getElementById('cnt').textContent=vis.length;
+  document.getElementById('stat-n').textContent=JOBS.length;
+  const list=document.getElementById('job-list');
+  if(!vis.length){list.innerHTML='<div style="text-align:center;padding:48px;color:var(--muted)">No roles match. Try adjusting your filters.</div>';return;}
+  list.innerHTML=vis.map((j,i)=>`
+    <div class="card ${activeId===j.id?'on':''}" onclick="pick(${j.id})">
+      <div class="card-top">
+        <div class="c-logo">${j.co[0]}</div>
+        <div class="c-info">
+          <div class="c-title">${j.title}</div>
+          <div class="c-meta"><strong>${j.co}</strong> · ${j.loc}</div>
+        </div>
+      </div>
+      <div class="c-tags">
+        <span class="tag ${j.type==='Remote'?'t-remote':'t-hybrid'}">${j.type}</span>
+        <span class="tag t-level">${j.level}</span>
+        <span class="tag t-range">${j.range}</span>
+        ${i<4?'<span class="tag t-new">New</span>':''}
+      </div>
+      <div class="card-foot">
+        <span class="c-posted">Posted ${j.posted} ago</span>
+        <div class="c-actions">
+          <button class="c-btn ai-btn" onclick="event.stopPropagation();openAIForJob(${j.id},'resume')">✦ AI Resume</button>
+          <button class="c-btn apply" onclick="event.stopPropagation();applyToJob('${j.url}')" >Apply →</button>
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+function pick(id){
+  activeId=id;
+  const j=JOBS.find(x=>x.id===id);
+  if(!j)return;
+  document.getElementById('d-logo').textContent=j.co[0];
+  document.getElementById('d-co').textContent=j.co;
+  document.getElementById('d-title').textContent=j.title;
+  document.getElementById('d-body').innerHTML=`
+    <div class="d-section">
+      <div class="d-label">Salary Range</div>
+      <div class="d-range">${j.range} OTE</div>
+      <div class="d-range-sub">Includes base and variable compensation</div>
+      <div class="s-bar"><div class="s-fill" style="width:68%"></div></div>
+      <div class="s-labels"><span>Market Low</span><span style="color:var(--gold);font-weight:600">↑ This Role</span><span>Market High</span></div>
+    </div>
+    <div class="d-section"><div class="d-label">About the Role</div><div class="d-val">${j.desc}</div></div>
+    <div class="d-section"><div class="d-label">Requirements</div><div class="d-val">${j.req}</div></div>
+    <div class="d-section" style="display:flex;gap:6px;flex-wrap:wrap">
+      <span class="tag ${j.type==='Remote'?'t-remote':'t-hybrid'}">${j.type}</span>
+      <span class="tag t-level">${j.level}</span>
+      <span style="font-size:11px;color:var(--muted2);align-self:center">Posted ${j.posted} ago</span>
+    </div>
+    <button class="d-apply" onclick="applyToJob('${j.url}')">Apply Now →</button>
+    <button class="d-ai-btn" onclick="openAIForJob(${id},'resume')">✦ Tailor Resume with AI</button>`;
+  render();
+}
+
+function doFilter(){
+  const q=document.getElementById('s-input').value.toLowerCase();
+  const loc=document.getElementById('s-loc').value;
+  vis=JOBS.filter(j=>
+    (!q||j.title.toLowerCase().includes(q)||j.co.toLowerCase().includes(q))&&
+    (!loc||j.loc.includes(loc))&&
+    (!locF||j.loc.includes(locF))&&
+    (!lvlF||j.level===lvlF)&&
+    (!typeF||j.type===typeF));
+  render();
+}
+
+function setFilter(el,val,kind){
+  document.querySelectorAll('.chip[onclick*="setFilter"]').forEach(c=>c.classList.remove('on'));
+  el.classList.add('on');
+  if(kind==='type'){typeF=val;lvlF='';}else{lvlF=val;typeF='';}
+  doFilter();
+}
+
+function setLocFilter(el,val){
+  document.querySelectorAll('.chip[onclick*="setLocFilter"]').forEach(c=>c.classList.remove('on'));
+  el.classList.add('on');
+  locF=val;
+  doFilter();
+}
+
+function showPage(page){
+  document.getElementById('jobs-page').style.display=page==='jobs'?'block':'none';
+  document.getElementById('hero-section').style.display=page==='jobs'?'block':'none';
+  document.getElementById('nav-jobs').classList.toggle('active',page==='jobs');
+}
+
+function openWL(){document.getElementById('wl-overlay').classList.add('on');document.getElementById('wl-success').style.display='none';}
+function closeWL(){document.getElementById('wl-overlay').classList.remove('on');}
+async function submitWL(){
+  const name=document.getElementById('wl-name').value.trim();
+  const email=document.getElementById('wl-email').value.trim();
+  const stage=document.getElementById('wl-stage').value;
+  if(!name||!email||!email.includes('@')){alert('Please enter a valid name and email.');return;}
+  
+  const btn=document.querySelector('#wl-overlay .gen-btn');
+  if(btn){btn.disabled=true;btn.textContent='Saving...';}
+  
+  try {
+    await fetch(`${SUPABASE_URL}/rest/v1/waitlist`, {
+      method: 'POST',
+      headers: {
+        'apikey': SUPABASE_KEY,
+        'Authorization': `Bearer ${SUPABASE_KEY}`,
+        'Content-Type': 'application/json',
+        'Prefer': 'return=minimal'
+      },
+      body: JSON.stringify({ name, email, career_stage: stage })
+    });
+  } catch(e) {
+    console.error('Waitlist save error:', e);
+    // still show success to user even if save fails
+  }
+  
+  document.getElementById('wl-success').style.display='block';
+  document.getElementById('wl-name').value='';
+  document.getElementById('wl-email').value='';
+  if(btn){btn.disabled=false;btn.textContent='Claim My Founding Member Spot';}
+}
+
+function openAI(tab){document.getElementById('ai-overlay').classList.add('on');switchAI(tab);}
+function closeAI(){document.getElementById('ai-overlay').classList.remove('on');}
+function openAIForJob(id,tab){
+  const j=JOBS.find(x=>x.id===id);
+  openAI(tab);
+  if(j&&tab==='resume')document.getElementById('r-jd').value=`${j.title} at ${j.co}\n\n${j.desc}\n\nRequirements: ${j.req}`;
+  if(j&&tab==='prep')document.getElementById('p-role').value=`${j.title} at ${j.co}`;
+}
+function switchAI(tab){
+  ['resume','prep'].forEach(t=>{
+    document.getElementById('t-'+t).classList.toggle('on',t===tab);
+    document.getElementById('b-'+t).style.display=t===tab?'block':'none';
+  });
+}
+
+async function callClaude(prompt,outId,wrapId,btnId){
+  const btn=document.getElementById(btnId),out=document.getElementById(outId),wrap=document.getElementById(wrapId);
+  btn.disabled=true;btn.innerHTML='<div class="spin"></div> Generating...';
+  wrap.style.display='block';out.textContent='Analysing...';out.style.color='var(--muted)';
+  try{
+    const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,messages:[{role:'user',content:prompt}]})});
+    const data=await res.json();
+    const text=data.content?.map(c=>c.text||'').join('')||'No response.';
+    out.textContent=text;out.style.color='var(--text2)';
+  }catch(e){out.textContent='Error connecting to AI. Please try again.';out.style.color='var(--red)';}
+  btn.disabled=false;btn.innerHTML='✦ Regenerate';
+}
+
+async function genResume(){
+  const resume=document.getElementById('r-resume').value.trim();
+  const jd=document.getElementById('r-jd').value.trim();
+  if(!jd){alert('Please paste a job description.');return;}
+  await callClaude(`You are an expert sales career coach. ${resume?'Rewrite and tailor these resume bullets to match the job description.':'Generate 6 strong achievement-led resume bullets for this sales role.'}\n\nJOB DESCRIPTION:\n${jd}\n\n${resume?'RESUME:\n'+resume:''}\n\nRules: Lead every bullet with an outcome or metric. Use JD language naturally. One sentence per bullet. No em dashes. Format by role.`,'r-out','r-wrap','r-btn');
+}
+async function genPrep(){
+  const role=document.getElementById('p-role').value.trim();
+  const bg=document.getElementById('p-bg').value.trim();
+  if(!role){alert('Please enter the role.');return;}
+  await callClaude(`You are an expert sales interview coach. Generate interview prep for:\n\nROLE: ${role}\n${bg?'BACKGROUND: '+bg:''}\n\nProvide:\n1. TOP 5 LIKELY QUESTIONS with what each tests\n2. TWO STORIES to prepare\n3. THREE SMART QUESTIONS to ask the interviewer\n\nBe specific to sales. Tight and actionable.`,'p-out','p-wrap','p-btn');
+}
+function copyOut(id){
+  navigator.clipboard.writeText(document.getElementById(id).textContent)
+    .then(()=>{document.querySelectorAll('.copy-btn').forEach(b=>{b.textContent='Copied!';setTimeout(()=>b.textContent='Copy',1500);});});
+}
+
+document.getElementById('ai-overlay').addEventListener('click',e=>{if(e.target===document.getElementById('ai-overlay'))closeAI();});
+document.getElementById('wl-overlay').addEventListener('click',e=>{if(e.target===document.getElementById('wl-overlay'))closeWL();});
+
+function setMobileNav(page){
+  document.querySelectorAll('.mn-item').forEach(i=>i.classList.remove('active'));
+  const el=document.getElementById('mn-'+page);
+  if(el) el.classList.add('active');
+}
+
+// Apply button logic — opens real URL if available, otherwise opens waitlist
+function applyToJob(url) {
+  if (url && url.startsWith('http')) {
+    window.open(url, '_blank');
+  } else {
+    openWL();
+  }
+}
+
+render();pick(1);
+
+// Load manual jobs from Supabase + remote jobs from Jobicy simultaneously
+Promise.all([loadManualJobs(), loadJobsFromJobicy()]).then(([manual]) => {
+  if (manual.length > 0) {
+    // Prepend manual (curated) jobs to whatever Jobicy returned
+    JOBS = [...manual, ...JOBS.filter(j => j.id < 9000)];
+    vis  = [...JOBS];
+    doFilter();
+  }
+});
+</script>
+</body>
+</html>
