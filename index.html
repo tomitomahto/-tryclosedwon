@@ -491,17 +491,36 @@ async function loadManualJobs() {
 
 
 async function loadJobsFromJobicy() {
-  // Show loading indicator
   const list = document.getElementById('job-list');
   list.innerHTML = '<div style="text-align:center;padding:48px;color:var(--muted)"><div style="font-size:24px;margin-bottom:12px">⟳</div>Loading live jobs...</div>';
 
+  const jobicyUrl = 'https://jobicy.com/api/v2/remote-jobs?count=50&industry=seller&tag=sales';
+  const proxies = [
+    `https://corsproxy.io/?${encodeURIComponent(jobicyUrl)}`,
+    `https://api.allorigins.win/get?url=${encodeURIComponent(jobicyUrl)}`
+  ];
+
+  async function tryFetch(url, isWrapped) {
+    const controller = new AbortController();
+    const t = setTimeout(() => controller.abort(), 8000);
+    try {
+      const resp = await fetch(url, { signal: controller.signal });
+      clearTimeout(t);
+      const json = await resp.json();
+      return isWrapped ? JSON.parse(json.contents) : json;
+    } catch(e) {
+      clearTimeout(t);
+      throw e;
+    }
+  }
+
   try {
-    // Use allorigins proxy to bypass CORS restriction
-    const jobicyUrl = 'https://jobicy.com/api/v2/remote-jobs?count=50&tag=sales';
-    const url = `https://api.allorigins.win/get?url=${encodeURIComponent(jobicyUrl)}`;
-    const resp = await fetch(url);
-    const wrapper = await resp.json();
-    const data = JSON.parse(wrapper.contents);
+    let data;
+    try {
+      data = await tryFetch(proxies[0], false);
+    } catch(e) {
+      data = await tryFetch(proxies[1], true);
+    }
 
     if (data.jobs && data.jobs.length > 0) {
       JOBS = data.jobs.map((j, i) => ({
@@ -519,11 +538,9 @@ async function loadJobsFromJobicy() {
         req:    '',
         url:    j.url || '',
       }));
-
       vis = [...JOBS];
       doFilter();
     } else {
-      // No results, keep fallback
       vis = [...FALLBACK_JOBS];
       JOBS = [...FALLBACK_JOBS];
       render();
