@@ -2,791 +2,1031 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Closed Won — Sales Jobs, Powered by AI</title>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>TOMI — Command Centre</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
-:root {
-  --white:#FFFFFF; --bg:#F7F8FA; --border:#E5E7EB; --border2:#D1D5DB;
-  --navy:#0F1A2E; --navy2:#1E2D4A; --gold:#C97D1A; --gold-bg:#FDF4E7; --gold-bd:#F0D0A0;
-  --text:#111827; --text2:#374151; --muted:#6B7280; --muted2:#9CA3AF;
-  --green:#059669; --green-bg:#ECFDF5; --green-bd:#A7F3D0;
-  --blue:#2563EB; --blue-bg:#EFF6FF; --blue-bd:#BFDBFE;
-  --purple:#7C3AED; --pur-bg:#F5F3FF; --pur-bd:#DDD6FE;
-  --red:#DC2626;
-}
-*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
-html{scroll-behavior:smooth;font-size:14px;}
-body{background:var(--bg);color:var(--text);font-family:'Plus Jakarta Sans',sans-serif;line-height:1.5;}
-a{text-decoration:none;color:inherit;}
-button{cursor:pointer;font-family:inherit;}
-input,select,textarea{font-family:inherit;}
-::-webkit-scrollbar{width:4px;}
-::-webkit-scrollbar-thumb{background:var(--border2);border-radius:4px;}
+  :root {
+    /* Warm cream base */
+    --bg:        #f7f3ec;
+    --bg2:       #f0ebe0;
+    --surface:   #ffffff;
+    --surface2:  #faf7f2;
+    --border:    #e5dfd4;
+    --border2:   #d8d1c4;
 
-.nav{background:var(--white);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100;height:60px;display:flex;align-items:center;padding:0 24px;}
-.nav-inner{max-width:1200px;margin:0 auto;width:100%;display:flex;align-items:center;gap:24px;}
-.logo{display:flex;align-items:center;gap:8px;flex-shrink:0;}
-.logo-icon{width:30px;height:30px;background:var(--navy);border-radius:7px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:12px;color:#fff;}
-.logo-name{font-weight:700;font-size:15px;color:var(--navy);letter-spacing:-0.02em;}
-.logo-badge{font-size:9px;font-weight:700;color:var(--gold);background:var(--gold-bg);border:1px solid var(--gold-bd);border-radius:4px;padding:1px 5px;}
-.nav-links{display:flex;gap:2px;list-style:none;flex:1;}
-.nav-links a{padding:6px 10px;border-radius:6px;font-size:13px;font-weight:500;color:var(--muted);transition:all .15s;}
-.nav-links a:hover{color:var(--text);background:var(--bg);}
-.nav-links a.active{color:var(--navy);font-weight:600;}
-.nav-right{display:flex;gap:8px;}
-.btn{display:inline-flex;align-items:center;gap:5px;padding:7px 14px;border-radius:7px;font-size:13px;font-weight:600;border:1px solid transparent;transition:all .15s;}
-.btn-ghost{background:transparent;color:var(--text2);border-color:var(--border2);}
-.btn-ghost:hover{background:var(--bg);}
-.btn-navy{background:var(--navy);color:#fff;}
-.btn-navy:hover{background:var(--navy2);}
+    /* Text */
+    --ink:       #1a1612;
+    --ink2:      #4a4540;
+    --muted:     #9a9188;
 
-#wl-banner{background:var(--navy);padding:12px 24px;display:flex;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap;}
-#wl-banner p{font-size:13px;color:rgba(255,255,255,.85);font-weight:500;}
-#wl-banner .wl-ban-btn{background:var(--gold);color:#fff;border:none;border-radius:6px;padding:6px 14px;font-size:12px;font-weight:700;white-space:nowrap;}
-#wl-banner .wl-ban-x{background:none;border:none;color:rgba(255,255,255,.4);font-size:16px;padding:0 4px;}
+    /* Accent palette — earthy wellness */
+    --sage:      #6a9e7f;
+    --sage-l:    #e8f3ec;
+    --terracotta:#c8654a;
+    --terra-l:   #faeee9;
+    --gold:      #c9923a;
+    --gold-l:    #fdf3e3;
+    --plum:      #7c5c8a;
+    --plum-l:    #f2ecf7;
+    --sky:       #4a8fa8;
+    --sky-l:     #e8f4f8;
+    --rose:      #c4607a;
+    --rose-l:    #faedf1;
+    --olive:     #8a9a4a;
+    --olive-l:   #f3f5e6;
 
-.hero{background:var(--white);border-bottom:1px solid var(--border);padding:52px 24px 44px;text-align:center;}
-.hero-inner{max-width:600px;margin:0 auto;}
-.eyebrow{display:inline-flex;align-items:center;gap:6px;background:var(--gold-bg);border:1px solid var(--gold-bd);border-radius:20px;padding:4px 12px;font-size:11px;font-weight:600;color:var(--gold);margin-bottom:20px;}
-.eyebrow-dot{width:5px;height:5px;background:var(--gold);border-radius:50%;}
-h1{font-size:clamp(28px,5vw,44px);font-weight:800;line-height:1.1;letter-spacing:-0.03em;color:var(--navy);margin-bottom:14px;}
-h1 em{font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;color:var(--gold);}
-.hero-sub{font-size:15px;color:var(--muted);line-height:1.7;margin-bottom:28px;}
-.search-bar{display:flex;gap:8px;background:var(--white);border:1px solid var(--border2);border-radius:10px;padding:6px;box-shadow:0 1px 6px rgba(0,0,0,.05),0 4px 20px rgba(0,0,0,.04);margin-bottom:20px;}
-.search-bar input{flex:1;background:transparent;border:none;outline:none;font-size:14px;color:var(--text);padding:7px 10px;}
-.search-bar select{background:transparent;border:none;border-left:1px solid var(--border);outline:none;font-size:13px;color:var(--text2);padding:7px 10px;cursor:pointer;max-width:150px;}
-.search-bar select option{background:#fff;}
-.search-bar .s-btn{background:var(--navy);color:#fff;border:none;border-radius:7px;padding:9px 18px;font-size:13px;font-weight:700;white-space:nowrap;transition:background .15s;}
-.search-bar .s-btn:hover{background:var(--navy2);}
-.hero-stats{display:flex;justify-content:center;}
-.h-stat{padding:0 20px;text-align:center;border-right:1px solid var(--border);}
-.h-stat:last-child{border-right:none;}
-.h-stat-num{font-size:20px;font-weight:800;color:var(--navy);letter-spacing:-0.02em;}
-.h-stat-lbl{font-size:11px;color:var(--muted);margin-top:1px;}
+    --radius: 16px;
+    --radius-sm: 10px;
+  }
 
-.filters-bar{background:var(--white);border-bottom:1px solid var(--border);padding:10px 24px;}
-.filters-inner{max-width:1200px;margin:0 auto;display:flex;gap:6px;align-items:center;overflow-x:auto;}
-.chip{display:inline-flex;align-items:center;padding:5px 12px;border-radius:20px;font-size:12px;font-weight:500;border:1px solid var(--border2);background:var(--white);color:var(--text2);white-space:nowrap;flex-shrink:0;transition:all .15s;}
-.chip:hover{border-color:var(--navy);color:var(--navy);}
-.chip.on{background:var(--navy);color:#fff;border-color:var(--navy);}
-.filter-lbl{font-size:11px;font-weight:600;color:var(--muted2);white-space:nowrap;margin-right:4px;}
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
 
-.layout{max-width:1200px;margin:0 auto;padding:24px;display:grid;grid-template-columns:1fr 340px;gap:20px;align-items:start;}
-.list-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
-.list-cnt{font-size:13px;font-weight:600;color:var(--text);}
-.list-cnt span{color:var(--gold);}
-.sort-sel{background:var(--white);border:1px solid var(--border2);border-radius:6px;padding:5px 10px;font-size:12px;color:var(--text2);outline:none;}
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+    padding-bottom: 80px;
+  }
 
-.card{background:var(--white);border:1px solid var(--border);border-radius:10px;padding:18px 20px;margin-bottom:8px;cursor:pointer;transition:all .15s;}
-.card:hover{border-color:var(--border2);box-shadow:0 2px 10px rgba(0,0,0,.05);}
-.card.on{border-color:var(--navy);box-shadow:0 0 0 3px rgba(15,26,46,.06);}
-.card-top{display:flex;gap:12px;align-items:flex-start;margin-bottom:12px;}
-.c-logo{width:40px;height:40px;border-radius:8px;background:var(--bg);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;color:var(--navy);flex-shrink:0;}
-.c-info{flex:1;min-width:0;}
-.c-title{font-size:14px;font-weight:700;color:var(--navy);margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.c-meta{font-size:12px;color:var(--muted);}
-.c-meta strong{color:var(--text2);font-weight:600;}
-.c-tags{display:flex;gap:5px;flex-wrap:wrap;}
-.tag{display:inline-flex;align-items:center;padding:2px 7px;border-radius:5px;font-size:11px;font-weight:500;border:1px solid transparent;}
-.t-remote{background:var(--green-bg);color:var(--green);border-color:var(--green-bd);}
-.t-hybrid{background:var(--blue-bg);color:var(--blue);border-color:var(--blue-bd);}
-.t-level{background:var(--pur-bg);color:var(--purple);border-color:var(--pur-bd);}
-.t-range{background:var(--gold-bg);color:var(--gold);border-color:var(--gold-bd);}
-.t-new{background:var(--green-bg);color:var(--green);border-color:var(--green-bd);}
-.card-foot{display:flex;align-items:center;justify-content:space-between;margin-top:12px;padding-top:12px;border-top:1px solid var(--border);}
-.c-posted{font-size:11px;color:var(--muted2);}
-.c-actions{display:flex;gap:5px;}
-.c-btn{padding:5px 10px;border-radius:6px;font-size:11px;font-weight:600;border:1px solid var(--border2);background:var(--white);color:var(--text2);transition:all .15s;}
-.c-btn:hover{background:var(--bg);}
-.c-btn.ai-btn{border-color:var(--gold-bd);color:var(--gold);background:var(--gold-bg);}
-.c-btn.apply{background:var(--navy);color:#fff;border-color:var(--navy);}
-.c-btn.apply:hover{background:var(--navy2);}
+  /* Subtle texture overlay */
+  body::after {
+    content: '';
+    position: fixed; inset: 0; pointer-events: none; z-index: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
+    opacity: 0.6;
+  }
 
-.sidebar{position:sticky;top:76px;}
-.detail-card{background:var(--white);border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-bottom:14px;}
-.detail-head{padding:18px 20px;border-bottom:1px solid var(--border);background:var(--bg);}
-.dh-row{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
-.d-logo{width:44px;height:44px;border-radius:8px;background:var(--white);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:16px;color:var(--navy);flex-shrink:0;}
-.d-co{font-size:11px;color:var(--muted);margin-bottom:2px;}
-.d-title{font-size:15px;font-weight:700;color:var(--navy);line-height:1.3;}
-.detail-body{padding:18px 20px;}
-.d-section{margin-bottom:16px;}
-.d-label{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:5px;}
-.d-val{font-size:13px;color:var(--text2);line-height:1.6;}
-.d-range{font-size:20px;font-weight:800;color:var(--navy);letter-spacing:-0.02em;}
-.d-range-sub{font-size:11px;color:var(--muted);margin-top:2px;}
-.d-apply{width:100%;padding:11px;background:var(--navy);color:#fff;border:none;border-radius:7px;font-weight:700;font-size:13px;transition:background .15s;margin-bottom:7px;}
-.d-apply:hover{background:var(--navy2);}
-.d-ai-btn{width:100%;padding:10px;background:var(--gold-bg);color:var(--gold);border:1px solid var(--gold-bd);border-radius:7px;font-weight:700;font-size:13px;}
-.d-ai-btn:hover{filter:brightness(.97);}
-.s-bar{background:var(--bg);border-radius:4px;height:5px;margin:7px 0 4px;overflow:hidden;}
-.s-fill{height:100%;background:linear-gradient(90deg,var(--gold-bd),var(--gold));border-radius:4px;}
-.s-labels{display:flex;justify-content:space-between;font-size:10px;color:var(--muted2);}
+  /* ── HEADER ── */
+  header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 22px 44px 18px;
+    border-bottom: 1px solid var(--border);
+    position: sticky; top: 0;
+    background: rgba(247,243,236,0.95);
+    backdrop-filter: blur(16px);
+    z-index: 200;
+  }
 
-.promo-card{background:var(--navy);border-radius:10px;padding:20px;color:#fff;}
-.promo-title{font-size:14px;font-weight:700;margin-bottom:4px;}
-.promo-sub{font-size:12px;color:rgba(255,255,255,.6);line-height:1.6;margin-bottom:14px;}
-.promo-feat{display:flex;align-items:center;gap:7px;font-size:12px;color:rgba(255,255,255,.8);margin-bottom:7px;}
-.promo-check{color:var(--gold);}
-.promo-btn{width:100%;margin-top:14px;padding:11px;background:var(--gold);color:#fff;border:none;border-radius:7px;font-weight:700;font-size:13px;}
-.promo-btn:hover{filter:brightness(1.07);}
+  .logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2rem; letter-spacing: 0.18em; color: var(--ink);
+  }
+  .logo em { color: var(--sage); font-style: normal; }
 
-#about-page{display:none;max-width:680px;margin:0 auto;padding:56px 24px;}
-.about-badge{display:inline-flex;align-items:center;gap:6px;background:var(--gold-bg);border:1px solid var(--gold-bd);border-radius:20px;padding:4px 12px;font-size:11px;font-weight:600;color:var(--gold);margin-bottom:18px;}
-.about-h2{font-size:clamp(26px,4vw,36px);font-weight:800;color:var(--navy);letter-spacing:-0.03em;line-height:1.15;margin-bottom:20px;}
-.about-p{font-size:15px;color:var(--muted);line-height:1.8;margin-bottom:14px;}
-.about-quote{background:var(--bg);border-left:4px solid var(--gold);border-radius:0 8px 8px 0;padding:18px 22px;margin:24px 0;}
-.about-quote p{font-family:'Instrument Serif',serif;font-style:italic;font-size:17px;color:var(--navy);line-height:1.7;}
-.about-author{display:flex;align-items:center;gap:14px;margin:24px 0 40px;}
-.about-avatar{width:48px;height:48px;border-radius:50%;background:var(--navy);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:17px;color:#fff;flex-shrink:0;}
-.about-name{font-size:14px;font-weight:700;color:var(--navy);}
-.about-role{font-size:12px;color:var(--muted);}
-.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:28px;}
-.about-feat{background:var(--white);border:1px solid var(--border);border-radius:8px;padding:16px;}
-.about-feat-title{font-size:13px;font-weight:700;color:var(--navy);margin-bottom:4px;}
-.about-feat-desc{font-size:12px;color:var(--muted);line-height:1.6;}
+  .live-badge {
+    display: inline-flex; align-items: center; gap: 7px;
+    background: var(--sage-l);
+    border: 1px solid rgba(106,158,127,0.35);
+    border-radius: 100px; padding: 5px 18px;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem; color: var(--sage); letter-spacing: 0.14em;
+  }
+  .live-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--sage);
+    animation: blink 2.5s ease-in-out infinite;
+  }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
 
-.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:300;align-items:center;justify-content:center;padding:20px;}
-.overlay.on{display:flex;}
-.modal{background:var(--white);border-radius:14px;width:100%;max-width:600px;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.18);}
-.modal-sm{max-width:460px;}
-.m-head{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
-.m-title{font-size:14px;font-weight:700;color:var(--navy);display:flex;align-items:center;gap:7px;}
-.m-badge{font-size:9px;background:var(--gold-bg);color:var(--gold);border:1px solid var(--gold-bd);padding:1px 6px;border-radius:4px;font-weight:600;}
-.m-close{width:26px;height:26px;border-radius:5px;background:var(--bg);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:13px;}
-.m-close:hover{background:var(--border);}
-.m-tabs{display:flex;border-bottom:1px solid var(--border);background:var(--bg);}
-.m-tab{padding:11px 18px;font-size:13px;font-weight:500;color:var(--muted);border-bottom:2px solid transparent;transition:all .15s;}
-.m-tab.on{color:var(--navy);border-bottom-color:var(--navy);font-weight:600;}
-.m-tab:hover{color:var(--text);}
-.m-body{padding:22px;}
-.f-label{display:block;font-size:12px;font-weight:600;color:var(--text2);margin-bottom:5px;margin-top:14px;}
-.f-label:first-child{margin-top:0;}
-.f-input{width:100%;background:var(--white);border:1px solid var(--border2);border-radius:7px;padding:9px 11px;font-size:13px;color:var(--text);outline:none;transition:border-color .15s;}
-.f-input:focus{border-color:var(--navy);box-shadow:0 0 0 3px rgba(15,26,46,.05);}
-textarea.f-input{resize:vertical;}
-.f-sel{width:100%;background:var(--white);border:1px solid var(--border2);border-radius:7px;padding:9px 11px;font-size:13px;color:var(--text);outline:none;}
-.gen-btn{width:100%;margin-top:14px;padding:12px;background:var(--navy);color:#fff;border:none;border-radius:7px;font-weight:700;font-size:14px;transition:background .15s;display:flex;align-items:center;justify-content:center;gap:7px;}
-.gen-btn:hover{background:var(--navy2);}
-.gen-btn:disabled{opacity:.5;cursor:not-allowed;}
-.ai-out-wrap{margin-top:14px;border:1px solid var(--border);border-radius:7px;overflow:hidden;display:none;}
-.ai-out-head{background:var(--bg);border-bottom:1px solid var(--border);padding:7px 13px;display:flex;align-items:center;justify-content:space-between;font-size:11px;color:var(--muted);font-weight:500;}
-.ai-out{padding:14px;font-size:13px;line-height:1.8;color:var(--text2);white-space:pre-wrap;max-height:300px;overflow-y:auto;}
-.copy-btn{padding:3px 9px;background:var(--white);border:1px solid var(--border2);border-radius:4px;font-size:11px;color:var(--muted);font-weight:500;}
-.copy-btn:hover{color:var(--text);}
-.wl-center{text-align:center;padding:8px 0 18px;}
-.wl-icon{font-size:28px;margin-bottom:10px;}
-.wl-h{font-size:17px;font-weight:700;color:var(--navy);margin-bottom:6px;}
-.wl-sub{font-size:13px;color:var(--muted);line-height:1.6;}
-.wl-note{text-align:center;margin-top:10px;font-size:11px;color:var(--muted2);}
-.wl-success{display:none;text-align:center;padding:18px;background:var(--green-bg);border:1px solid var(--green-bd);border-radius:7px;margin-top:14px;}
-.wl-success-h{font-size:14px;font-weight:700;color:var(--green);}
-.wl-success-p{font-size:12px;color:var(--muted);margin-top:3px;}
-.spin{width:14px;height:14px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:sp .7s linear infinite;display:inline-block;}
-@keyframes sp{to{transform:rotate(360deg);}}
-footer{background:var(--white);border-top:1px solid var(--border);padding:28px 24px;text-align:center;color:var(--muted);font-size:12px;}
-/* ── MOBILE BOTTOM NAV (hidden on desktop) ── */
-.mobile-nav{display:none;position:fixed;bottom:0;left:0;right:0;background:var(--white);border-top:1px solid var(--border);z-index:90;padding:6px 0 env(safe-area-inset-bottom,6px);}
-.mn-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 4px;color:var(--muted);font-size:10px;font-weight:500;cursor:pointer;transition:color .15s;border:none;background:none;font-family:inherit;}
-.mn-item.active{color:var(--navy);}
-.mn-icon{font-size:18px;line-height:1;}
+  .header-right {
+    text-align: right;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.63rem; color: var(--muted); line-height: 1.9;
+  }
+  #live-time { font-size: 0.92rem; color: var(--ink); display: block; font-weight: 700; }
 
-@media(max-width:768px){
-  /* NAV */
-  .nav{padding:0 16px;height:52px;}
-  .nav-links{display:none;}
-  .nav-right .btn-ghost{display:none;}
-  .btn-navy{padding:6px 12px;font-size:12px;}
+  /* ── GRID ── */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 13px;
+    padding: 22px 44px;
+    max-width: 1700px;
+    margin: 0 auto;
+    position: relative; z-index: 1;
+  }
 
-  /* BANNER */
-  #wl-banner{padding:10px 16px;gap:8px;text-align:center;}
-  #wl-banner p{font-size:12px;}
+  /* ── CARD ── */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 22px 24px;
+    position: relative; overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 4px 16px rgba(0,0,0,0.03);
+    animation: rise 0.55s cubic-bezier(0.16,1,0.3,1) both;
+  }
+  @keyframes rise { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
+  .card:nth-child(1){animation-delay:0.03s}
+  .card:nth-child(2){animation-delay:0.08s}
+  .card:nth-child(3){animation-delay:0.13s}
+  .card:nth-child(4){animation-delay:0.18s}
+  .card:nth-child(5){animation-delay:0.23s}
+  .card:nth-child(6){animation-delay:0.28s}
+  .card:nth-child(7){animation-delay:0.33s}
 
-  /* HERO */
-  .hero{padding:28px 16px 24px;}
-  h1{font-size:26px;}
-  .hero-sub{font-size:14px;margin-bottom:20px;}
+  .stripe {
+    position: absolute; top:0; left:0; right:0;
+    height: 3px; border-radius: var(--radius) var(--radius) 0 0;
+  }
 
-  /* SEARCH — stack vertically */
-  .search-bar{flex-direction:column;padding:0;gap:0;}
-  .search-bar input{padding:12px 14px;border-bottom:1px solid var(--border);font-size:14px;}
-  .search-bar select{max-width:100%;border:none;border-bottom:1px solid var(--border);border-left:none;padding:10px 14px;}
-  .search-bar .s-btn{border-radius:0 0 10px 10px;padding:12px;font-size:14px;}
+  .tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.56rem; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--muted);
+    display: flex; align-items: center; gap: 7px;
+    margin-bottom: 13px;
+  }
+  .tdot { width:7px; height:7px; border-radius:50%; flex-shrink:0; }
 
-  /* STATS */
-  .hero-stats{gap:0;}
-  .h-stat{padding:0 10px;}
-  .h-stat-num{font-size:16px;}
-  .h-stat-lbl{font-size:10px;}
+  .card-h {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.4rem; letter-spacing: 0.07em;
+    line-height: 1; margin-bottom: 16px; color: var(--ink);
+  }
 
-  /* FILTERS */
-  .filters-bar{padding:8px 12px;}
+  /* ── LAYOUT ── */
+  .c-cal     { grid-column: span 8; grid-row: 1; }
+  .c-health  { grid-column: span 4; grid-row: 1; }
+  .c-jobs    { grid-column: span 4; grid-row: 2; }
+  .c-journal { grid-column: span 4; grid-row: 2; }
+  .c-dating  { grid-column: span 4; grid-row: 2; }
+  .c-content { display: none; }
+  .c-hustles { grid-column: span 12; grid-row: 3; }
+  .c-hustles { grid-column: span 12; grid-row: 3; }
 
-  /* LAYOUT */
-  .layout{grid-template-columns:1fr;padding:12px 16px 80px;gap:10px;}
-  .sidebar{display:none;}
+  /* ── SHARED ── */
+  .ghost-btn {
+    width: 100%; margin-top: 7px;
+    background: transparent;
+    border: 1px dashed var(--border2);
+    border-radius: var(--radius-sm); color: var(--muted);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.74rem; padding: 9px;
+    cursor: pointer; transition: all 0.18s;
+  }
+  .ghost-btn:hover { border-color: var(--border2); background: var(--surface2); color: var(--ink); }
 
-  /* CARDS */
-  .card{padding:14px 16px;}
-  .c-title{font-size:13px;white-space:normal;}
-  .card-foot{flex-direction:column;align-items:flex-start;gap:8px;}
-  .c-actions{width:100%;}
-  .c-btn{flex:1;justify-content:center;padding:7px 10px;font-size:12px;}
+  [contenteditable="true"] { outline: none; border-radius:3px; transition:background 0.15s; }
+  [contenteditable="true"]:hover { background: rgba(106,158,127,0.07); }
+  [contenteditable="true"]:focus { background: rgba(106,158,127,0.1); box-shadow:0 0 0 1px rgba(106,158,127,0.3); }
 
-  /* LIST HEADER */
-  .list-hdr{margin-bottom:10px;}
+  .badge {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.56rem; padding: 3px 9px;
+    border-radius: 100px; font-weight: 700;
+    letter-spacing: 0.05em; white-space: nowrap;
+  }
+  .b-sage   { background: var(--sage-l);  color:var(--sage);        border:1px solid rgba(106,158,127,0.35); }
+  .b-sky    { background: var(--sky-l);   color:var(--sky);         border:1px solid rgba(74,143,168,0.35); }
+  .b-plum   { background: var(--plum-l);  color:var(--plum);        border:1px solid rgba(124,92,138,0.35); }
+  .b-gold   { background: var(--gold-l);  color:var(--gold);        border:1px solid rgba(201,146,58,0.35); }
+  .b-terra  { background: var(--terra-l); color:var(--terracotta);  border:1px solid rgba(200,101,74,0.35); }
 
-  /* ABOUT */
-  #about-page{padding:28px 16px 80px;}
-  .about-h2{font-size:22px;}
-  .about-grid{grid-template-columns:1fr;}
-  .about-quote p{font-size:15px;}
+  /* ── JOB PIPELINE ── */
+  .c-jobs .stripe { background: linear-gradient(90deg, var(--sage), var(--olive)); }
 
-  /* MODALS — slide up from bottom */
-  .overlay{align-items:flex-end;padding:0;}
-  .modal{border-radius:14px 14px 0 0;max-width:100%;max-height:90vh;}
-  .modal-sm{max-width:100%;}
+  .pipe-item {
+    display: flex; align-items: flex-start; gap: 10px;
+    padding: 10px 12px;
+    border: 1px solid var(--border); border-radius: var(--radius-sm);
+    margin-bottom: 7px; transition: border-color 0.18s, background 0.18s;
+    background: var(--surface);
+  }
+  .pipe-item:hover { border-color: var(--border2); background: var(--surface2); }
+  .pipe-icon { font-size:1.15rem; width:24px; text-align:center; flex-shrink:0; }
+  .pipe-info { flex:1; min-width:0; overflow:hidden; }
+  .pipe-co { font-size:0.84rem; font-weight:600; color:var(--ink); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .pipe-role { font-size:0.67rem; color:var(--muted); margin-top:1px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .pipe-right { display:flex; flex-direction:column; align-items:flex-end; gap:3px; flex-shrink:0; max-width:140px; }
+  .pipe-pay { font-family:'Space Mono',monospace; font-size:0.58rem; color:var(--gold); }
+  .pipe-ghost { opacity:0.5; border-style:dashed; }
 
-  /* MOBILE NAV */
-  .mobile-nav{display:flex;}
-}
+  /* ── CONTENT ── */
+  .c-content .stripe { background: linear-gradient(90deg, var(--terracotta), var(--gold)); }
+
+  .plat-row {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 8px 0; border-bottom: 1px solid var(--border);
+  }
+  .plat-row:last-of-type { border-bottom: none; }
+  .plat-left { display:flex; align-items:center; gap:8px; font-size:0.8rem; font-weight:500; min-width:108px; color:var(--ink2); }
+  .plat-freq { font-family:'Space Mono',monospace; font-size:0.58rem; color:var(--muted); width:50px; text-align:center; }
+  .week-track { display:flex; gap:4px; }
+  .wd { width:10px; height:10px; border-radius:3px; background:var(--border); cursor:pointer; transition:background 0.18s; }
+  .wd.done  { background: var(--terracotta); }
+  .wd.today { background: var(--gold); }
+  .wd:hover { background: var(--border2); }
+
+  .next-box {
+    margin-top: 13px; padding: 11px 13px;
+    background: var(--terra-l);
+    border: 1px solid rgba(200,101,74,0.2); border-radius: var(--radius-sm);
+  }
+  .next-box .nbl { font-family:'Space Mono',monospace; font-size:0.55rem; color:var(--terracotta); letter-spacing:0.12em; margin-bottom:4px; text-transform:uppercase; }
+  .next-box .nbi { font-size:0.76rem; line-height:1.45; color:var(--ink2); }
+
+  /* ── HEALTH ── */
+  .c-health .stripe { background: linear-gradient(90deg, var(--sage), var(--sky)); }
+  .c-health { background: linear-gradient(150deg, #f0faf4 0%, #e8f4f0 100%); }
+
+  .h2col { display:grid; grid-template-columns:1fr 1fr; gap:7px; margin-bottom:13px; }
+  .h-met {
+    padding: 11px 8px;
+    background: rgba(255,255,255,0.8);
+    border: 1px solid var(--border); border-radius: var(--radius-sm); text-align: center;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+  }
+  .h-num { font-family:'Bebas Neue',sans-serif; font-size:1.8rem; line-height:1; }
+  .h-unit { font-family:'Space Mono',monospace; font-size:0.55rem; color:var(--muted); letter-spacing:0.08em; margin-top:2px; }
+
+  .prog-row { margin-bottom:9px; }
+  .prog-top { display:flex; justify-content:space-between; font-size:0.7rem; margin-bottom:5px; }
+  .prog-top span:first-child { color:var(--muted); }
+  .prog-top span:last-child { color:var(--ink2); font-weight:500; }
+  .prog-bar { height:5px; background:rgba(0,0,0,0.07); border-radius:100px; overflow:hidden; }
+  .prog-fill { height:100%; border-radius:100px; transition:width 1.1s cubic-bezier(0.16,1,0.3,1); }
+
+  /* ── CALENDAR ── */
+  .c-cal .stripe { background: linear-gradient(90deg, var(--sky), var(--plum)); }
+
+  .cal-nav {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 14px;
+  }
+  .cal-title { font-family:'Bebas Neue',sans-serif; font-size:1.2rem; letter-spacing:0.08em; color:var(--ink); }
+  .cal-arrow {
+    background: var(--surface2); border: 1px solid var(--border);
+    color: var(--ink2); border-radius: 7px;
+    width:28px; height:28px; cursor:pointer; font-size:0.9rem;
+    display:flex; align-items:center; justify-content:center;
+    transition: all 0.18s;
+  }
+  .cal-arrow:hover { border-color:var(--border2); background:var(--bg2); }
+
+  .cal-grid-head { display:grid; grid-template-columns:repeat(7,1fr); margin-bottom:0; border-bottom:1px solid var(--border); }
+  .cal-dn { text-align:center; font-family:'Space Mono',monospace; font-size:0.52rem; color:var(--muted); letter-spacing:0.06em; padding:5px 0; border-right:1px solid var(--border); }
+  .cal-dn:last-child { border-right:none; }
+
+  .cal-grid { display:grid; grid-template-columns:repeat(7,1fr); border-left:1px solid var(--border); border-bottom:1px solid var(--border); }
+  .cal-day {
+    min-height:72px; height:72px; display:flex; flex-direction:column; align-items:flex-start;
+    padding:5px 6px; cursor:pointer;
+    transition:background 0.15s;
+    border-right:1px solid var(--border); border-top:1px solid var(--border);
+    color:var(--ink2); position:relative; overflow:hidden;
+    box-sizing:border-box;
+  }
+  .cal-day:hover { background:var(--sage-l); }
+  .cal-day.other-month { background:var(--bg2); }
+  .cal-day.other-month .cal-day-num { color:var(--border2); }
+  .cal-day.today { background:rgba(106,158,127,0.08); }
+  .cal-day.today .cal-day-num { background:var(--sage); color:#fff; border-radius:50%; width:18px; height:18px; display:flex; align-items:center; justify-content:center; }
+  .cal-day.selected { background:var(--sky-l); }
+  .cal-day-num { font-family:'Space Mono',monospace; font-size:0.58rem; color:var(--ink2); line-height:1; margin-bottom:3px; min-width:18px; text-align:center; }
+  .cal-day-label { font-family:'DM Sans',sans-serif; font-size:0.6rem; color:var(--terracotta); font-weight:500; line-height:1.3; width:100%; }
+  .cal-day-label .ev-item { display:block; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; margin-bottom:1px; }
+  .cal-day-label .ev-item:nth-child(2) { color:var(--sage); }
+  .cal-day-label .ev-item:nth-child(3) { color:var(--plum); opacity:0.7; }
+
+  .cal-sel-box {
+    margin-top:10px; padding:10px 12px;
+    background:var(--sky-l); border:1px solid rgba(74,143,168,0.2); border-radius:var(--radius-sm);
+  }
+  .cal-sel-date { font-family:'Space Mono',monospace; font-size:0.55rem; color:var(--sky); letter-spacing:0.1em; margin-bottom:4px; }
+  .cal-sel-note { font-size:0.75rem; line-height:1.4; color:var(--ink2); outline:none; }
+
+  /* ── JOURNAL ── */
+  .c-journal .stripe { background: linear-gradient(90deg, var(--plum), var(--rose)); }
+
+  .journal-date { font-family:'Space Mono',monospace; font-size:0.56rem; color:var(--plum); letter-spacing:0.14em; text-transform:uppercase; margin-bottom:8px; }
+  .journal-prompt { font-size:0.72rem; color:var(--muted); font-style:italic; margin-bottom:10px; line-height:1.5; }
+
+  .journal-area {
+    width:100%; min-height:120px;
+    background:var(--plum-l); border:1px solid rgba(124,92,138,0.2);
+    border-radius:var(--radius-sm); padding:12px 14px;
+    color:var(--ink); font-family:'DM Sans',sans-serif;
+    font-size:0.82rem; line-height:1.65; resize:vertical; transition:border-color 0.2s;
+  }
+  .journal-area:focus { outline:none; border-color:rgba(124,92,138,0.4); }
+  .journal-area::placeholder { color:var(--muted); }
+
+  .journal-toolbar { display:flex; gap:6px; margin-top:9px; flex-wrap:wrap; align-items:center; }
+
+  .j-tag-btn {
+    background:var(--surface2); border:1px solid var(--border);
+    border-radius:100px; color:var(--muted);
+    font-family:'Space Mono',monospace; font-size:0.55rem; padding:4px 11px;
+    cursor:pointer; letter-spacing:0.06em; transition:all 0.16s;
+  }
+  .j-tag-btn:hover { border-color:var(--border2); color:var(--ink2); }
+  .j-tag-btn.active { background:var(--plum-l); color:var(--plum); border-color:rgba(124,92,138,0.4); }
+
+  .journal-save {
+    margin-left:auto;
+    background:var(--plum); border:none;
+    border-radius:100px; color:#fff;
+    font-family:'Space Mono',monospace; font-size:0.55rem; padding:5px 16px;
+    cursor:pointer; letter-spacing:0.08em; transition:opacity 0.16s;
+  }
+  .journal-save:hover { opacity:0.85; }
+
+  .journal-entries { margin-top:11px; max-height:72px; overflow-y:auto; }
+  .j-pill {
+    display:flex; align-items:center; gap:8px;
+    padding:5px 9px; border-radius:8px; margin-bottom:4px;
+    background:var(--surface2); border:1px solid var(--border);
+    font-size:0.7rem; cursor:pointer; transition:border-color 0.16s;
+  }
+  .j-pill:hover { border-color:var(--border2); }
+  .j-pill-date { font-family:'Space Mono',monospace; font-size:0.53rem; color:var(--muted); flex-shrink:0; }
+  .j-pill-text { flex:1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; color:var(--muted); }
+  .j-pill-mood { font-size:0.78rem; }
+
+  /* ── DATING CRM ── */
+  .c-dating .stripe { background: linear-gradient(90deg, var(--rose), var(--plum)); }
+
+  .crm-item {
+    display:flex; align-items:center; gap:11px;
+    padding:9px 12px; border:1px solid var(--border);
+    border-radius:var(--radius-sm); margin-bottom:7px;
+    background:var(--surface); transition:border-color 0.18s, background 0.18s;
+  }
+  .crm-item:hover { border-color:var(--border2); background:var(--surface2); }
+  .crm-av {
+    width:33px; height:33px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    font-weight:700; font-size:0.8rem; flex-shrink:0;
+    font-family:'Space Mono',monospace;
+  }
+  .crm-info { flex:1; }
+  .crm-name  { font-size:0.84rem; font-weight:600; color:var(--ink); }
+  .crm-stage { font-size:0.67rem; color:var(--muted); margin-top:2px; }
+  .crm-note  { font-size:0.64rem; color:var(--muted); font-style:italic; margin-top:1px; }
+  .crm-heat  { font-size:0.82rem; margin-left:auto; flex-shrink:0; }
+
+  /* ── SIDE HUSTLES ── */
+  .c-hustles .stripe { background: linear-gradient(90deg, var(--gold), var(--terracotta), var(--plum), var(--sky)); }
+
+  .hustles-row { display:grid; grid-template-columns:repeat(5,1fr); gap:13px; }
+
+  .h-block {
+    padding:16px; background:var(--surface2);
+    border:1px solid var(--border); border-radius:13px;
+    transition:border-color 0.18s, box-shadow 0.18s;
+  }
+  .h-block:hover { border-color:var(--border2); box-shadow:0 2px 12px rgba(0,0,0,0.05); }
+  .h-header { display:flex; align-items:center; gap:9px; margin-bottom:13px; }
+  .h-icon { font-size:1.45rem; }
+  .h-name { font-family:'Bebas Neue',sans-serif; font-size:1.05rem; letter-spacing:0.06em; line-height:1.1; color:var(--ink); }
+  .h-type { font-family:'Space Mono',monospace; font-size:0.55rem; color:var(--muted); margin-top:2px; }
+  .h-big-row { display:flex; align-items:baseline; gap:5px; margin-bottom:11px; }
+  .h-big { font-family:'Bebas Neue',sans-serif; font-size:2.1rem; line-height:1; }
+  .h-sm  { font-family:'Space Mono',monospace; font-size:0.58rem; color:var(--muted); }
+  .h-line {
+    display:flex; justify-content:space-between;
+    font-size:0.71rem; padding:5px 0;
+    border-bottom:1px solid var(--border); color:var(--muted);
+  }
+  .h-line:last-child { border-bottom:none; }
+  .h-line span:last-child { color:var(--ink2); font-weight:500; }
+
+
+  /* ── MOBILE ── */
+  @media (max-width: 768px) {
+    header { padding: 14px 20px; }
+    .logo { font-size: 1.4rem; }
+    .live-badge { display: none; }
+    .header-right { font-size: 0.55rem; }
+
+    .grid {
+      grid-template-columns: 1fr;
+      padding: 14px 16px;
+      gap: 12px;
+    }
+
+    /* All cards full width, natural row order */
+    .c-cal     { grid-column: 1; grid-row: auto; }
+    .c-health  { grid-column: 1; grid-row: auto; }
+    .c-jobs    { grid-column: 1; grid-row: auto; }
+    .c-journal { grid-column: 1; grid-row: auto; }
+    .c-dating  { grid-column: 1; grid-row: auto; }
+    .c-hustles { grid-column: 1; grid-row: auto; }
+    .c-content { display: none; }
+
+    /* Calendar cells smaller on mobile */
+    .cal-day { min-height: 52px; height: 52px; }
+    .cal-day-label .ev-item { font-size: 0.5rem; }
+
+    /* Health grid 2 col on mobile */
+    .h2col { grid-template-columns: 1fr 1fr !important; }
+
+    /* Hustles stack 2 col on mobile */
+    .hustles-row { grid-template-columns: 1fr 1fr; }
+
+    /* Journal textarea smaller */
+    .journal-area { min-height: 80px; }
+
+    /* Dating CRM items */
+    .crm-item { padding: 10px 12px; }
+
+    /* Card padding tighter */
+    .card { padding: 16px; }
+  }
+
+  @media (max-width: 480px) {
+    .hustles-row { grid-template-columns: 1fr; }
+    .cal-day { min-height: 44px; height: 44px; }
+    .cal-day-label { display: none; }
+    .h2col { grid-template-columns: 1fr 1fr !important; }
+  }
 </style>
 </head>
 <body>
 
-<nav class="nav">
-  <div class="nav-inner">
-    <a class="logo" href="#" onclick="showPage('jobs');return false;">
-      <div class="logo-icon">CW</div>
-      <span class="logo-name">Closed Won</span>
-      <span class="logo-badge">AI</span>
-    </a>
-    <ul class="nav-links">
-      <li><a href="#" id="nav-jobs" class="active" onclick="showPage('jobs');return false;">Find Jobs</a></li>
-      <li><a href="#" onclick="openWL();return false;">AI Resume</a></li>
-      <li><a href="#" onclick="openWL();return false;">Interview Prep</a></li>
-    </ul>
-    <div class="nav-right">
-      <button class="btn btn-ghost" onclick="openWL()">Join Waitlist</button>
-      <button class="btn btn-navy" onclick="openWL()">Get Full Access</button>
-    </div>
+<!-- HEADER -->
+<header>
+  <div class="logo">TOMI<em>.</em></div>
+  <div class="live-badge"><span class="live-dot"></span> COMMAND CENTRE</div>
+  <div class="header-right">
+    <span id="live-time">--:--</span>
+    <span id="live-date">Toronto</span>
   </div>
-</nav>
+</header>
 
-<div id="wl-banner">
-  <p>✦ Launching soon — join the waitlist for 50% off founding member pricing.</p>
-  <button class="wl-ban-btn" onclick="openWL()">Get Early Access →</button>
-  <button class="wl-ban-x" onclick="this.parentElement.style.display='none'">✕</button>
-</div>
+<div class="grid">
 
-<div class="hero" id="hero-section">
-  <div class="hero-inner">
-    <div class="eyebrow"><div class="eyebrow-dot"></div> The AI-powered job platform for sales professionals</div>
-    <h1>Find the role.<br><em>Win</em> the interview.</h1>
-    <p class="hero-sub">Curated sales jobs worldwide, with AI tools built in to tailor your resume, prep for interviews, and benchmark your salary.</p>
-    <div class="search-bar">
-      <input type="text" id="s-input" placeholder="Job title, company or keyword..." oninput="doFilter()" />
-      <select id="s-loc" onchange="doFilter()">
-        <option value="">All Locations</option>
-        <option>Toronto</option><option>New York</option><option>San Francisco</option>
-        <option>Vancouver</option><option>Chicago</option><option>London</option>
-        <option>Austin</option><option>Remote</option>
-      </select>
-      <button class="s-btn" onclick="doFilter()">Search</button>
-    </div>
-    <div class="hero-stats">
-      <div class="h-stat"><div class="h-stat-num" id="stat-n">32</div><div class="h-stat-lbl">Open Roles</div></div>
-      <div class="h-stat" style="border-left:1px solid var(--border);padding-left:20px"><div class="h-stat-num">All Levels</div><div class="h-stat-lbl">SDR to VP</div></div>
-      <div class="h-stat" style="border-left:1px solid var(--border);padding-left:20px"><div class="h-stat-num">AI Tools</div><div class="h-stat-lbl">Built In</div></div>
-    </div>
-  </div>
-</div>
-
-
-<div id="jobs-page">
-  <div class="filters-bar">
-    <div class="filters-inner">
-      <span class="filter-lbl">Role:</span>
-      <div class="chip on"  onclick="setFilter(this,'','level')">All</div>
-      <div class="chip" onclick="setFilter(this,'SDR / BDR','level')">SDR / BDR</div>
-      <div class="chip" onclick="setFilter(this,'Account Executive','level')">Account Executive</div>
-      <div class="chip" onclick="setFilter(this,'Sales Manager','level')">Sales Manager</div>
-      <div class="chip" onclick="setFilter(this,'Director','level')">Director</div>
-      <div class="chip" onclick="setFilter(this,'VP','level')">VP</div>
-      <div style="width:1px;background:var(--border2);margin:0 4px;flex-shrink:0"></div>
-      <span class="filter-lbl">Location:</span>
-      <div class="chip" onclick="setLocFilter(this,'')">Everywhere</div>
-      <div class="chip" onclick="setLocFilter(this,'Toronto')">Toronto</div>
-      <div class="chip" onclick="setLocFilter(this,'New York')">New York</div>
-      <div class="chip" onclick="setLocFilter(this,'San Francisco')">San Francisco</div>
-      <div class="chip" onclick="setLocFilter(this,'Remote')">Remote</div>
-      <div class="chip" onclick="setLocFilter(this,'London')">London</div>
-    </div>
-  </div>
-  <div class="layout">
-    <div>
-      <div class="list-hdr">
-        <div class="list-cnt"><span id="cnt">32</span> roles found</div>
-        <select class="sort-sel"><option>Most Recent</option><option>Best Match</option></select>
+  <!-- JOB PIPELINE -->
+  <div class="card c-jobs">
+    <div class="stripe"></div>
+    <div class="tag"><span class="tdot" style="background:var(--sage)"></span>Job Pipeline</div>
+    <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:16px;">
+      <div class="card-h" style="margin-bottom:0">Pipeline</div>
+      <div style="text-align:right">
+        <div style="font-family:'Space Mono',monospace;font-size:1.1rem;font-weight:700;color:var(--sage)">35.7%</div>
+        <div style="font-size:0.58rem;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase">Interview Rate</div>
       </div>
-      <div id="job-list"></div>
     </div>
-    <div class="sidebar">
-      <div class="detail-card">
-        <div class="detail-head">
-          <div class="dh-row">
-            <div class="d-logo" id="d-logo">CW</div>
-            <div><div class="d-co" id="d-co">Select a role</div><div class="d-title" id="d-title" style="font-size:13px;color:var(--muted);font-weight:500">Click any job to preview</div></div>
-          </div>
+
+    <div style="display:flex;flex-direction:column;gap:7px;margin-bottom:14px;">
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 10px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);">
+        <div>
+          <div style="font-size:0.78rem;font-weight:600;color:var(--ink)">Samsara</div>
+          <div style="font-size:0.62rem;color:var(--muted)">Screen Wed Apr 1</div>
         </div>
-        <div class="detail-body" id="d-body"><p style="color:var(--muted);font-size:12px;text-align:center;padding:16px 0">Click a role to see details, salary range, and AI tools.</p></div>
+        <span class="badge b-gold" style="font-size:0.5rem">APR 1</span>
       </div>
-      <div class="promo-card">
-        <div class="promo-title">✦ Closed Won Pro</div>
-        <div class="promo-sub">AI tools for every listing. Tailor your resume, prep for interviews, and negotiate with confidence.</div>
-        <div class="promo-feat"><span class="promo-check">✓</span> AI resume tailor per job</div>
-        <div class="promo-feat"><span class="promo-check">✓</span> Role-specific interview prep</div>
-        <div class="promo-feat"><span class="promo-check">✓</span> Salary benchmarks</div>
-        <div class="promo-feat"><span class="promo-check">✓</span> Hiring manager outreach</div>
-        <button class="promo-btn" onclick="openWL()">Join Waitlist — 50% Off Launch</button>
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 10px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);">
+        <div>
+          <div style="font-size:0.78rem;font-weight:600;color:var(--ink);opacity:0.5">Sierra</div>
+          <div style="font-size:0.62rem;color:var(--muted)">Enterprise Sales Director</div>
+        </div>
+        <span class="badge b-terra" style="font-size:0.5rem">REJECTED</span>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 10px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);">
+        <div>
+          <div style="font-size:0.78rem;font-weight:600;color:var(--ink)">Xe · NuORDER</div>
+          <div style="font-size:0.62rem;color:var(--muted)">Applied</div>
+        </div>
+        <span class="badge b-sky" style="font-size:0.5rem">APPLIED</span>
+      </div>
+    </div>
+
+    <a href="https://closedwoncrm.netlify.app/" target="_blank" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:11px;background:var(--navy,#0F1A2E);border-radius:var(--radius-sm);font-size:0.72rem;font-weight:700;color:#fff;text-decoration:none;letter-spacing:0.04em;">
+      ⊡ Open Full CRM
+    </a>
+  </div>
+  <!-- CONTENT -->
+  <div class="card c-content">
+    <div class="stripe" style="background:linear-gradient(90deg,var(--terracotta),var(--gold))"></div>
+    <div class="tag"><span class="tdot" style="background:var(--terracotta)"></span>Content & Brand</div>
+    <div class="card-h">Calling Card</div>
+
+    <div class="h-block" style="margin-bottom:10px;">
+      <div class="h-header">
+        <div class="h-icon">🧵</div>
+        <div>
+          <div class="h-name">@tomi.tomahto</div>
+          <div class="h-type">Threads · Instagram</div>
+        </div>
+      </div>
+      <div class="h-line"><span>Instagram</span><span>123K followers</span></div>
+      <div class="h-line"><span>Threads</span><span>22K followers</span></div>
+      <div class="h-line"><span>LinkedIn</span><span>11K followers</span></div>
+    </div>
+
+    <div class="h-block">
+      <div class="h-header">
+        <div class="h-icon">🔒</div>
+        <div>
+          <div class="h-name">Closed Won</div>
+          <div class="h-type">tryclosedwon.com</div>
+        </div>
+      </div>
+      <div class="h-line"><span>Type</span><span>AI Job Board</span></div>
+      <div class="h-line"><span>Built with</span><span>Claude · Vibe Coded</span></div>
+      <div class="h-line"><span>Status</span><span>Live 🟢</span></div>
+    </div>
+  </div>
+
+  <!-- HEALTH -->
+  <div class="card c-health">
+    <div class="stripe"></div>
+    <div class="tag"><span class="tdot" style="background:var(--sage)"></span>Health & Fitness</div>
+    <div class="card-h">This Week</div>
+
+    <div class="h2col" style="grid-template-columns:1fr 1fr 1fr;gap:6px;">
+      <div class="h-met"><div class="h-num" style="color:var(--sage)" contenteditable="true">4</div><div class="h-unit">Workouts</div><div style="font-size:0.52rem;color:var(--muted);margin-top:1px;">Rumbl / gym</div></div>
+      <div class="h-met"><div class="h-num" style="color:var(--olive)" contenteditable="true">3</div><div class="h-unit">Walks</div><div style="font-size:0.52rem;color:var(--muted);margin-top:1px;">outdoor steps</div></div>
+      <div class="h-met"><div class="h-num" style="color:var(--sky)" contenteditable="true">7h</div><div class="h-unit">Sleep</div><div style="font-size:0.52rem;color:var(--muted);margin-top:1px;">avg / night</div></div>
+    </div>
+    <div class="h2col" style="grid-template-columns:1fr 1fr;gap:6px;margin-top:0;">
+      <div class="h-met">
+        <div class="h-num" style="color:var(--gold)" contenteditable="true">2</div>
+        <div class="h-unit">Ello Bottles</div>
+        <div style="font-size:0.52rem;color:var(--muted);margin-top:1px;">946ml each · goal 2</div>
+      </div>
+      <div class="h-met"><div class="h-num" style="color:var(--plum)" contenteditable="true">5</div><div class="h-unit">Skin Streak</div><div style="font-size:0.52rem;color:var(--muted);margin-top:1px;">days in a row</div></div>
+    </div>
+
+    <div class="prog-row">
+      <div class="prog-top"><span>Workouts / 5 this week</span><span>4</span></div>
+      <div class="prog-bar"><div class="prog-fill" data-w="80%" style="background:linear-gradient(90deg,var(--sage),var(--sky))"></div></div>
+    </div>
+    <div class="prog-row">
+      <div class="prog-top"><span>Lymphedema</span><span>On track</span></div>
+      <div class="prog-bar"><div class="prog-fill" data-w="70%" style="background:linear-gradient(90deg,var(--sky),var(--plum))"></div></div>
+    </div>
+    <div class="prog-row">
+      <div class="prog-top"><span>Nutrition</span><span contenteditable="true">Good</span></div>
+      <div class="prog-bar"><div class="prog-fill" data-w="65%" style="background:linear-gradient(90deg,var(--plum),var(--rose))"></div></div>
+    </div>
+  </div>
+
+  <!-- CALENDAR -->
+  <div class="card c-cal">
+    <div class="stripe"></div>
+    <div class="tag"><span class="tdot" style="background:var(--sky)"></span>Calendar</div>
+
+    <div class="cal-nav">
+      <button class="cal-arrow" id="cal-prev">‹</button>
+      <div class="cal-title" id="cal-title">March 2026</div>
+      <button class="cal-arrow" id="cal-next">›</button>
+    </div>
+
+    <div class="cal-grid-head">
+      <div class="cal-dn">Su</div><div class="cal-dn">Mo</div><div class="cal-dn">Tu</div>
+      <div class="cal-dn">We</div><div class="cal-dn">Th</div><div class="cal-dn">Fr</div><div class="cal-dn">Sa</div>
+    </div>
+    <div class="cal-grid" id="cal-grid"></div>
+
+    <div class="cal-sel-box">
+      <div class="cal-sel-date" id="cal-sel-date">SELECT A DATE</div>
+      <div class="cal-sel-note" contenteditable="true" id="cal-sel-note" placeholder="Click a date to view or add notes...">Click a date to view or add notes...</div>
+    </div>
+    <div style="margin-top:12px;">
+      <div style="font-size:0.58rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;font-family:'Space Mono',monospace;">UPCOMING</div>
+      <div style="display:flex;flex-direction:column;gap:5px;" id="upcoming-events">
+        <div style="display:flex;gap:8px;align-items:center;padding:7px 9px;background:var(--gold-l,#fdf3e3);border:1px solid rgba(201,146,58,0.25);border-radius:var(--radius-sm);">
+          <div style="font-family:'Space Mono',monospace;font-size:0.56rem;color:var(--gold);min-width:42px;">APR 1</div>
+          <div style="font-size:0.7rem;color:var(--ink2);">Samsara Screen · Sean Corbett · 11am</div>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center;padding:7px 9px;background:var(--sage-l);border:1px solid rgba(106,158,127,0.25);border-radius:var(--radius-sm);">
+          <div style="font-family:'Space Mono',monospace;font-size:0.56rem;color:var(--sage);min-width:42px;">APR 16</div>
+          <div style="font-size:0.7rem;color:var(--ink2);">Women in Sales Dallas — Samsara event</div>
+        </div>
       </div>
     </div>
   </div>
-</div>
 
-<div class="overlay" id="ai-overlay">
-  <div class="modal">
-    <div class="m-head">
-      <div class="m-title">Closed Won AI Tools <span class="m-badge">BETA</span></div>
-      <button class="m-close" onclick="closeAI()">✕</button>
+  <!-- JOURNAL -->
+  <div class="card c-journal">
+    <div class="stripe"></div>
+    <div class="tag"><span class="tdot" style="background:var(--plum)"></span>Daily Journal</div>
+
+    <div class="journal-date" id="journal-date">TODAY</div>
+    <div class="journal-prompt" id="journal-prompt">What's one thing you want to close today?</div>
+
+    <textarea class="journal-area" id="journal-input" placeholder="Write here..."></textarea>
+
+    <div class="journal-toolbar">
+      <button class="j-tag-btn" data-tag="wins">🏆 Wins</button>
+      <button class="j-tag-btn" data-tag="focus">🎯 Focus</button>
+      <button class="j-tag-btn" data-tag="feelings">💭 Feelings</button>
+      <button class="j-tag-btn" data-tag="gratitude">✨ Grateful</button>
+      <button class="journal-save" id="journal-save-btn">SAVE</button>
     </div>
-    <div class="m-tabs">
-      <div class="m-tab on" id="t-resume" onclick="switchAI('resume')">Resume Tailor</div>
-      <div class="m-tab" id="t-prep" onclick="switchAI('prep')">Interview Prep</div>
-    </div>
-    <div id="b-resume" class="m-body">
-      <label class="f-label">Your Resume</label>
-      <textarea class="f-input" id="r-resume" rows="5" placeholder="Paste your resume text here..."></textarea>
-      <label class="f-label">Job Description</label>
-      <textarea class="f-input" id="r-jd" rows="5" placeholder="Paste the job description here..."></textarea>
-      <button class="gen-btn" id="r-btn" onclick="genResume()">✦ Tailor My Resume</button>
-      <div class="ai-out-wrap" id="r-wrap"><div class="ai-out-head"><span>AI Output</span><button class="copy-btn" onclick="copyOut('r-out')">Copy</button></div><div class="ai-out" id="r-out"></div></div>
-    </div>
-    <div id="b-prep" class="m-body" style="display:none">
-      <label class="f-label">Role you are interviewing for</label>
-      <input class="f-input" type="text" id="p-role" placeholder="e.g. Sales Manager at LinkedIn" />
-      <label class="f-label">Your background (optional)</label>
-      <textarea class="f-input" id="p-bg" rows="4" placeholder="Brief summary of your sales experience..."></textarea>
-      <button class="gen-btn" id="p-btn" onclick="genPrep()">✦ Generate Interview Prep</button>
-      <div class="ai-out-wrap" id="p-wrap"><div class="ai-out-head"><span>AI Output</span><button class="copy-btn" onclick="copyOut('p-out')">Copy</button></div><div class="ai-out" id="p-out"></div></div>
-    </div>
+
+    <div class="journal-entries" id="journal-entries"></div>
   </div>
-</div>
 
-<div class="overlay" id="wl-overlay">
-  <div class="modal modal-sm">
-    <div class="m-head">
-      <div class="m-title">Join the Waitlist</div>
-      <button class="m-close" onclick="closeWL()">✕</button>
+  <!-- SAMSARA PREP -->
+  <div class="card" style="grid-column:span 3;grid-row:2;">
+    <div class="stripe" style="background:linear-gradient(90deg,#0F1A2E,#C97D1A)"></div>
+    <div class="tag"><span class="tdot" style="background:#C97D1A"></span>Interview Prep</div>
+    <div class="card-h">Samsara Screen</div>
+
+    <div style="background:#FDF4E7;border:1px solid #F0D0A0;border-radius:10px;padding:12px 14px;margin-bottom:10px;">
+      <div style="font-family:'Space Mono',monospace;font-size:0.58rem;letter-spacing:0.1em;text-transform:uppercase;color:#C97D1A;margin-bottom:4px;">Wednesday Apr 1 · 11:00am EDT</div>
+      <div style="font-size:0.82rem;font-weight:700;color:#0F1A2E;">Sean Corbett, Senior Sales Recruiter</div>
+      <div style="font-size:0.7rem;color:var(--muted);margin-top:2px;">30 min · Mid-Market Sales Manager · Remote Canada</div>
     </div>
-    <div class="m-body">
-      <div class="wl-center">
-        <div class="wl-icon">✦</div>
-        <div class="wl-h">Get early access to Closed Won</div>
-        <div class="wl-sub">Founding members get 50% off Pro forever. Be first when we launch.</div>
+
+    <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:12px;">
+      <div style="display:flex;gap:8px;align-items:flex-start;font-size:0.73rem;color:var(--ink2);">
+        <span style="color:#C97D1A;flex-shrink:0;margin-top:1px;">▸</span>
+        <span><strong>Goal:</strong> Advance to hiring manager round. That's it.</span>
       </div>
-      <label class="f-label">Full Name</label>
-      <input class="f-input" type="text" id="wl-name" placeholder="Your name" />
-      <label class="f-label">Email Address</label>
-      <input class="f-input" type="text" id="wl-email" placeholder="you@example.com" />
-      <label class="f-label">Where are you in your sales career?</label>
-      <select class="f-sel" id="wl-stage">
-        <option>Just starting out (SDR / BDR)</option>
-        <option>Account Executive (1-3 years)</option>
-        <option>Senior AE or Team Lead</option>
-        <option>Sales Manager or Director</option>
-        <option>VP or above</option>
-        <option>Career changer into sales</option>
-      </select>
-      <button class="gen-btn" style="background:var(--navy)" onclick="submitWL()">Claim My Founding Member Spot</button>
-      <p class="wl-note">No spam. Unsubscribe any time.</p>
-      <div class="wl-success" id="wl-success">
-        <div class="wl-success-h">✓ You are on the list.</div>
-        <div class="wl-success-p">We will email you the moment we launch with your founding member discount.</div>
+      <div style="display:flex;gap:8px;align-items:flex-start;font-size:0.73rem;color:var(--ink2);">
+        <span style="color:#C97D1A;flex-shrink:0;margin-top:1px;">▸</span>
+        <span><strong>Your numbers:</strong> $100M+ revenue, 110% attainment, 5→3 ramp</span>
+      </div>
+      <div style="display:flex;gap:8px;align-items:flex-start;font-size:0.73rem;color:var(--ink2);">
+        <span style="color:#C97D1A;flex-shrink:0;margin-top:1px;">▸</span>
+        <span><strong>Samsara:</strong> $1.75B ARR, 29% growth, first GAAP profitable quarter</span>
+      </div>
+      <div style="display:flex;gap:8px;align-items:flex-start;font-size:0.73rem;color:var(--ink2);">
+        <span style="color:#C97D1A;flex-shrink:0;margin-top:1px;">▸</span>
+        <span><strong>Motion:</strong> Land on ROI, quick pilot, multi-product expand, public sector</span>
+      </div>
+      <div style="display:flex;gap:8px;align-items:flex-start;font-size:0.73rem;color:var(--ink2);">
+        <span style="color:#C97D1A;flex-shrink:0;margin-top:1px;">▸</span>
+        <span><strong>Close Sean:</strong> "What are the next steps?" before you hang up.</span>
       </div>
     </div>
+
+    <div style="display:flex;gap:7px;">
+      <a href="Samsara_Screen_Prep_Tomi.html" target="_blank" style="flex:1;display:flex;align-items:center;justify-content:center;gap:6px;padding:9px;background:#0F1A2E;border-radius:var(--radius-sm);font-size:0.7rem;font-weight:600;color:#fff;text-decoration:none;">
+        ✦ Full Prep Doc
+      </a>
+      <a href="https://www.samsara.com" target="_blank" style="flex:1;display:flex;align-items:center;justify-content:center;gap:6px;padding:9px;background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-sm);font-size:0.7rem;font-weight:600;color:var(--ink2);text-decoration:none;">
+        ⬡ Samsara.com
+      </a>
+    </div>
   </div>
+
+  <!-- DATING CRM -->
+  <div class="card c-dating">
+    <div class="stripe"></div>
+    <div class="tag"><span class="tdot" style="background:var(--rose)"></span>Dating CRM</div>
+    <div class="card-h">Pipeline</div>
+
+    <div class="crm-item">
+      <div class="crm-av" style="background:var(--terra-l);color:var(--terracotta)">JG</div>
+      <div class="crm-info">
+        <div class="crm-name">JG</div>
+        <div class="crm-stage" contenteditable="true">Primary lead — active</div>
+        <div class="crm-note" contenteditable="true">Top of pipeline</div>
+      </div>
+      <div class="crm-heat">🔥🔥🔥</div>
+    </div>
+
+    <div class="crm-item">
+      <div class="crm-av" style="background:var(--plum-l);color:var(--plum)">—</div>
+      <div class="crm-info">
+        <div class="crm-name" contenteditable="true">Add name</div>
+        <div class="crm-stage" contenteditable="true">Stage</div>
+        <div class="crm-note" contenteditable="true">Notes</div>
+      </div>
+      <div class="crm-heat" contenteditable="true">🔥</div>
+    </div>
+
+    <div class="crm-item">
+      <div class="crm-av" style="background:var(--sky-l);color:var(--sky)">—</div>
+      <div class="crm-info">
+        <div class="crm-name" contenteditable="true">Add name</div>
+        <div class="crm-stage" contenteditable="true">Stage</div>
+        <div class="crm-note" contenteditable="true">Notes</div>
+      </div>
+      <div class="crm-heat" contenteditable="true">🤔</div>
+    </div>
+
+    <button class="ghost-btn">+ Add to pipeline</button>
+  </div>
+
+  <!-- SIDE HUSTLES -->
+  <div class="card c-hustles">
+    <div class="stripe"></div>
+    <div class="tag"><span class="tdot" style="background:var(--gold)"></span>Side Hustles & Content</div>
+    <div class="card-h">Income Streams & Brand</div>
+
+    <div class="hustles-row">
+
+      <div class="h-block">
+        <div class="h-header">
+          <div class="h-icon">🥊</div>
+          <div><div class="h-name">Boxing Coaching</div><div class="h-type">Part-time · Hourly</div></div>
+        </div>
+        <div class="h-big-row">
+          <div class="h-big" style="color:var(--terracotta)" contenteditable="true">Min</div>
+          <div class="h-sm">wage/hr</div>
+        </div>
+        <div class="h-line"><span>Hours this week</span><span contenteditable="true">—</span></div>
+        <div class="h-line"><span>Sessions booked</span><span contenteditable="true">—</span></div>
+        <div class="h-line"><span>Weekly take-home</span><span contenteditable="true" style="color:var(--gold)">$0</span></div>
+        <div class="h-line"><span>Location</span><span contenteditable="true">Toronto</span></div>
+      </div>
+
+      <div class="h-block">
+        <div class="h-header">
+          <div class="h-icon">🛍️</div>
+          <div><div class="h-name">Etsy Digital Shop</div><div class="h-type">Passive · Digital products</div></div>
+        </div>
+        <div class="h-big-row">
+          <div class="h-big" style="color:var(--gold)" contenteditable="true">$0</div>
+          <div class="h-sm">this month</div>
+        </div>
+        <div class="h-line"><span>Live listings</span><span contenteditable="true">—</span></div>
+        <div class="h-line"><span>Orders this month</span><span contenteditable="true">—</span></div>
+        <div class="h-line"><span>Shop views</span><span contenteditable="true">—</span></div>
+        <div class="h-line"><span>Next listing</span><span contenteditable="true">TBD</span></div>
+      </div>
+
+      <div class="h-block">
+        <div class="h-header">
+          <div class="h-icon">⚡</div>
+          <div><div class="h-name">Mercor Gigs</div><div class="h-type">Freelance · AI / Sales</div></div>
+        </div>
+        <div class="h-big-row">
+          <div class="h-big" style="color:var(--plum)" contenteditable="true">$0</div>
+          <div class="h-sm">this month</div>
+        </div>
+        <div class="h-line"><span>Active gigs</span><span contenteditable="true">—</span></div>
+        <div class="h-line"><span>Hours logged</span><span contenteditable="true">—</span></div>
+        <div class="h-line"><span>Pending payout</span><span contenteditable="true">—</span></div>
+        <div class="h-line"><span>Profile status</span><span contenteditable="true">Active</span></div>
+      </div>
+
+      <div class="h-block">
+        <div class="h-header">
+          <div class="h-icon">🧵</div>
+          <div><div class="h-name">@tomi.tomahto</div><div class="h-type">Content Creator</div></div>
+        </div>
+        <div class="h-big-row">
+          <div class="h-big" style="color:var(--terracotta)" contenteditable="true">156K</div>
+          <div class="h-sm">total reach</div>
+        </div>
+        <div class="h-line"><span>Instagram</span><span>123K</span></div>
+        <div class="h-line"><span>Threads</span><span>22K</span></div>
+        <div class="h-line"><span>LinkedIn</span><span>11K</span></div>
+        <div class="h-line"><span>Niche</span><span>Sales · Career</span></div>
+      </div>
+
+      <div class="h-block">
+        <div class="h-header">
+          <div class="h-icon">🔒</div>
+          <div><div class="h-name">Closed Won</div><div class="h-type">tryclosedwon.com</div></div>
+        </div>
+        <div class="h-big-row">
+          <div class="h-big" style="color:var(--sky)">Live</div>
+          <div class="h-sm">AI job board</div>
+        </div>
+        <div class="h-line"><span>Built with</span><span>Claude</span></div>
+        <div class="h-line"><span>Stack</span><span>HTML · Supabase</span></div>
+        <div class="h-line"><span>Hosting</span><span>Netlify</span></div>
+        <div class="h-line"><span>Status</span><span style="color:var(--sage)">🟢 Live</span></div>
+      </div>
+
+    </div>
+  </div>
+
 </div>
-
-<nav class="mobile-nav">
-  <button class="mn-item active" id="mn-jobs" onclick="showPage('jobs');setMobileNav('jobs')">
-    <span class="mn-icon">⊡</span>Jobs
-  </button>
-  <button class="mn-item" id="mn-ai" onclick="openAI('resume');setMobileNav('ai')">
-    <span class="mn-icon">✦</span>AI Tools
-  </button>
-  <button class="mn-item" id="mn-wl" onclick="openWL()">
-    <span class="mn-icon">◈</span>Waitlist
-  </button>
-</nav>
-
-<footer>
-  <strong style="color:var(--text2)">Closed Won.ai</strong> — The AI-powered sales job platform for North America.<br>
-  <span style="margin-top:5px;display:block">Built by <a href="#" onclick="showPage('about');return false;" style="color:var(--gold)">Founder to Closer</a> · <a href="https://threads.com/@tomi.tomahto" style="color:var(--gold)">@tomi.tomahto</a></span>
-</footer>
 
 <script>
-/*
-  JOBICY API INTEGRATION
-  ─────────────────────────────────────────────────────────────────────────────
-  Jobicy is a free remote jobs API. No API key needed.
-  Jobs load automatically on page visit, filtered to sales roles.
-  Fallback jobs show instantly while the API loads in the background.
-  API docs: https://jobicy.com/jobs-rss-feed
-*/
-
-// Fallback jobs shown instantly while API loads
-const FALLBACK_JOBS = [
-  {id:1, title:'Sales Development Representative',co:'Salesforce',loc:'Remote',level:'SDR / BDR',type:'Remote',range:'$50K–$100K',posted:'1d',desc:'Generate pipeline through outbound prospecting and inbound qualification. Clear path to AE with structured coaching programme.',req:'0-2 years experience, strong communication, coachable mindset.',url:''},
-  {id:2, title:'Account Executive, Mid-Market',co:'HubSpot',loc:'Remote',level:'Account Executive',type:'Remote',range:'$100K–$200K',posted:'2d',desc:'Own the full sales cycle for mid-market accounts. Strong inbound motion with outbound responsibilities.',req:'2-3 years SaaS AE experience, consistent quota attainment.',url:''},
-  {id:3, title:'Senior Account Executive',co:'Intercom',loc:'Remote',level:'Account Executive',type:'Remote',range:'$150K–$220K',posted:'1d',desc:'Close net-new business and expand existing accounts at a leading customer messaging platform.',req:'3+ years SaaS closing experience, strong discovery skills.',url:''},
-  {id:4, title:'Sales Manager, Commercial',co:'Notion',loc:'Remote',level:'Sales Manager',type:'Remote',range:'$200K–$280K',posted:'3d',desc:'Lead and develop a commercial AE team. Build pipeline rigour and a coaching culture that drives consistent attainment.',req:'3+ years sales management, SaaS background.',url:''},
-  {id:5, title:'Director of Sales',co:'Loom',loc:'Remote',level:'Director',type:'Remote',range:'$280K–$360K',posted:'2d',desc:'Own the sales function for a fast-growing video messaging platform. Player-coach role with team building responsibility.',req:'7+ years sales leadership, SaaS background, strong enterprise motion.',url:''},
-  {id:6, title:'VP of Sales',co:'Descript',loc:'Remote',level:'VP',type:'Remote',range:'$350K+',posted:'4d',desc:'Build and lead an enterprise AE team at an AI-powered video editing platform backed by OpenAI and a16z.',req:'Extensive enterprise sales leadership, pipeline generation culture.',url:''},
-];
-
-let JOBS     = [...FALLBACK_JOBS];
-let vis      = [...JOBS];
-let activeId = null, lvlF = '', typeF = '', locF = '';
-
-// ── FETCH MANUAL JOBS FROM SUPABASE ──────────────────────────────────────────
-const SUPABASE_URL = 'https://vhbcnhyddxfnlpjqmqxj.supabase.co';
-const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZoYmNuaHlkZHhmbmxwanFtcXhqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ1NDg3NjUsImV4cCI6MjA5MDEyNDc2NX0.HYJW5MEwUsppGoqCDZVkBs_hxA1zsHN7g9k1pGYmbFk';
-
-async function loadManualJobs() {
-  try {
-    const resp = await fetch(`${SUPABASE_URL}/rest/v1/Salesjobs?active=eq.true&order=created_at.desc&select=*`, {
-      headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` }
-    });
-    const data = await resp.json();
-    return data.map((j, i) => ({
-      id:     9000 + i,
-      title:  j.title       || '',
-      co:     j.company     || '',
-      loc:    j.location    || '',
-      level:  j.level       || 'Account Executive',
-      type:   j.type        || 'Hybrid',
-      range:  j.range       || '',
-      posted: j.posted      || '',
-      desc:   j.description || '',
-      req:    j.requirements|| '',
-      url:    j.url         || '',
-    }));
-  } catch(e) {
-    console.log('Supabase fetch failed:', e.message);
-    return [];
-  }
+// ── CLOCK ──
+function tick() {
+  const now = new Date();
+  document.getElementById('live-time').textContent =
+    now.toLocaleTimeString('en-CA',{timeZone:'America/Toronto',hour:'2-digit',minute:'2-digit',hour12:true});
+  document.getElementById('live-date').textContent =
+    now.toLocaleDateString('en-CA',{timeZone:'America/Toronto',weekday:'long',month:'long',day:'numeric'});
 }
+tick(); setInterval(tick, 1000);
 
+// ── JOURNAL DATE ──
+(function(){
+  const now = new Date();
+  const d = now.toLocaleDateString('en-CA',{timeZone:'America/Toronto',weekday:'long',month:'long',day:'numeric',year:'numeric'}).toUpperCase();
+  document.getElementById('journal-date').textContent = 'TODAY — ' + d;
+})();
 
-async function loadJobsFromJobicy() {
-  const list = document.getElementById('job-list');
-  list.innerHTML = '<div style="text-align:center;padding:48px;color:var(--muted)"><div style="font-size:24px;margin-bottom:12px">⟳</div>Loading live jobs...</div>';
-
-  const jobicyUrl = 'https://jobicy.com/api/v2/remote-jobs?count=50&industry=seller&tag=sales';
-  const proxies = [
-    `https://corsproxy.io/?${encodeURIComponent(jobicyUrl)}`,
-    `https://api.allorigins.win/get?url=${encodeURIComponent(jobicyUrl)}`
-  ];
-
-  async function tryFetch(url, isWrapped) {
-    const controller = new AbortController();
-    const t = setTimeout(() => controller.abort(), 8000);
-    try {
-      const resp = await fetch(url, { signal: controller.signal });
-      clearTimeout(t);
-      const json = await resp.json();
-      return isWrapped ? JSON.parse(json.contents) : json;
-    } catch(e) {
-      clearTimeout(t);
-      throw e;
-    }
-  }
-
-  try {
-    let data;
-    try {
-      data = await tryFetch(proxies[0], false);
-    } catch(e) {
-      data = await tryFetch(proxies[1], true);
-    }
-
-    if (data.jobs && data.jobs.length > 0) {
-      JOBS = data.jobs.map((j, i) => ({
-        id:     i + 1,
-        title:  j.jobTitle   || '',
-        co:     j.companyName || '',
-        loc:    j.jobGeo      || 'Remote',
-        level:  detectLevel(j.jobTitle || ''),
-        type:   'Remote',
-        range:  j.annualSalaryMin && j.annualSalaryMax
-                  ? `$${Math.round(j.annualSalaryMin/1000)}K–$${Math.round(j.annualSalaryMax/1000)}K`
-                  : detectRange(j.jobTitle || ''),
-        posted: formatPosted(j.pubDate || ''),
-        desc:   stripHTML(j.jobDescription || '').slice(0, 280) + '...',
-        req:    '',
-        url:    j.url || '',
-      }));
-      vis = [...JOBS];
-      doFilter();
-    } else {
-      vis = [...FALLBACK_JOBS];
-      JOBS = [...FALLBACK_JOBS];
-      render();
-    }
-  } catch(e) {
-    console.log('Jobicy fetch failed, using fallback:', e.message);
-    vis = [...FALLBACK_JOBS];
-    JOBS = [...FALLBACK_JOBS];
-    render();
-  }
-}
-
-// Detect level from job title
-function detectLevel(title) {
-  const t = title.toLowerCase();
-  if (t.includes('vp') || t.includes('vice president')) return 'VP';
-  if (t.includes('director')) return 'Director';
-  if (t.includes('manager')) return 'Sales Manager';
-  if (t.includes('sdr') || t.includes('bdr') || t.includes('development rep')) return 'SDR / BDR';
-  return 'Account Executive';
-}
-
-// Detect salary range from title
-function detectRange(title) {
-  const t = title.toLowerCase();
-  if (t.includes('vp') || t.includes('director')) return '$250K+';
-  if (t.includes('senior') || t.includes('manager')) return '$150K–$250K';
-  if (t.includes('sdr') || t.includes('bdr')) return '$50K–$100K';
-  return '$100K–$200K';
-}
-
-// Format posted date
-function formatPosted(dateStr) {
-  if (!dateStr) return '';
-  try {
-    const days = Math.floor((Date.now() - new Date(dateStr)) / 86400000);
-    if (days === 0) return 'Today';
-    if (days === 1) return '1d';
-    if (days < 7)  return days + 'd';
-    if (days < 30) return Math.floor(days/7) + 'w';
-    return Math.floor(days/30) + 'mo';
-  } catch(e) { return ''; }
-}
-
-// Strip HTML tags from description
-function stripHTML(html) {
-  return html.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
-}
-
-
-function render(){
-  document.getElementById('cnt').textContent=vis.length;
-  document.getElementById('stat-n').textContent=JOBS.length;
-  const list=document.getElementById('job-list');
-  if(!vis.length){list.innerHTML='<div style="text-align:center;padding:48px;color:var(--muted)">No roles match. Try adjusting your filters.</div>';return;}
-  list.innerHTML=vis.map((j,i)=>`
-    <div class="card ${activeId===j.id?'on':''}" onclick="pick(${j.id})">
-      <div class="card-top">
-        <div class="c-logo">${j.co[0]}</div>
-        <div class="c-info">
-          <div class="c-title">${j.title}</div>
-          <div class="c-meta"><strong>${j.co}</strong> · ${j.loc}</div>
-        </div>
-      </div>
-      <div class="c-tags">
-        <span class="tag ${j.type==='Remote'?'t-remote':'t-hybrid'}">${j.type}</span>
-        <span class="tag t-level">${j.level}</span>
-        <span class="tag t-range">${j.range}</span>
-        ${i<4?'<span class="tag t-new">New</span>':''}
-      </div>
-      <div class="card-foot">
-        <span class="c-posted">Posted ${j.posted} ago</span>
-        <div class="c-actions">
-          <button class="c-btn ai-btn" onclick="event.stopPropagation();openAIForJob(${j.id},'resume')">✦ AI Resume</button>
-          <button class="c-btn apply" onclick="event.stopPropagation();applyToJob('${j.url}')" >Apply →</button>
-        </div>
-      </div>
-    </div>`).join('');
-}
-
-function pick(id){
-  activeId=id;
-  const j=JOBS.find(x=>x.id===id);
-  if(!j)return;
-  document.getElementById('d-logo').textContent=j.co[0];
-  document.getElementById('d-co').textContent=j.co;
-  document.getElementById('d-title').textContent=j.title;
-  document.getElementById('d-body').innerHTML=`
-    <div class="d-section">
-      <div class="d-label">Salary Range</div>
-      <div class="d-range">${j.range} OTE</div>
-      <div class="d-range-sub">Includes base and variable compensation</div>
-      <div class="s-bar"><div class="s-fill" style="width:68%"></div></div>
-      <div class="s-labels"><span>Market Low</span><span style="color:var(--gold);font-weight:600">↑ This Role</span><span>Market High</span></div>
-    </div>
-    <div class="d-section"><div class="d-label">About the Role</div><div class="d-val">${j.desc}</div></div>
-    <div class="d-section"><div class="d-label">Requirements</div><div class="d-val">${j.req}</div></div>
-    <div class="d-section" style="display:flex;gap:6px;flex-wrap:wrap">
-      <span class="tag ${j.type==='Remote'?'t-remote':'t-hybrid'}">${j.type}</span>
-      <span class="tag t-level">${j.level}</span>
-      <span style="font-size:11px;color:var(--muted2);align-self:center">Posted ${j.posted} ago</span>
-    </div>
-    <button class="d-apply" onclick="applyToJob('${j.url}')">Apply Now →</button>
-    <button class="d-ai-btn" onclick="openAIForJob(${id},'resume')">✦ Tailor Resume with AI</button>`;
-  render();
-}
-
-function doFilter(){
-  const q=document.getElementById('s-input').value.toLowerCase();
-  const loc=document.getElementById('s-loc').value;
-  vis=JOBS.filter(j=>
-    (!q||j.title.toLowerCase().includes(q)||j.co.toLowerCase().includes(q))&&
-    (!loc||j.loc.includes(loc))&&
-    (!locF||j.loc.includes(locF))&&
-    (!lvlF||j.level===lvlF)&&
-    (!typeF||j.type===typeF));
-  render();
-}
-
-function setFilter(el,val,kind){
-  document.querySelectorAll('.chip[onclick*="setFilter"]').forEach(c=>c.classList.remove('on'));
-  el.classList.add('on');
-  if(kind==='type'){typeF=val;lvlF='';}else{lvlF=val;typeF='';}
-  doFilter();
-}
-
-function setLocFilter(el,val){
-  document.querySelectorAll('.chip[onclick*="setLocFilter"]').forEach(c=>c.classList.remove('on'));
-  el.classList.add('on');
-  locF=val;
-  doFilter();
-}
-
-function showPage(page){
-  document.getElementById('jobs-page').style.display=page==='jobs'?'block':'none';
-  document.getElementById('hero-section').style.display=page==='jobs'?'block':'none';
-  document.getElementById('nav-jobs').classList.toggle('active',page==='jobs');
-}
-
-function openWL(){document.getElementById('wl-overlay').classList.add('on');document.getElementById('wl-success').style.display='none';}
-function closeWL(){document.getElementById('wl-overlay').classList.remove('on');}
-async function submitWL(){
-  const name=document.getElementById('wl-name').value.trim();
-  const email=document.getElementById('wl-email').value.trim();
-  const stage=document.getElementById('wl-stage').value;
-  if(!name||!email||!email.includes('@')){alert('Please enter a valid name and email.');return;}
-  
-  const btn=document.querySelector('#wl-overlay .gen-btn');
-  if(btn){btn.disabled=true;btn.textContent='Saving...';}
-  
-  try {
-    await fetch(`${SUPABASE_URL}/rest/v1/waitlist`, {
-      method: 'POST',
-      headers: {
-        'apikey': SUPABASE_KEY,
-        'Authorization': `Bearer ${SUPABASE_KEY}`,
-        'Content-Type': 'application/json',
-        'Prefer': 'return=minimal'
-      },
-      body: JSON.stringify({ name, email, career_stage: stage })
-    });
-  } catch(e) {
-    console.error('Waitlist save error:', e);
-    // still show success to user even if save fails
-  }
-  
-  document.getElementById('wl-success').style.display='block';
-  document.getElementById('wl-name').value='';
-  document.getElementById('wl-email').value='';
-  if(btn){btn.disabled=false;btn.textContent='Claim My Founding Member Spot';}
-}
-
-function openAI(tab){document.getElementById('ai-overlay').classList.add('on');switchAI(tab);}
-function closeAI(){document.getElementById('ai-overlay').classList.remove('on');}
-function openAIForJob(id,tab){
-  const j=JOBS.find(x=>x.id===id);
-  openAI(tab);
-  if(j&&tab==='resume')document.getElementById('r-jd').value=`${j.title} at ${j.co}\n\n${j.desc}\n\nRequirements: ${j.req}`;
-  if(j&&tab==='prep')document.getElementById('p-role').value=`${j.title} at ${j.co}`;
-}
-function switchAI(tab){
-  ['resume','prep'].forEach(t=>{
-    document.getElementById('t-'+t).classList.toggle('on',t===tab);
-    document.getElementById('b-'+t).style.display=t===tab?'block':'none';
+// ── PROGRESS BARS ──
+window.addEventListener('load',()=>{
+  document.querySelectorAll('.prog-fill').forEach(bar=>{
+    const w = bar.getAttribute('data-w');
+    bar.style.width = '0';
+    setTimeout(()=>{ bar.style.width = w; }, 300);
   });
-}
-
-async function callClaude(prompt,outId,wrapId,btnId){
-  const btn=document.getElementById(btnId),out=document.getElementById(outId),wrap=document.getElementById(wrapId);
-  btn.disabled=true;btn.innerHTML='<div class="spin"></div> Generating...';
-  wrap.style.display='block';out.textContent='Analysing...';out.style.color='var(--muted)';
-  try{
-    const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,messages:[{role:'user',content:prompt}]})});
-    const data=await res.json();
-    const text=data.content?.map(c=>c.text||'').join('')||'No response.';
-    out.textContent=text;out.style.color='var(--text2)';
-  }catch(e){out.textContent='Error connecting to AI. Please try again.';out.style.color='var(--red)';}
-  btn.disabled=false;btn.innerHTML='✦ Regenerate';
-}
-
-async function genResume(){
-  const resume=document.getElementById('r-resume').value.trim();
-  const jd=document.getElementById('r-jd').value.trim();
-  if(!jd){alert('Please paste a job description.');return;}
-  await callClaude(`You are an expert sales career coach. ${resume?'Rewrite and tailor these resume bullets to match the job description.':'Generate 6 strong achievement-led resume bullets for this sales role.'}\n\nJOB DESCRIPTION:\n${jd}\n\n${resume?'RESUME:\n'+resume:''}\n\nRules: Lead every bullet with an outcome or metric. Use JD language naturally. One sentence per bullet. No em dashes. Format by role.`,'r-out','r-wrap','r-btn');
-}
-async function genPrep(){
-  const role=document.getElementById('p-role').value.trim();
-  const bg=document.getElementById('p-bg').value.trim();
-  if(!role){alert('Please enter the role.');return;}
-  await callClaude(`You are an expert sales interview coach. Generate interview prep for:\n\nROLE: ${role}\n${bg?'BACKGROUND: '+bg:''}\n\nProvide:\n1. TOP 5 LIKELY QUESTIONS with what each tests\n2. TWO STORIES to prepare\n3. THREE SMART QUESTIONS to ask the interviewer\n\nBe specific to sales. Tight and actionable.`,'p-out','p-wrap','p-btn');
-}
-function copyOut(id){
-  navigator.clipboard.writeText(document.getElementById(id).textContent)
-    .then(()=>{document.querySelectorAll('.copy-btn').forEach(b=>{b.textContent='Copied!';setTimeout(()=>b.textContent='Copy',1500);});});
-}
-
-document.getElementById('ai-overlay').addEventListener('click',e=>{if(e.target===document.getElementById('ai-overlay'))closeAI();});
-document.getElementById('wl-overlay').addEventListener('click',e=>{if(e.target===document.getElementById('wl-overlay'))closeWL();});
-
-function setMobileNav(page){
-  document.querySelectorAll('.mn-item').forEach(i=>i.classList.remove('active'));
-  const el=document.getElementById('mn-'+page);
-  if(el) el.classList.add('active');
-}
-
-// Apply button logic — opens real URL if available, otherwise opens waitlist
-function applyToJob(url) {
-  if (url && url.startsWith('http')) {
-    window.open(url, '_blank');
-  } else {
-    openWL();
-  }
-}
-
-render();pick(1);
-
-// Load manual jobs from Supabase + remote jobs from Jobicy simultaneously
-Promise.all([loadManualJobs(), loadJobsFromJobicy()]).then(([manual]) => {
-  if (manual.length > 0) {
-    // Prepend manual (curated) jobs to whatever Jobicy returned
-    JOBS = [...manual, ...JOBS.filter(j => j.id < 9000)];
-    vis  = [...JOBS];
-    doFilter();
-  }
 });
+
+// ── WEEK DOTS ──
+document.querySelectorAll('.wd').forEach(dot=>{
+  dot.addEventListener('click',()=>{
+    dot.classList.toggle('done');
+    dot.classList.remove('today');
+  });
+});
+
+// ── PERSIST CONTENTEDITABLE ──
+document.querySelectorAll('[contenteditable="true"]').forEach((el,i)=>{
+  const key = 'tomi-v4-cell-' + i;
+  const saved = localStorage.getItem(key);
+  if(saved !== null) el.textContent = saved;
+  el.addEventListener('input',()=>localStorage.setItem(key, el.textContent));
+});
+
+// ── CALENDAR ──
+(function(){
+  const EV_KEY  = 'tomi-cal-ev-v3';
+  const NT_KEY  = 'tomi-cal-nt-v3';
+
+  const SEED_NOTES = {
+    '2026-2-16': 'GitLab Interview',
+    '2026-2-18': 'Google Interview · Rumbl @ noon · Othership Sauna',
+    '2026-2-19': 'Thursday singles event · Powder Room Yorkville',
+    '2026-2-25': 'Feranmizzy · Retinol use',
+    '2026-2-26': 'Vibe coded tryclosedwon.com · Applied to jobs',
+    '2026-2-27': 'Rumbl Boxing · Mercor · HPV Vaccine',
+    '2026-2-28': 'Bowling · Cannes Lions Application · Morning walk',
+    '2026-3-1':  'Samsara Recruiter Screen 11am EDT · Sean Corbett',
+    '2026-3-16': 'Women in Sales Dallas · Samsara event',
+  };
+
+  var storedNotes = {};
+  var storedEvents = {};
+  try { storedNotes  = JSON.parse(localStorage.getItem(NT_KEY) || '{}'); } catch(e){}
+  try { storedEvents = JSON.parse(localStorage.getItem(EV_KEY) || '{}'); } catch(e){}
+
+  var notes  = Object.assign({}, SEED_NOTES, storedNotes);
+  var events = {};
+  Object.keys(notes).forEach(function(k){ if(notes[k]) events[k] = true; });
+  Object.assign(events, storedEvents);
+
+  var now = new Date();
+  var cy  = now.getFullYear();
+  var cm  = now.getMonth();
+  var sel = null;
+  var todayKey = now.getFullYear() + '-' + now.getMonth() + '-' + now.getDate();
+
+  var MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+
+  function makeDiv(cls) {
+    var el = document.createElement('div');
+    el.className = cls;
+    return el;
+  }
+
+  function render() {
+    document.getElementById('cal-title').textContent = MONTHS[cm] + ' ' + cy;
+    var grid = document.getElementById('cal-grid');
+    grid.innerHTML = '';
+
+    var first = new Date(cy, cm, 1).getDay();
+    var total = new Date(cy, cm + 1, 0).getDate();
+    var prev  = new Date(cy, cm, 0).getDate();
+
+    // Blank cells before month start
+    for (var i = first - 1; i >= 0; i--) {
+      var el = makeDiv('cal-day other-month');
+      var num = makeDiv('cal-day-num');
+      num.textContent = prev - i;
+      el.appendChild(num);
+      grid.appendChild(el);
+    }
+
+    // Day cells
+    for (var d = 1; d <= total; d++) {
+      var el = makeDiv('cal-day');
+      var k  = cy + '-' + cm + '-' + d;
+
+      if (k === todayKey) el.classList.add('today');
+      if (sel === k)      el.classList.add('selected');
+      if (events[k])      el.classList.add('has-event');
+
+      var num = makeDiv('cal-day-num');
+      num.textContent = d;
+      el.appendChild(num);
+
+      if (notes[k]) {
+        var acts = notes[k].split('·').map(function(s){ return s.trim(); }).filter(Boolean).slice(0, 3);
+        var lbl  = makeDiv('cal-day-label');
+        acts.forEach(function(act) {
+          var span = document.createElement('span');
+          span.className   = 'ev-item';
+          span.textContent = act;
+          lbl.appendChild(span);
+        });
+        el.appendChild(lbl);
+      }
+
+      (function(day, key) {
+        el.addEventListener('click', function(){ pick(day, key); });
+      }(d, k));
+
+      grid.appendChild(el);
+    }
+
+    // Trailing blank cells
+    var rem = (first + total) % 7 === 0 ? 0 : 7 - ((first + total) % 7);
+    for (var j = 1; j <= rem; j++) {
+      var el = makeDiv('cal-day other-month');
+      var num = makeDiv('cal-day-num');
+      num.textContent = j;
+      el.appendChild(num);
+      grid.appendChild(el);
+    }
+  }
+
+  function pick(d, k) {
+    sel = k;
+    render();
+    var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+    var days   = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+    var dt     = new Date(cy, cm, d);
+    document.getElementById('cal-sel-date').textContent = (days[dt.getDay()] + ', ' + months[cm] + ' ' + d).toUpperCase();
+    var noteEl = document.getElementById('cal-sel-note');
+    noteEl.textContent = notes[k] || '';
+    noteEl.oninput = function() {
+      notes[k]  = noteEl.textContent;
+      events[k] = !!noteEl.textContent.trim();
+      try { localStorage.setItem(NT_KEY, JSON.stringify(notes)); } catch(e){}
+      try { localStorage.setItem(EV_KEY, JSON.stringify(events)); } catch(e){}
+      render();
+    };
+  }
+
+  document.getElementById('cal-prev').addEventListener('click', function(){
+    cm--; if (cm < 0) { cm = 11; cy--; } render();
+  });
+  document.getElementById('cal-next').addEventListener('click', function(){
+    cm++; if (cm > 11) { cm = 0;  cy++; } render();
+  });
+
+  render();
+})();
+
+// ── JOURNAL ──
+(function(){
+  const JK='tomi-journal-v2';
+  let entries=JSON.parse(localStorage.getItem(JK)||'[]');
+  let tags=new Set();
+
+  const PROMPTS=[
+    'What\'s one thing you want to close today?',
+    'What would make today a win?',
+    'What\'s the one thing only you can do today?',
+    'Who do you need to follow up with?',
+    'What are you grateful for right now?',
+    'What\'s draining your energy — and can you drop it?',
+    'What would your future self thank you for doing today?',
+  ];
+  document.getElementById('journal-prompt').textContent=PROMPTS[new Date().getDay()%PROMPTS.length];
+
+  function renderEntries(){
+    const c=document.getElementById('journal-entries');
+    c.innerHTML='';
+    entries.slice(-5).reverse().forEach(e=>{
+      const p=document.createElement('div');
+      p.className='j-pill';
+      const moodMap={'wins':'🏆','focus':'🎯','feelings':'💭','gratitude':'✨'};
+      const mood=moodMap[e.tags[0]]||'📝';
+      p.innerHTML=`<span class="j-pill-date">${e.date}</span><span class="j-pill-text">${e.text}</span><span class="j-pill-mood">${mood}</span>`;
+      p.title=e.text;
+      c.appendChild(p);
+    });
+  }
+
+  document.querySelectorAll('.j-tag-btn').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      const t=btn.dataset.tag;
+      if(tags.has(t)){tags.delete(t);btn.classList.remove('active');}
+      else{tags.add(t);btn.classList.add('active');}
+    });
+  });
+
+  document.getElementById('journal-save-btn').addEventListener('click',()=>{
+    const text=document.getElementById('journal-input').value.trim();
+    if(!text) return;
+    entries.push({
+      date:new Date().toLocaleDateString('en-CA',{timeZone:'America/Toronto',month:'short',day:'numeric'}),
+      text, tags:[...tags], ts:Date.now()
+    });
+    if(entries.length>100) entries=entries.slice(-100);
+    localStorage.setItem(JK,JSON.stringify(entries));
+    document.getElementById('journal-input').value='';
+    tags.clear();
+    document.querySelectorAll('.j-tag-btn').forEach(b=>b.classList.remove('active'));
+    renderEntries();
+  });
+
+  renderEntries();
+})();
 </script>
 </body>
 </html>
